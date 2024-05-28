@@ -18,18 +18,32 @@ import {
 } from "@/components/ui/select"
 import { Link } from "react-router-dom"
 
-export function Homepagecard() {
+interface IHomepageCardProps {
+  title: string,
+  description: string,
+  linkUrl: string
+  features: string[]
+}
+
+export function Homepagecard({ title, description, linkUrl, features }: IHomepageCardProps) {
   return (
     <Card className="w-[40%] mb-12">
       <CardHeader>
-        <CardTitle>Create project</CardTitle>
-        <CardDescription>Deploy your new project in one-click.</CardDescription>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
         <form>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="included">Included in plan:</Label>
+              <ul>
+                {features.map((feature) => {
+                  return (
+                    <li className="list-disc ml-6">{feature}</li>
+                  )
+                })}
+              </ul>
               <h4>Name of subscription level</h4>
             </div>
 
@@ -37,10 +51,8 @@ export function Homepagecard() {
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Link to={"subscriptions/basic"}><Button>Subscribe basic</Button></Link>
-        <Link to={"subscriptions/medium"}><Button>Subscribe medium</Button></Link>
-        <Link to={"subscriptions/premium"}><Button>Subscribe premium</Button></Link>
 
+        <Link to={linkUrl}><Button>{`Subscribe ${title}`} </Button></Link>
       </CardFooter>
     </Card>
   )
