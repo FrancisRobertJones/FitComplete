@@ -2,30 +2,28 @@ import { IUser } from "../models/user"
 import userRepository from "../repositories/userRepository"
 import { sendWelcomeEmail } from "../utils/emailfunctions";
 import bcrypt from "bcrypt";
+import { Request } from "express";
+import { IUserCredentials } from "../types/interfaces/auth";
+import "express-session"
+
 
 class UserService {
   async createUser(userData: IUser): Promise<IUser> {
-    //TODO write logic here to check if user already exists, hash pass, send confirmation email on signup? 
     try {
       console.log('Creating user:', userData);
 
-
-      /* 
-      TODO finish userexistslogic
-      const userExists = await userRepository.findByEmail(userData.email);
+      const userExists = await userRepository.findByEmail(userData);
       if (userExists) {
         throw new Error('User already exists');
-      } */
-
+      }
       const hashedPassword = await bcrypt.hash(userData.password, 10);
       userData.password = hashedPassword;
 
       const user = await userRepository.create(userData);
       console.log('User created:', user); // Log user creation
 
-      //NOTE ONLY USE WHEN SENDING TO EMAIL ADDRESSES WE OWN; OR WE WILL SPAM STRANGERS
-      /*             await sendWelcomeEmail(user.email, user.name);
-       */
+      /* await sendWelcomeEmail(user.email, user.name); */
+
       return user;
     } catch (error) {
       console.error(`Error creating user: ${error}`);
@@ -33,6 +31,28 @@ class UserService {
     }
   }
 
+  async login(userCredentials: IUserCredentials, request: Request): Promise<IUser | boolean> {
+
+    try {
+      const user = await userRepository.findByEmail(userCredentials);
+      if (user) {
+        const { password } = user;
+        const unshashedPass = userCredentials.password
+        const passwordMatches = await bcrypt.compare(unshashedPass, password)
+        if (passwordMatches) {
+          request.session && (request.session.user = user);
+          console.log(request.session)
+          return user
+        } else {
+          return false;
+        }
+      } else {
+        return false
+      }
+    } catch (error) {
+      throw new Error('Problem logging in')
+    }
+  }
 }
 
 

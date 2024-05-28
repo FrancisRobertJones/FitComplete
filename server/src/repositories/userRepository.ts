@@ -1,15 +1,15 @@
 import User, { IUser } from "../models/user"
+import { IUserCredentials } from "../types/interfaces/auth";
 
 class UserRepository {
     async create(user: IUser) {
         return User.create(user);
     }
 
-    /* 
-    TODO 
-    async findByEmail(user: IUser) {
-        return User.
-    } */
+    async findByEmail(user: IUserCredentials) {
+        const { email } = user;
+        return User.findOne({ email }) 
+    }
 }
 
 

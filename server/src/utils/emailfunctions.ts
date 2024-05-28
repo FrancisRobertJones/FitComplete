@@ -18,13 +18,13 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
     await sgMail.send(msg);
 }; 
 
-export const sendPasswordResetEmail = async (email: string, resetToken: string): Promise<void> => {
+export const sendPasswordResetEmail = async (email: string, resetCode: string): Promise<void> => {
     const msg = {
         to: email,
         from: process.env.SENDGRID_FROM_EMAIL as string,
         subject: 'Password Reset Request',
-        text: `You requested a password reset. Click the link below to reset your password: \n\n ${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`,
-        html: `You requested a password reset. Click the link below to reset your password: <br><br> <a href="${process.env.FRONTEND_URL}/reset-password?token=${resetToken}">Reset Password</a>`,
+        text: `You requested a password reset. Click the link below to reset your password: \n\n ${process.env.FRONTEND_URL}/reset-password?token=${resetCode}`,
+        html: `You requested a password reset. Click the link below to reset your password: <br><br> <a href="${process.env.FRONTEND_URL}/reset-password?token=${resetCode}">Reset Password</a>`,
     };
 
     await sgMail.send(msg); 

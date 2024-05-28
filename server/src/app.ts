@@ -2,9 +2,11 @@
 
 import express, { Application } from "express";
 import userRoutes from "./routes/userRoutes";
-import healthRoute from "./routes/healthCheck";
+import sessionRoutes from './routes/sessionRoutes';
 import DatabaseConnection from "./db/databaseConnection";
 import dotenv from 'dotenv';
+import session from "express-session";
+import { IUser } from "./models/user";
 
 dotenv.config();
 
@@ -12,9 +14,22 @@ const app: Application = express()
 const port = process.env.PORT || 3000;
 
 app.use(express.json())
+app.use(session({
+    secret: process.env.SESSION_SECRET as string, 
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+  }));
 
 app.use('/users', userRoutes)
-app.use('/health', healthRoute)
+app.use('/', sessionRoutes)
+
+
+declare module "express-session" {
+    interface SessionData {
+      user: IUser;
+    }
+  }
 
 const startServer = async () => {
     const db = DatabaseConnection.getInstance();
