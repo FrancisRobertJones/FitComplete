@@ -12,7 +12,8 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { Separator } from "@radix-ui/react-select"
+import { Separator } from "@/components/ui/separator"
+import { ButtonHeight, ButtonSecondary } from "./buttonSecondary"
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -55,7 +56,7 @@ const components: { title: string; href: string; description: string }[] = [
 export function Navbar() {
   return (
 <>
-    <NavigationMenu>
+    <NavigationMenu className="h-[60px]"> 
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
@@ -88,9 +89,10 @@ export function Navbar() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
+        <ButtonSecondary url={"/login"} text={"Login"} height={ButtonHeight.Large}/>
       </NavigationMenuList>
     </NavigationMenu>
-    <Separator className="my-4" />
+    <Separator />
 </>
   )
 }
