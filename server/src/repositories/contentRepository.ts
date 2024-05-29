@@ -11,6 +11,21 @@ class ContentRepository {
         return Video.create(content);
       case 3:
         return Recipe.create(content);
+      default:
+        throw new Error("Unknown level");
+    }
+  }
+
+  async get(type: string) {
+    switch (type) {
+      case "workouts":
+        return Workout.find();
+      case "videos":
+        return Video.find();
+      case "recipes":
+        return Recipe.find();
+      default:
+        throw new Error("Unknown type");
     }
   }
 }

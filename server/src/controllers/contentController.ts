@@ -10,6 +10,17 @@ class ContentController {
       response.status(500).json({ error: "failed to create content." });
     }
   }
+
+  async getAllContents(request: Request, response: Response) {
+    try {
+      const type = request.query.type as string;
+      console.log(type);
+      const contents = await contentService.getAllContents(type);
+      response.status(200).json(contents);
+    } catch (error) {
+      response.status(500).json({ error: "failed to get content." });
+    }
+  }
 }
 
 export default new ContentController();
