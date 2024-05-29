@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import session from "express-session";
 import { IUser } from "./models/user";
 import contentRoutes from "./routes/contentRoutes";
+import cors from 'cors'
 
 dotenv.config();
 
@@ -22,6 +23,13 @@ app.use(session({
     cookie: { secure: false }
   }));
 
+  const corsOptions = {
+    origin: 'http://localhost:5173',
+    credentials: true, 
+    optionsSuccessStatus: 200 
+};
+
+app.use(cors(corsOptions));
 app.use('/users', userRoutes)
 app.use('/', sessionRoutes)
 app.use('/content', contentRoutes)

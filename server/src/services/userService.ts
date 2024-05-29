@@ -18,7 +18,6 @@ class UserService {
       }
       const hashedPassword = await bcrypt.hash(userData.password, 10);
       userData.password = hashedPassword;
-
       const user = await userRepository.create(userData);
       console.log('User created:', user); // Log user creation
 

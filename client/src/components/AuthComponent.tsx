@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { AccountCreation, AuthCredentials, PasswordCheck } from '../models/classes/Auth'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -18,26 +19,36 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs"
 import axios, { AxiosError } from 'axios'
-/* import { toast } from '@/components/ui/use-toast'
- */import { useNavigate } from 'react-router'
+import { toast } from '@/components/ui/use-toast'
+import { useNavigate } from 'react-router'
+import { AuthContext } from '../context/authContext'
+import PasswordWarning from './passwordWarning'
 
 const AuthComponent = () => {
+    const [newCustomer, setNewCustomer] = useState<AccountCreation>(new AccountCreation("", "", ""))
+    const [passwords, setPasswords] = useState<PasswordCheck>(new PasswordCheck("", "", true))
+    const [authCredentials, setAuthCredentials] = useState<AuthCredentials>(new AuthCredentials("", ""))
+    const [activeTab, setActiveTab] = useState("Register");
+
+    const { /* checkAuth, */ authedUser } = useContext(AuthContext)
 
     const navigate = useNavigate()
 
 
-/*     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value })
     }
 
     const handlePassWordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPasswords({ ...passwords, [e.target.name]: e.target.value })
     }
- */
+
+    const handleRegistrationSuccess = () => {
+        setActiveTab("Login");
+    };
 
 
-
-/*     useEffect(() => {
+    useEffect(() => {
         const handleCheckPasswordMatches = () => {
             if (passwords.password1 === passwords.password2) {
                 setPasswords(prev => ({ ...prev, matches: true }));
@@ -47,24 +58,27 @@ const AuthComponent = () => {
         };
         handleCheckPasswordMatches();
     }, [passwords.password1, passwords.password2])
- */
 
-/*     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+
+    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
-        if (passwords.matches && newCustomer.address && newCustomer.country && newCustomer.email && newCustomer.postcode && newCustomer.state) {
+        if (passwords.matches && newCustomer.email && newCustomer.firstName && newCustomer.lastName) {
             const customerData = {
                 ...newCustomer,
                 password: passwords.password1
             }
             try {
-                const res = await axios.post("http://localhost:3000/auth/create", customerData)
-                console.log(newCustomer.password)
-                toast({
-                    title: "Account created!",
-                    description: "Please log in to continue"
-                })
-                console.log(res)
-                setNewCustomer(new AccountCreation("", "", "", "", "", ""))
+                console.log(customerData)
+                const res = await axios.post("http://localhost:3000/users/create", customerData)
+                if (res.status === 201) {
+                    handleRegistrationSuccess();
+                    setAuthCredentials({ ...authCredentials, email: newCustomer.email })
+                    toast({
+                        title: "Account created!",
+                        description: "Please log in to continue"
+                    })
+                }
+                setNewCustomer(new AccountCreation("", "", ""))
                 setPasswords(new PasswordCheck("", "", false))
             } catch (error) {
 
@@ -74,7 +88,8 @@ const AuthComponent = () => {
                         title: "Uh oh! Something went wrong.",
                         description: "An account with this email already exists!",
                     })
-                } else {
+                }
+                else {
                     toast({
                         variant: "destructive",
                         title: "Uh oh! Something went wrong.",
@@ -84,24 +99,23 @@ const AuthComponent = () => {
                 console.log(error)
             }
         }
-    } */
+    }
 
-/*     const handleAuthOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleAuthOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAuthCredentials({ ...authCredentials, [e.target.name]: e.target.value })
     }
 
     const handleLogin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         try {
-            const res = await axios.post("http://localhost:3000/auth/login", authCredentials, { withCredentials: true })
-            checkAuth()
+            const res = await axios.post("http://localhost:3000/users/login", authCredentials, { withCredentials: true })
+/*             checkAuth()
+ */            console.log(res.data)
             toast({
                 title: "You are logged in!",
-                description: "Enjoy your shopping!",
+                description: "Good luck with your fitness!",
             })
             setAuthCredentials(new AuthCredentials("", ""))
-            fetchCart()
             navigate("/")
-
         } catch (error) {
             //TODO catch error when username is incorrect, currently only throwing correct error when password is incorrect.
             if (axios.isAxiosError(error) && error.response?.status === 400) {
@@ -111,6 +125,12 @@ const AuthComponent = () => {
                 })
                 console.log(error)
 
+            } else if (axios.isAxiosError(error) && error.response?.status === 401) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Incorrect credentials.",
+                    description: "Please double check your username and password!",
+                })
             } else {
                 toast({
                     title: "There has been a problem logging in!",
@@ -120,13 +140,13 @@ const AuthComponent = () => {
             }
         }
     }
- */
+
 
 
 
     return (
         <div className='flex justify-center'>
-            <Tabs defaultValue="Register" className="w-[400px]">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-[400px]">
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="Register">Register</TabsTrigger>
                     <TabsTrigger value="Login">Login</TabsTrigger>
@@ -142,37 +162,28 @@ const AuthComponent = () => {
                         <CardContent className="space-y-2">
                             <div className="space-y-1">
                                 <Label htmlFor="username">Email</Label>
-                                <Input /* value={newCustomer.email} onChange={handleChange} */ id="email" name="email" type="email" />
+                                <Input value={newCustomer.email} onChange={handleChange} id="email" name="email" type="email" />
                             </div>
                             <div className="space-y-1">
-                                <Label htmlFor="username">Password{/*  {!passwords.matches && <PasswordWarning />} */}
+                                <Label htmlFor="username">First Name</Label>
+                                <Input value={newCustomer.firstName} onChange={handleChange} id="firstName" name="firstName" />
+                            </div>
+                            <div className="space-y-1">
+                                <Label htmlFor="username">Last Name</Label>
+                                <Input value={newCustomer.lastName} onChange={handleChange} id="lastName" name="lastName" />
+                            </div>
+                            <div className="space-y-1">
+                                <Label htmlFor="username">Password {!passwords.matches && <PasswordWarning />}
                                 </Label>
-                                <Input /* value={passwords.password1} onChange={handlePassWordChange} */ name="password1" type="password" />
+                                <Input value={passwords.password1} onChange={handlePassWordChange} name="password1" type="password" />
                             </div>
                             <div className="space-y-1">
                                 <Label htmlFor="username">Confirm password</Label>
-                                <Input /* value={passwords.password2} onChange={handlePassWordChange} */ name="password2" type="password" />
+                                <Input value={passwords.password2} onChange={handlePassWordChange} name="password2" type="password" />
                             </div>
-                            <div className="space-y-1">
-                                <Label htmlFor="username">Address</Label>
-                                <Input /* value={newCustomer.address} onChange={handleChange} */ id="address" name="address" />
-                            </div>
-                            <div className="space-y-1">
-                                <Label htmlFor="username">State</Label>
-                                <Input /* value={newCustomer.state} onChange={handleChange} */ id="state" name="state" />
-                            </div>
-                            <div className="space-y-1">
-                                <Label htmlFor="country">Country</Label>
-                                <Input /* value={newCustomer.country} onChange={handleChange} */ id="coutry" name="country" />
-                            </div>
-                            <div className="space-y-1">
-                                <Label htmlFor="username">Postcode</Label>
-                                <Input /* value={newCustomer.postcode} onChange={handleChange} */ id="postcode" name="postcode" />
-                            </div>
-
                         </CardContent>
                         <CardFooter>
-                            <Button /* onClick={(e) => handleSubmit(e)} */>Register</Button>
+                            <Button onClick={(e) => handleSubmit(e)} >Register</Button>
                         </CardFooter>
                     </Card>
                 </TabsContent>
@@ -187,15 +198,15 @@ const AuthComponent = () => {
                         <CardContent className="space-y-2">
                             <div className="space-y-1">
                                 <Label htmlFor="email">Email</Label>
-                                <Input /* onChange={handleAuthOnChange} value={authCredentials.email} */  id="email" name="email" type="email" />
+                                <Input onChange={handleAuthOnChange} value={authCredentials.email} id="email" name="email" type="email" />
                             </div>
                             <div className="space-y-1">
                                 <Label htmlFor="new">Password</Label>
-                                <Input /* onChange={handleAuthOnChange} value={authCredentials.password} */ id="password" name="password" type="password" />
+                                <Input onChange={handleAuthOnChange} value={authCredentials.password} id="password" name="password" type="password" />
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Button onClick={(e) => /* handleLogin */(e)}>Login</Button>
+                            <Button onClick={(e) => handleLogin(e)}>Login</Button>
                         </CardFooter>
                     </Card>
                 </TabsContent>
