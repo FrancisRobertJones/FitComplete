@@ -18,9 +18,20 @@ class ContentService {
 
   async getAllContents(type: string) {
     try {
-      const contents = await contentRepository.get(type);
+      const contents = await contentRepository.getAll(type);
       console.log("Contents fetched:", contents);
       return contents;
+    } catch (error) {
+      console.error(`Error fetching contents: ${error}`);
+      throw new Error("Error fetching contents");
+    }
+  }
+
+  async getSingleContent(type: string, id: string) {
+    try {
+      const content = await contentRepository.getSingle(type, id);
+      console.log("Content fetched:", content);
+      return content;
     } catch (error) {
       console.error(`Error fetching content: ${error}`);
       throw new Error("Error fetching content");

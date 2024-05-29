@@ -16,7 +16,7 @@ class ContentRepository {
     }
   }
 
-  async get(type: string) {
+  async getAll(type: string) {
     switch (type) {
       case "workouts":
         return Workout.find();
@@ -24,6 +24,19 @@ class ContentRepository {
         return Video.find();
       case "recipes":
         return Recipe.find();
+      default:
+        throw new Error("Unknown type");
+    }
+  }
+
+  async getSingle(type: string, id: string) {
+    switch (type) {
+      case "workouts":
+        return Workout.findOne({ _id: id });
+      case "videos":
+        return Video.findOne({ _id: id });
+      case "recipes":
+        return Recipe.findOne({ _id: id });
       default:
         throw new Error("Unknown type");
     }
