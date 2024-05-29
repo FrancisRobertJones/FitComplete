@@ -12,8 +12,8 @@ const Homepage = () => {
           <AuthComponent />
           <div className='flex flex-wrap justify-between items-center w-full gap-4 pl-16'>
             <Homepagecard title={"Basic"} description={"Ideal for getting started"} linkUrl={'./levels/basic.tsx'} features={["Workouts"]} />
-            <Homepagecard title={"Medium"} description={"For people looking for more"} linkUrl={'./levels/basic.tsx'} features={["Workouts", "Videos"]} />
-            <Homepagecard title={"Premium"} description={"The full package"} linkUrl={'./levels/basic.tsx'} features={["Workouts", "Videos", "Nutrition"]} />
+            <Homepagecard title={"Medium"} description={"For people looking for more"} linkUrl={'./levels/medium.tsx'} features={["Workouts", "Videos"]} />
+            <Homepagecard title={"Premium"} description={"The full package"} linkUrl={'./levels/premium.tsx'} features={["Workouts", "Videos", "Nutrition"]} />
           </div>
         </div>
       </div>
