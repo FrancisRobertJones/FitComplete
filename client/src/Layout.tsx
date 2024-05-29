@@ -7,6 +7,7 @@ import axios from 'axios'
 import { toast } from './components/ui/use-toast'
 import { AuthContext } from './context/authContext'
 import { Toaster } from './components/ui/toaster'
+import { Navbar } from './components/navbar'
 
 const Layout = () => {
     const [authedUser, dispatchAuth] = useReducer(AuthReducer, new AuthState(false, null))
@@ -45,8 +46,8 @@ const Layout = () => {
     return (
         <>
             <AuthContext.Provider value={{ dispatchAuth, logOut, authedUser /* checkAuth */ }}>
-
-                <main>
+            <Navbar />
+                <main className='max-w-screen-xl w-full py-12 my-0 mx-auto'>
                     <Outlet />
                 </main>
                 <Toaster />
