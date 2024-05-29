@@ -6,6 +6,7 @@ import axios from 'axios'
 
 import { toast } from './components/ui/use-toast'
 import { AuthContext } from './context/authContext'
+import { Toaster } from './components/ui/toaster'
 
 const Layout = () => {
     const [authedUser, dispatchAuth] = useReducer(AuthReducer, new AuthState(false, null))
@@ -48,6 +49,8 @@ const Layout = () => {
                 <main>
                     <Outlet />
                 </main>
+                <Toaster />
+
                 <footer>
 
                 </footer>
