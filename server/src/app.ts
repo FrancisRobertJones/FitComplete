@@ -7,6 +7,7 @@ import DatabaseConnection from "./db/databaseConnection";
 import dotenv from 'dotenv';
 import session from "express-session";
 import { IUser } from "./models/user";
+import contentRoutes from "./routes/contentRoutes";
 
 dotenv.config();
 
@@ -23,7 +24,7 @@ app.use(session({
 
 app.use('/users', userRoutes)
 app.use('/', sessionRoutes)
-
+app.use('/content', contentRoutes)
 
 declare module "express-session" {
     interface SessionData {
