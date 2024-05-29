@@ -37,6 +37,29 @@ class ContentService {
       throw new Error("Error fetching content");
     }
   }
+
+  async editContent(type: string, id: string, newData: IWorkout | IVideo | IRecipe) {
+    try {
+      const updatedContent = await contentRepository.update(type, id, newData);
+      console.log("Content updated:", updatedContent);
+
+      return updatedContent;
+    } catch (error) {
+      console.error(`Error updating content: ${error}`);
+      throw new Error("Error updating content");
+    }
+  }
+
+  async deleteContent(type: string, id: string) {
+    try {
+      const deletedContent = await contentRepository.delete(type, id);
+      console.log("Content deleted:", deletedContent);
+      return deletedContent;
+    } catch (error) {
+      console.error(`Error deleting content: ${error}`);
+      throw new Error("Error deleting content");
+    }
+  }
 }
 
 export default new ContentService();

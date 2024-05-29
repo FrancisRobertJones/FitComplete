@@ -41,6 +41,32 @@ class ContentRepository {
         throw new Error("Unknown type");
     }
   }
+
+  async update(type: string, id: string, newContent: IWorkout | IVideo | IRecipe) {
+    switch (type) {
+      case "workouts":
+        return Workout.updateOne({ _id: id }, newContent);
+      case "videos":
+        return Video.updateOne({ _id: id }, newContent);
+      case "recipes":
+        return Recipe.updateOne({ _id: id }, newContent);
+      default:
+        throw new Error("Unknown type");
+    }
+  }
+
+  async delete(type: string, id: string) {
+    switch (type) {
+      case "workouts":
+        return Workout.deleteOne({ _id: id });
+      case "videos":
+        return Video.deleteOne({ _id: id });
+      case "recipes":
+        return Recipe.deleteOne({ _id: id });
+      default:
+        throw new Error("Unknown type");
+    }
+  }
 }
 
 export default new ContentRepository();
