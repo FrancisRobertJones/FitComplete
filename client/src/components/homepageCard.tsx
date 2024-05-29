@@ -40,7 +40,7 @@ export function Homepagecard({ title, description, linkUrl, features }: IHomepag
               <ul>
                 {features.map((feature) => {
                   return (
-                    <li className="list-disc ml-6">{feature}</li>
+                    <li key={feature} className="list-disc ml-6">{feature}</li>
                   )
                 })}
               </ul>

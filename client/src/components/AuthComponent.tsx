@@ -28,6 +28,8 @@ const AuthComponent = () => {
     const [newCustomer, setNewCustomer] = useState<AccountCreation>(new AccountCreation("", "", ""))
     const [passwords, setPasswords] = useState<PasswordCheck>(new PasswordCheck("", "", true))
     const [authCredentials, setAuthCredentials] = useState<AuthCredentials>(new AuthCredentials("", ""))
+    const [activeTab, setActiveTab] = useState("Register");
+
     const { /* checkAuth, */ authedUser } = useContext(AuthContext)
 
     const navigate = useNavigate()
@@ -40,6 +42,10 @@ const AuthComponent = () => {
     const handlePassWordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPasswords({ ...passwords, [e.target.name]: e.target.value })
     }
+
+    const handleRegistrationSuccess = () => {
+        setActiveTab("Login");
+    };
 
 
     useEffect(() => {
@@ -63,14 +69,17 @@ const AuthComponent = () => {
             }
             try {
                 console.log(customerData)
-      /*           const res = await axios.post("http://localhost:3000/auth/create", customerData)
-                toast({
-                    title: "Account created!",
-                    description: "Please log in to continue"
-                })
-                console.log(res)
+                const res = await axios.post("http://localhost:3000/users/create", customerData)
+                if (res.status === 201) {
+                    handleRegistrationSuccess();
+                    setAuthCredentials({ ...authCredentials, email: newCustomer.email })
+                    toast({
+                        title: "Account created!",
+                        description: "Please log in to continue"
+                    })
+                }
                 setNewCustomer(new AccountCreation("", "", ""))
-                setPasswords(new PasswordCheck("", "", false)) */
+                setPasswords(new PasswordCheck("", "", false))
             } catch (error) {
 
                 if (axios.isAxiosError(error) && error.response?.status === 409) {
@@ -79,7 +88,8 @@ const AuthComponent = () => {
                         title: "Uh oh! Something went wrong.",
                         description: "An account with this email already exists!",
                     })
-                } else {
+                }
+                else {
                     toast({
                         variant: "destructive",
                         title: "Uh oh! Something went wrong.",
@@ -115,6 +125,12 @@ const AuthComponent = () => {
                 })
                 console.log(error)
 
+            } else if (axios.isAxiosError(error) && error.response?.status === 401) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Incorrect credentials.",
+                    description: "Please double check your username and password!",
+                })
             } else {
                 toast({
                     title: "There has been a problem logging in!",
@@ -130,7 +146,7 @@ const AuthComponent = () => {
 
     return (
         <div className='flex justify-center'>
-            <Tabs defaultValue="Register" className="w-[400px]">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-[400px]">
                 <TabsList className="grid w-full grid-cols-2">
                     <TabsTrigger value="Register">Register</TabsTrigger>
                     <TabsTrigger value="Login">Login</TabsTrigger>
