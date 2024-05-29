@@ -16,18 +16,45 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Separator } from "@radix-ui/react-separator"
 import { Link } from "react-router-dom"
 
 interface IHomepageCardProps {
   title: string,
   description: string,
   linkUrl: string
-  features: string[]
 }
 
-export function Homepagecard({ title, description, linkUrl, features }: IHomepageCardProps) {
+export function Homepagecard({ title, description, linkUrl }: IHomepageCardProps) {
+  const FEATURES = ["Workouts", "Videos", "Nutrition"]
+
+  const FEATURE_ARRAY: { [key: string]: { noLine: string[], line: string[] } } = {
+    "Basic": {
+      noLine: [FEATURES[0]],
+      line: [FEATURES[1], FEATURES[2]]
+    },
+    "Medium": {
+      noLine: [FEATURES[0], FEATURES[1]],
+      line: [FEATURES[2]]
+    },
+    "Premium": {
+      noLine: [FEATURES[0], FEATURES[1], FEATURES[2]],
+      line: []
+    }
+  };
+
+  const FEATURES_NOLINE: (string | null)[] = [];
+  const FEATURES_LINE: (string | null)[] = [];
+
+  if (FEATURE_ARRAY[title]) {
+    FEATURES_NOLINE.push(...FEATURE_ARRAY[title].noLine);
+    FEATURES_LINE.push(...FEATURE_ARRAY[title].line);
+  }
+
+
+
   return (
-    <Card className="w-[40%] mb-12">
+    <Card className="w-[50%] mb-12">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
@@ -38,9 +65,14 @@ export function Homepagecard({ title, description, linkUrl, features }: IHomepag
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="included">Included in plan:</Label>
               <ul>
-                {features.map((feature) => {
+                {FEATURES_NOLINE.map((feature) => {
                   return (
                     <li key={feature} className="list-disc ml-6">{feature}</li>
+                  )
+                })}
+                {FEATURES_LINE && FEATURES_LINE.map((feature) => {
+                  return (
+                    <li key={feature} className="list-disc ml-6 line-through">{feature}</li>
                   )
                 })}
               </ul>
@@ -51,9 +83,9 @@ export function Homepagecard({ title, description, linkUrl, features }: IHomepag
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
-
         <Link to={linkUrl}><Button>{`Subscribe ${title}`} </Button></Link>
       </CardFooter>
+      <Separator className="my-4" />
     </Card>
   )
 }
