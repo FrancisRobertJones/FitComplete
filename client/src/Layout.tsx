@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { Outlet } from 'react-router-dom'
 import { AuthActionType, AuthReducer } from './reducers/authReducer'
 import { AuthState } from './models/classes/Auth'
@@ -14,20 +14,28 @@ const Layout = () => {
 
     const logOut = async () => {
         try {
-          const res = await axios.get("http://localhost:3000/auth/logout", { withCredentials: true })
-          dispatchAuth({ type: AuthActionType.LOGOUT, payload: { isAuthenticated: false, user: null } })
-        } catch (err) {
-          toast({
-            title: "You have been logged out!",
-            description: "Succesfully logged out"
-          })
-          console.log(err)
-        }
-      }
+            const res = await axios.post("http://localhost:3000/logout", {}, { withCredentials: true })
+            console.log("logged out", res)
 
-/*     const checkAuth = async () => {
+            if (res.status === 200) {
+                dispatchAuth({ type: AuthActionType.LOGOUT, payload: { isAuthenticated: false, user: null } })
+                toast({
+                    title: "You have been logged out!",
+                    description: "See you next time"
+                })
+            }
+        } catch (error) {
+            toast({
+                title: "There has been an error!"
+            })
+            console.log(error)
+        }
+
+    }
+
+    const checkAuth = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/auth/authcheck", { withCredentials: true })
+            const res = await axios.get("http://localhost:3000/session", { withCredentials: true })
             if (res.data.isAuthenticated) {
                 const userData = res.data
                 console.log(userData, "this is the userdata")
@@ -40,13 +48,17 @@ const Layout = () => {
         } catch (err) {
             console.log(err)
         }
-    } */
+    }
+
+    useEffect(() => {
+        checkAuth();
+    }, [])
 
 
     return (
         <>
-            <AuthContext.Provider value={{ dispatchAuth, logOut, authedUser /* checkAuth */ }}>
-            <Navbar />
+            <AuthContext.Provider value={{ dispatchAuth, logOut, authedUser, checkAuth }}>
+                <Navbar />
                 <main className='max-w-screen-xl w-full py-12 my-0 mx-auto'>
                     <Outlet />
                 </main>

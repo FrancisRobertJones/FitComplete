@@ -24,13 +24,15 @@ import { useNavigate } from 'react-router'
 import { AuthContext } from '../context/authContext'
 import PasswordWarning from './passwordWarning'
 
+
+
 const AuthComponent = () => {
     const [newCustomer, setNewCustomer] = useState<AccountCreation>(new AccountCreation("", "", ""))
     const [passwords, setPasswords] = useState<PasswordCheck>(new PasswordCheck("", "", true))
     const [authCredentials, setAuthCredentials] = useState<AuthCredentials>(new AuthCredentials("", ""))
     const [activeTab, setActiveTab] = useState("Register");
 
-    const { /* checkAuth, */ authedUser } = useContext(AuthContext)
+    const { checkAuth, authedUser } = useContext(AuthContext)
 
     const navigate = useNavigate()
 
@@ -108,8 +110,8 @@ const AuthComponent = () => {
     const handleLogin = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         try {
             const res = await axios.post("http://localhost:3000/users/login", authCredentials, { withCredentials: true })
-/*             checkAuth()
- */            console.log(res.data)
+            checkAuth()
+            console.log(res.data)
             toast({
                 title: "You are logged in!",
                 description: "Good luck with your fitness!",
