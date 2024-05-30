@@ -13,7 +13,7 @@ const Medium = () => {
       setContents(response.data);
     };
     fetchContents();
-  }, [contents]);
+  }, []);
 
   return (
     <div className="flex flex-col items-center gap-10">
