@@ -1,9 +1,9 @@
-import { IWorkout } from '@/models/interfaces/content';
+import { IRecipe, IWorkout } from '@/models/interfaces/content';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
 const Premium = () => {
-  const [contents, setContents] = useState<IWorkout[]>([]);
+  const [contents, setContents] = useState<IRecipe[]>([]);
 
   useEffect(() => {
     const fetchContents = async () => {
@@ -29,7 +29,7 @@ const Premium = () => {
           >
             <div className="absolute bottom-0 bg-black bg-opacity-50 w-full p-4 text-white">
               <h3 className="">{content.title}</h3>
-              <p className="">{content.description}</p>
+              <p className="">{content.instruction}</p>
               {/* <img src={content.imageUrl} alt={content.title} /> */}
             </div>
           </a>

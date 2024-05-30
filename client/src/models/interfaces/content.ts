@@ -15,3 +15,18 @@ export interface IVideo {
   status: string;
   level: number;
 }
+
+interface IIngredient {
+  name: string;
+  amount: string;
+}
+
+export interface IRecipe {
+  id: string;
+  title: string;
+  image: string;
+  ingredients: IIngredient[];
+  instruction: string;
+  status: string;
+  level: number;
+}
