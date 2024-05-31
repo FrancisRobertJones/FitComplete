@@ -39,8 +39,7 @@ class UserService {
         const unshashedPass = userCredentials.password
         const passwordMatches = await bcrypt.compare(unshashedPass, password)
         if (passwordMatches) {
-          request.session && (request.session.user = user);
-          console.log(request.session)
+          request.session.user = user;
           return user
         } else {
           return false;

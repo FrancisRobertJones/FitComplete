@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 interface IButtonSecondary {
     text: string;
-    url: string;
     height: ButtonHeight;
 }
 
@@ -19,7 +18,7 @@ const heightMap =  {
     [ButtonHeight.Large]: "48px"
 }
 
-export function ButtonSecondary({ text, url, height}: IButtonSecondary) {
+export function ButtonSecondary({ text, height}: IButtonSecondary) {
     const heightValue = heightMap[height];
-    return <Link to={url}><Button className={`h-[${heightValue}`} variant="secondary">{text}</Button></Link>
+    return <Button className={`h-[${heightValue}`} variant="secondary">{text}</Button>
 }

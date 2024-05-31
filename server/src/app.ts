@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import session from "express-session";
 import { IUser } from "./models/user";
 import contentRoutes from "./routes/contentRoutes";
+import ordersRoutes from "./routes/orderRoutes"
 import cors from 'cors'
 
 dotenv.config();
@@ -16,12 +17,7 @@ const app: Application = express()
 const port = process.env.PORT || 3000;
 
 app.use(express.json())
-app.use(session({
-    secret: process.env.SESSION_SECRET as string, 
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-  }));
+
 
   const corsOptions = {
     origin: 'http://localhost:5173',
@@ -30,9 +26,24 @@ app.use(session({
 };
 
 app.use(cors(corsOptions));
+
+app.use(session({
+  secret: process.env.SESSION_SECRET as string,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+      secure: false, 
+      httpOnly: true,
+      sameSite: 'lax',
+      path: '/' 
+  }
+}));
+
 app.use('/users', userRoutes)
 app.use('/', sessionRoutes)
 app.use('/content', contentRoutes)
+app.use('/orders', ordersRoutes)
+
 
 declare module "express-session" {
     interface SessionData {
