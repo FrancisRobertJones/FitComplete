@@ -15,6 +15,7 @@ import { AuthContext } from "@/context/authContext"
 import { Button } from "./ui/button"
 import { toast } from "./ui/use-toast"
 import { LogOut } from "lucide-react"
+import { Link } from "react-router-dom"
 
 
 
@@ -62,9 +63,9 @@ export function Navbar() {
 
         </NavigationMenuList>
         <div className="ml-auto">
-              <Button>Workouts</Button>
-              <Button>Tutorials</Button>
-              <Button>Recipies</Button>
+              <Link to={"/subscriptions/basic"}><Button>Workouts</Button></Link>
+              <Link to={"/subscriptions/medium"}><Button>Tutorials</Button></Link>
+              <Link to={"/subscriptions/premium"}><Button>Recipies</Button></Link>
           </div>
       </NavigationMenu>
     </>

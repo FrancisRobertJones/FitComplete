@@ -8,6 +8,9 @@ import { toast } from './components/ui/use-toast'
 import { AuthContext } from './context/authContext'
 import { Toaster } from './components/ui/toaster'
 import { Navbar } from './components/navbar'
+import { ILevelCheckRes } from './models/interfaces/level'
+import { User } from './models/classes/User'
+import { AuthResponse } from './models/interfaces/auth'
 
 const Layout = () => {
     const [authedUser, dispatchAuth] = useReducer(AuthReducer, new AuthState(false, null))
@@ -35,16 +38,29 @@ const Layout = () => {
 
     const checkAuth = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/session", { withCredentials: true })
+            const res = await axios.get<AuthResponse>("http://localhost:3000/session", { withCredentials: true })
             if (res.data.isAuthenticated) {
                 const userData = res.data
-                console.log(userData, "this is the userdata")
                 dispatchAuth({ type: AuthActionType.LOGIN, payload: userData })
-                console.log(res.data, "this is the auth data from rendering")
+                const userId = res.data.user?._id;
+                const level = await checkLevel(userId as string);
+             
                 return res
             } else {
                 dispatchAuth({ type: AuthActionType.LOGOUT, payload: { isAuthenticated: false, user: null } })
             }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    //TODO assign level to authContext for global access
+    const checkLevel = async (userId: string) => {
+        try {
+            const res = await axios.post<ILevelCheckRes>("http://localhost:3000/orders/level", {"customerId": userId })
+            const level = res.data.level;
+            console.log(">>>>>>>>>>>", level)
+            return level;
         } catch (err) {
             console.log(err)
         }
