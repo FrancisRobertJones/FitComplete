@@ -5,6 +5,7 @@ import contentRepository from "../repositories/contentRepository";
 
 class ContentService {
   async createContent(contentData: IExercise | IRecipe) {
+    console.log(contentData, "here is service >>>>>>>>>>>>>>>")
     try {
       const content = await contentRepository.create(contentData);
       console.log("Content created:", content);

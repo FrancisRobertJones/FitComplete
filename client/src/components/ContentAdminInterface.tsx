@@ -68,9 +68,10 @@ export default function ContentAdminInterFace() {
     }
 
     const handleSubmit = async () => {
-        const newExericseForSubmit = { ...newExercise, instructions: exerciseInstructions, category: "exercise" }
+        const contentData = { ...newExercise, instructions: exerciseInstructions, category: "exercise" }
+        console.log(contentData)
         try {
-            const response = await axios.post("http://localhost:3000/content/create", { newExericseForSubmit })
+            const response = await axios.post("http://localhost:3000/content/create", { contentData })
             console.log(response.status)
             console.log(response, "<>>>>")
         } catch(error) {

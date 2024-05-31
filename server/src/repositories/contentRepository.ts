@@ -3,6 +3,7 @@ import Workout, { IExercise } from "../models/exercise";
 
 class ContentRepository {
   async create(content: IExercise | IRecipe) {
+    console.log(content.category, ">>>>>>>>>>>>")
     switch (content.category) {
       case "exercise":
         return Workout.create(content);
@@ -15,7 +16,7 @@ class ContentRepository {
 
   async getAll(type: string) {
     switch (type) {
-      case "workouts":
+      case "exercise":
         return Workout.find();
       case "recipes":
         return Recipe.find();
@@ -26,7 +27,7 @@ class ContentRepository {
 
   async getSingle(type: string, id: string) {
     switch (type) {
-      case "workouts":
+      case "exercise":
         return Workout.findOne({ _id: id });
       case "recipes":
         return Recipe.findOne({ _id: id });
@@ -41,7 +42,7 @@ class ContentRepository {
     newContent: IExercise | IRecipe
   ) {
     switch (type) {
-      case "workouts":
+      case "exercise":
         return Workout.updateOne({ _id: id }, newContent);
       case "recipes":
         return Recipe.updateOne({ _id: id }, newContent);
@@ -52,7 +53,7 @@ class ContentRepository {
 
   async delete(type: string, id: string) {
     switch (type) {
-      case "workouts":
+      case "exercise":
         return Workout.deleteOne({ _id: id });
       case "recipes":
         return Recipe.deleteOne({ _id: id });
