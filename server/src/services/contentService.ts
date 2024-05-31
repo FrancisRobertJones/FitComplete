@@ -1,10 +1,10 @@
+import { IExercise } from "../models/exercise";
 import { IRecipe } from "../models/recipe";
 import { IVideo } from "../models/video";
-import { IWorkout } from "../models/workout";
 import contentRepository from "../repositories/contentRepository";
 
 class ContentService {
-  async createContent(contentData: IWorkout | IVideo | IRecipe) {
+  async createContent(contentData: IExercise | IRecipe) {
     try {
       const content = await contentRepository.create(contentData);
       console.log("Content created:", content);
@@ -38,7 +38,11 @@ class ContentService {
     }
   }
 
-  async editContent(type: string, id: string, newData: IWorkout | IVideo | IRecipe) {
+  async editContent(
+    type: string,
+    id: string,
+    newData: IExercise | IRecipe
+  ) {
     try {
       const updatedContent = await contentRepository.update(type, id, newData);
       console.log("Content updated:", updatedContent);

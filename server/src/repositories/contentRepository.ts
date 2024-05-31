@@ -1,18 +1,15 @@
 import Recipe, { IRecipe } from "../models/recipe";
-import Video, { IVideo } from "../models/video";
-import Workout, { IWorkout } from "../models/workout";
+import Workout, { IExercise } from "../models/exercise";
 
 class ContentRepository {
-  async create(content: IWorkout | IVideo | IRecipe) {
-    switch (content.level) {
-      case 1:
+  async create(content: IExercise | IRecipe) {
+    switch (content.category) {
+      case "exercise":
         return Workout.create(content);
-      case 2:
-        return Video.create(content);
-      case 3:
+      case "recipe":
         return Recipe.create(content);
       default:
-        throw new Error("Unknown level");
+        throw new Error("Unknown category");
     }
   }
 
@@ -20,8 +17,6 @@ class ContentRepository {
     switch (type) {
       case "workouts":
         return Workout.find();
-      case "videos":
-        return Video.find();
       case "recipes":
         return Recipe.find();
       default:
@@ -33,8 +28,6 @@ class ContentRepository {
     switch (type) {
       case "workouts":
         return Workout.findOne({ _id: id });
-      case "videos":
-        return Video.findOne({ _id: id });
       case "recipes":
         return Recipe.findOne({ _id: id });
       default:
@@ -42,12 +35,14 @@ class ContentRepository {
     }
   }
 
-  async update(type: string, id: string, newContent: IWorkout | IVideo | IRecipe) {
+  async update(
+    type: string,
+    id: string,
+    newContent: IExercise | IRecipe
+  ) {
     switch (type) {
       case "workouts":
         return Workout.updateOne({ _id: id }, newContent);
-      case "videos":
-        return Video.updateOne({ _id: id }, newContent);
       case "recipes":
         return Recipe.updateOne({ _id: id }, newContent);
       default:
@@ -59,8 +54,6 @@ class ContentRepository {
     switch (type) {
       case "workouts":
         return Workout.deleteOne({ _id: id });
-      case "videos":
-        return Video.deleteOne({ _id: id });
       case "recipes":
         return Recipe.deleteOne({ _id: id });
       default:
