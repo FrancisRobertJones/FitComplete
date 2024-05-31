@@ -2,7 +2,7 @@
  * v0 by Vercel.
  * @see https://v0.dev/t/URvfq5v8RSH
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
+ *//* 
 "use client"
 
 import { useState, useMemo } from "react"
@@ -121,4 +121,4 @@ export default function Component() {
             </Table>
         </div>
     )
-}
+} */

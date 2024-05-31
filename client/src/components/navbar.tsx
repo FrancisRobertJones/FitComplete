@@ -78,6 +78,9 @@ export function Navbar() {
                     ) : (
                         <Button disabled>Recipies</Button>
                     )}
+                    <Link to="/contentadmin">
+                            <Button>Admin</Button>
+                        </Link>
           </div>
       </NavigationMenu>
     </>

@@ -6,6 +6,7 @@ import Homepage from "./pages/homepage";
 import Basic from "./pages/levels/basic";
 import Medium from "./pages/levels/medium";
 import Premium from "./pages/levels/premium";
+import ContentAdminPage from "./pages/contentAdmin";
 
   export const router = createBrowserRouter([
     {
@@ -35,7 +36,11 @@ import Premium from "./pages/levels/premium";
         },
          {
           path: "/success",
-        } 
+        },
+        {
+          path: "/contentadmin",
+          element: <ContentAdminPage />
+        }
       ]
     },
   ]);
