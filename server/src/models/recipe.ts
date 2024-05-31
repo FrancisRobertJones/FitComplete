@@ -10,8 +10,7 @@ interface IRecipe extends Document {
   image: string;
   ingredients: IIngredient[];
   instruction: string;
-  status: string;
-  level: number;
+  category: string;
 }
 
 const IngredientSchema = new Schema<IIngredient>({
@@ -19,14 +18,12 @@ const IngredientSchema = new Schema<IIngredient>({
   amount: { type: String, required: true },
 });
 
-// TODO: Each ingredient gets objectId??
 const RecipeSchema = new Schema<IRecipe>({
   title: { type: String, required: true },
   ingredients: {type: [IngredientSchema], required: true},
   instruction: { type: String, required: true },
   image: { type: String, required: true },
-  status: { type: String, required: true },
-  level: { type: Number, required: true },
+  category: { type: String, required: true },
 });
 
 const Recipe = model<IRecipe>("Recipe", RecipeSchema);
