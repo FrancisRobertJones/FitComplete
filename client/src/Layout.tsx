@@ -41,11 +41,14 @@ const Layout = () => {
             const res = await axios.get<AuthResponse>("http://localhost:3000/session", { withCredentials: true })
             if (res.data.isAuthenticated) {
                 const userData = res.data
-                dispatchAuth({ type: AuthActionType.LOGIN, payload: userData })
                 const userId = res.data.user?._id;
-                const level = await checkLevel(userId as string);
-             
-                return res
+                let level: number | undefined ;
+                if(userId) {
+                     level = await checkLevel(userId as string);
+                }
+                console.log("User data before dispatch:", { ...userData, level });
+
+                dispatchAuth({type:AuthActionType.LOGIN, payload: {...userData, level: level}})
             } else {
                 dispatchAuth({ type: AuthActionType.LOGOUT, payload: { isAuthenticated: false, user: null } })
             }
@@ -54,12 +57,14 @@ const Layout = () => {
         }
     }
 
-    //TODO assign level to authContext for global access
+    useEffect(() => {
+        console.log("Authed user state updated:", authedUser);
+    }, [authedUser]);
+
     const checkLevel = async (userId: string) => {
         try {
             const res = await axios.post<ILevelCheckRes>("http://localhost:3000/orders/level", {"customerId": userId })
             const level = res.data.level;
-            console.log(">>>>>>>>>>>", level)
             return level;
         } catch (err) {
             console.log(err)

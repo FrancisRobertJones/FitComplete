@@ -64,8 +64,20 @@ export function Navbar() {
         </NavigationMenuList>
         <div className="ml-auto">
               <Link to={"/subscriptions/basic"}><Button>Workouts</Button></Link>
-              <Link to={"/subscriptions/medium"}><Button>Tutorials</Button></Link>
-              <Link to={"/subscriptions/premium"}><Button>Recipies</Button></Link>
+              {authedUser.level && authedUser.level  >= 2 ? (
+                        <Link to="/subscriptions/medium">
+                            <Button>Tutorials</Button>
+                        </Link>
+                    ) : (
+                        <Button disabled>Tutorials</Button>
+                    )}
+                    {authedUser.level && authedUser.level >= 3 ? (
+                        <Link to="/subscriptions/premium">
+                            <Button>Recipies</Button>
+                        </Link>
+                    ) : (
+                        <Button disabled>Recipies</Button>
+                    )}
           </div>
       </NavigationMenu>
     </>
