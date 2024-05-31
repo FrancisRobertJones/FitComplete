@@ -1,9 +1,9 @@
-export class Exercise {
+export class NewExercise {
     constructor(
         public type: string,
-        public title: string,
-        public instructions: string,
-        public video: string,
+        public name: string,
+        public instructions: string[],
+        public videoUrl: string,
         public description: string
     ) {}
 }
