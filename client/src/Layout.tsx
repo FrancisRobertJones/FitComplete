@@ -57,9 +57,7 @@ const Layout = () => {
         }
     }
 
-    useEffect(() => {
-        console.log("Authed user state updated:", authedUser);
-    }, [authedUser]);
+
 
     const checkLevel = async (userId: string) => {
         try {
