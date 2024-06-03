@@ -29,7 +29,7 @@ import ContentAdminPage from "./pages/contentAdmin";
         },
         {
             path: "/subscriptions/premium",
-            element: <Premium />
+            element: <Premium /> 
         },
         {
           path: "/orders",
