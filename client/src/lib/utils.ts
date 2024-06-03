@@ -45,8 +45,15 @@ export const handleSubmit = async (
     };
   }
 
+  if (contentType === "workout") {
+    contentData = {
+      ...state,
+      category: contentType
+    }
+  }
+
   console.log(contentData);
-  
+
   try {
     const response = await axios.post("http://localhost:3000/content/create", {
       contentData,

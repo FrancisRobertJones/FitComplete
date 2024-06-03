@@ -7,7 +7,6 @@ export class NewExercise {
         public description: string
     ) {}
 }
-
 export class WorkoutExercise{
     constructor(
         public exerciseId: string | undefined,

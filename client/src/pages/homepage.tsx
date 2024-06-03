@@ -1,9 +1,6 @@
 import AuthComponent from '@/components/AuthComponent'
 import { Homepagecard } from '@/components/homepageCard'
 import HomepageDashboard from '@/components/homepageDashboard'
-import { Navbar } from '@/components/navbar'
-import { Button } from '@/components/ui/button'
-import { DialogHeader } from '@/components/ui/dialogue'
 import { AuthContext } from '@/context/authContext'
 import { useContext } from 'react'
 

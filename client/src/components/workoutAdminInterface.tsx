@@ -14,6 +14,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Label } from "@/components/ui/label"
 import { ExerciseFromDB, NewExercise, WorkoutExercise } from "@/models/classes/Exercises"
 import axios from "axios"
+import { NewWorkout } from "@/models/classes/Workouts"
+import { handleChange, handleSubmit } from "@/lib/utils"
 
 interface IWorkoutAdminInterface {
   newExercise: NewExercise
@@ -29,7 +31,8 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
   const [showModal, setShowModal] = useState(false)
   const [selectedExercises, setSelectedExercises] = useState<WorkoutExercise[]>([])
   const [exercisesFromDb, setExercisesFromDb] = useState<ExerciseFromDB[]>([])
-
+  const [newWorkout, setNewWorkout] = useState<NewWorkout>()
+  const [titleToggle, setTitleToggle] = useState(false)
 
   const getAllWorkouts = async () => {
     try {
@@ -139,6 +142,11 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
     updatedExercises.splice(index, 1)
     setSelectedExercises(updatedExercises)
   }
+
+  useEffect(() => {
+    console.log(newWorkout)
+  }, [newWorkout])
+
   return (
     <div className="flex w-full min-h-screen">
       <div className="flex-1 p-8">
@@ -258,8 +266,12 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
         )}
 
       </div>
-      <div className="bg-gray-100 dark:bg-gray-800 p-8 w-[300px] border-l border-gray-200 dark:border-gray-700">
+      <div className="bg-gray-100 dark:bg-gray-800 p-8 w-[300px] border-l border-gray-200 dark:border-gray-700 max-h-screen overflow-y-auto">
         <h2 className="text-2xl font-bold mb-4">Selected Exercises</h2>
+        <div className="flex mb-12">
+          <Input disabled={titleToggle} placeholder="workout title" name="title" onChange={(e) => handleChange(e, setNewWorkout, newWorkout)}></Input>
+          {!titleToggle ? <Button className="ml-6" onClick={() => setTitleToggle((prev) => !prev)}>Save title</Button> : <Button className="ml-6" onClick={() => setTitleToggle((prev) => !prev)}>Edit title</Button>}
+        </div>
         {selectedExercises.length === 0 ? (
           <p className="text-gray-500 dark:text-gray-400">No exercises selected yet.</p>
         ) : (
@@ -288,8 +300,13 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
                 </Button>
               </div>
             ))}
+            <Button className="ml-6 mt-24" onClick={() => handleSubmit(
+              { ...newWorkout, exercises: selectedExercises }
+              , [], [], "workout")}>Save workout</Button>
           </div>
         )}
+
+
       </div>
     </div>
   )
