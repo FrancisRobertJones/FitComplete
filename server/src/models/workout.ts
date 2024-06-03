@@ -6,7 +6,8 @@ import { IWorkoutExercise } from "../types/interfaces/workoutexercise";
 interface IWorkout extends Document {
     title: string;
     exercises: IWorkoutExercise[];
-    createdOn: Date
+    createdOn: Date;
+    category: string;
 }
 
 const WorkoutExerciseSchema = new Schema<IWorkoutExercise>({
@@ -21,7 +22,8 @@ const WorkoutExerciseSchema = new Schema<IWorkoutExercise>({
 const WorkoutSchema = new Schema<IWorkout>({
     title: { type: String, required: true },
     exercises: { type: [WorkoutExerciseSchema], required: true },
-    createdOn: { type: Date, required: true, default: () => new Date() }
+    createdOn: { type: Date, default: Date.now() },
+    category: { type: String, required: true },
 });
 
 const Workout = model<IWorkout>("Workout", WorkoutSchema);

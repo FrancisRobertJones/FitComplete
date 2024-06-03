@@ -17,7 +17,6 @@ import axios from "axios"
 
 interface IWorkoutAdminInterface {
   newExercise: NewExercise
-
 }
 
 export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInterface) {

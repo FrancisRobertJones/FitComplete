@@ -26,8 +26,6 @@ const CreateExercise = ({ newExercise, setNewExercise }: ICreateExerciseProps) =
     useState("");
 
 
-  console.log(newExercise);
-
   const addExerciseInstruction = () => {
     if (currentExerciseInstruction.trim() !== "") {
       setExerciseInstructions([

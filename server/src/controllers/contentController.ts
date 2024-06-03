@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 class ContentController {
   async createContent(request: Request, response: Response) {
     const contentData = request.body.contentData
+    console.log(contentData, ">>>>> here is the contentdata")
     try {
       const content = await contentService.createContent( contentData);
       response.status(201).json(content);

@@ -1,15 +1,16 @@
 import Recipe, { IRecipe } from "../models/recipe";
 import Exercise, { IExercise } from "../models/exercise";
+import Workout, { IWorkout } from "../models/workout";
 
 class ContentRepository {
-  async create(content: IExercise | IRecipe) {
+  async create(content: IExercise | IRecipe | IWorkout) {
     switch (content.category) {
       case "exercise":
-        //TODO change from workout to exercise
         return Exercise.create(content);
       case "recipe":
         return Recipe.create(content);
-        //TODO add workout create 
+      case "workout":
+        return Workout.create(content);
       default:
         throw new Error("Unknown category");
     }
