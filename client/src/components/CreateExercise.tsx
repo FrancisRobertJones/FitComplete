@@ -13,15 +13,18 @@ import { NewExercise } from "@/models/classes/Exercises";
 import { useState } from "react";
 import { handleChange, handleSelect, handleSubmit } from "@/lib/utils";
 
-const CreateExercise = () => {
+interface ICreateExerciseProps {
+  newExercise: NewExercise
+  setNewExercise: React.Dispatch<React.SetStateAction<string>>
+}
+
+const CreateExercise = ({ newExercise, setNewExercise }: ICreateExerciseProps) => {
   const [exerciseInstructions, setExerciseInstructions] = useState<string[]>(
     []
   );
   const [currentExerciseInstruction, setCurrentExerciseInstruction] =
     useState("");
-  const [newExercise, setNewExercise] = useState<NewExercise>(
-    new NewExercise("", "", [""], "", "")
-  );
+
 
   console.log(newExercise);
 
