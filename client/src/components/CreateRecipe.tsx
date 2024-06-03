@@ -1,4 +1,4 @@
-import { Label } from "@radix-ui/react-label";
+import { Label } from "@/components/ui/label";
 import { XIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -56,6 +56,15 @@ const CreateRecipe = () => {
             onChange={(e) => handleChange(e, setNewRecipe, newRecipe)}
           />
         </div>
+        <div className="grid w-full items-center gap-1.5">
+          <Label htmlFor="picture">Image</Label>
+          <Input
+            id="recipe-image"
+            name="imageUrl"
+            type="file"
+            onChange={(e) => handleChange(e, setNewRecipe, newRecipe)}
+          />
+        </div>
         <div className="space-y-2">
           <Label htmlFor="recipe-description">Description</Label>
           <Textarea
@@ -96,15 +105,7 @@ const CreateRecipe = () => {
             />
           </div>
         </div>
-        <div className="grid w-full items-center gap-1.5">
-          <Label htmlFor="picture">Image</Label>
-          <Input
-            id="recipe-image"
-            name="imageUrl"
-            type="file"
-            onChange={(e) => handleChange(e, setNewRecipe, newRecipe)}
-          />
-        </div>
+      </div>
         <div className="space-y-2">
           <Label htmlFor="recipe-instructions">Instructions</Label>
           <div className="flex flex-col gap-2">
@@ -135,12 +136,17 @@ const CreateRecipe = () => {
                   }
                 }}
               />
-              <Button onClick={addInstruction}>Add</Button>
+              <Button className="w-32" onClick={addInstruction}>Add</Button>
             </div>
           </div>
         </div>
-        <Button onClick={() => handleSubmit(newRecipe, recipeInstructions, ingredients, "recipe")}>Submit</Button>
-      </div>
+        <Button
+          onClick={() =>
+            handleSubmit(newRecipe, recipeInstructions, ingredients, "recipe")
+          }
+        >
+          Submit
+        </Button>
     </div>
   );
 };
