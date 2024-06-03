@@ -5,7 +5,7 @@
  */
 "use client"
 
-import { useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuCheckboxItem } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
@@ -13,6 +13,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { NewExercise, WorkoutExercise } from "@/models/classes/Exercises"
+import axios from "axios"
 
 interface IWorkoutAdminInterface {
   newExercise: NewExercise
@@ -28,6 +29,7 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
   const [duration, setDuration] = useState("0")
   const [showModal, setShowModal] = useState(false)
   const [selectedExercises, setSelectedExercises] = useState<WorkoutExercise[]>([])
+  const [exercisesFromDb, setExercisesFromDb] = useState<
 
   const exercises: WorkoutExercise[] = [
     new WorkoutExercise("1", "Squats", "legs", "10", "3", "0"),
@@ -41,19 +43,62 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
     new WorkoutExercise("9", "Mountain Climbers", "cardio", "0", "0", "30"),
     new WorkoutExercise("10", "Shoulder Taps", "core", "15", "3", "0"),
   ];
-  const filteredExercises = exercises.filter((exercise) => {
-    return (
-      exercise.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (selectedTypes.length === 0 || selectedTypes.includes(exercise.type))
-    )
-  })
-  const handleTypeChange = (type: string) => {
-    if (selectedTypes.includes(type)) {
-      setSelectedTypes(selectedTypes.filter((t) => t !== type))
-    } else {
-      setSelectedTypes([...selectedTypes, type])
+
+  const getAllWorkouts = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/content?type=exercise");
+      const exercisesFromDb = res.data
+      return exercisesFromDb
+    } catch (error) {
+      console.log(error)
     }
   }
+
+  const fetchExercisesAndTransformToWorkoutExercises = useCallback(async () => {
+    const exercisesFromDb = await getAllWorkouts()
+    setExercisesFromDb(exercisesFromDb)
+  }, [])
+
+
+
+  useEffect(() => {
+    fetchExercisesAndTransformToWorkoutExercises()
+  }, [fetchExercisesAndTransformToWorkoutExercises]);
+
+
+  const transformToWorkoutExercise = (exercise: ExerciseFromDB) => {
+    let repsForWorkout = "";
+    let setsForWorkout = "";
+    let duration: string | null = null;
+
+    if (exercise.type === "cardio" || exercise.type === "warmup" || exercise.type === "cooldown") {
+      repsForWorkout = "0",
+        setsForWorkout = "0",
+        duration = "10"
+    } else {
+      repsForWorkout = "12",
+        setsForWorkout = "3",
+        duration = "0"
+    }
+    return new WorkoutExercise(
+      exercise._id,
+      exercise.name,
+      exercise.type,
+      repsForWorkout,
+      setsForWorkout,
+      duration
+    );
+  }
+
+  const workoutExercisesFromDb = useMemo(() => {
+    if (exercisesFromDb) {
+      return exercisesFromDb.map(transformToWorkoutExercise);
+    }
+  }, [exercisesFromDb]);
+
+
+
+
   const handleExerciseSelect = (exercise: WorkoutExercise) => {
     setSelectedExercise(exercise)
     if (exercise.type === "warmup" || exercise.type === "cooldown" || exercise.type === "cardio") {
@@ -67,6 +112,22 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
     }
     setShowModal(true)
   }
+
+
+  const filteredExercises = exercises.filter((exercise) => {
+    return (
+      exercise.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (selectedTypes.length === 0 || selectedTypes.includes(exercise.type))
+    )
+  })
+  const handleTypeChange = (type: string) => {
+    if (selectedTypes.includes(type)) {
+      setSelectedTypes(selectedTypes.filter((t) => t !== type))
+    } else {
+      setSelectedTypes([...selectedTypes, type])
+    }
+  }
+
   const handleAddExercise = () => {
     if (selectedExercise) {
       const exerciseToAdd = new WorkoutExercise(
