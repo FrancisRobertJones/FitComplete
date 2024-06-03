@@ -85,7 +85,7 @@ const CreateRecipe = () => {
             ))}
             <Input
               id="recipe-ingredients"
-              placeholder="Add ingredient"
+              placeholder="Add ingredient name & amount"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   const target = e.target as HTMLInputElement;
