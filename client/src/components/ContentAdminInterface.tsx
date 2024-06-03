@@ -19,7 +19,7 @@ import CreateExercise from "./CreateExercise"
 
 interface IContentadminInterfaceProps {
     newExercise: NewExercise
-    setNewExercise: React.Dispatch<React.SetStateAction<string>>;
+    setNewExercise: React.Dispatch<React.SetStateAction<NewExercise>>;
 }
 
 export default function ContentAdminInterFace({ newExercise, setNewExercise }: IContentadminInterfaceProps) {
@@ -55,7 +55,8 @@ export default function ContentAdminInterFace({ newExercise, setNewExercise }: I
                 setNewExercise={setNewExercise}
             />
             }
-            {state === "recipes" && <CreateRecipe />
+            {state === "recipes" && <CreateRecipe
+            />
             }
         </div>
     );

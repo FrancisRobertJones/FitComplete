@@ -15,7 +15,7 @@ import { handleChange, handleSelect, handleSubmit } from "@/lib/utils";
 
 interface ICreateExerciseProps {
   newExercise: NewExercise
-  setNewExercise: React.Dispatch<React.SetStateAction<string>>
+  setNewExercise: React.Dispatch<React.SetStateAction<NewExercise>>
 }
 
 const CreateExercise = ({ newExercise, setNewExercise }: ICreateExerciseProps) => {
