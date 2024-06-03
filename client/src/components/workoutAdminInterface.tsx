@@ -12,9 +12,14 @@ import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
-import { WorkoutExercise } from "@/models/classes/Exercises"
+import { NewExercise, WorkoutExercise } from "@/models/classes/Exercises"
 
-export default function WorkoutAdminInterface() {
+interface IWorkoutAdminInterface {
+  newExercise: NewExercise
+
+}
+
+export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInterface) {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedTypes, setSelectedTypes] = useState<string[]>([])
   const [selectedExercise, setSelectedExercise] = useState<WorkoutExercise>()
@@ -35,7 +40,7 @@ export default function WorkoutAdminInterface() {
     new WorkoutExercise("8", "Leg Raises", "legs", "12", "2", "0"),
     new WorkoutExercise("9", "Mountain Climbers", "cardio", "0", "0", "30"),
     new WorkoutExercise("10", "Shoulder Taps", "core", "15", "3", "0"),
-  ]; 
+  ];
   const filteredExercises = exercises.filter((exercise) => {
     return (
       exercise.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -51,7 +56,7 @@ export default function WorkoutAdminInterface() {
   }
   const handleExerciseSelect = (exercise: WorkoutExercise) => {
     setSelectedExercise(exercise)
-    if (exercise.type === "warmup" || exercise.type === "cooldown"|| exercise.type === "cardio") {
+    if (exercise.type === "warmup" || exercise.type === "cooldown" || exercise.type === "cardio") {
       setReps("0")
       setSets("0")
       setDuration(duration)
@@ -119,11 +124,10 @@ export default function WorkoutAdminInterface() {
           {filteredExercises.map((exercise) => (
             <Card
               key={exercise.id}
-              className={`cursor-pointer ${
-                selectedExercise?.id === exercise.id
-                  ? "border-2 border-blue-500"
-                  : "border border-gray-200 dark:border-gray-800"
-              }`}
+              className={`cursor-pointer ${selectedExercise?.id === exercise.id
+                ? "border-2 border-blue-500"
+                : "border border-gray-200 dark:border-gray-800"
+                }`}
               onClick={() => handleExerciseSelect(exercise)}
             >
               <CardHeader>
