@@ -7,9 +7,9 @@ interface IIngredient {
 
 interface IRecipe extends Document {
   title: string;
-  image: string;
+  imageUrl: string;
   ingredients: IIngredient[];
-  instruction: string;
+  instructions: string[];
   category: string;
 }
 
@@ -21,8 +21,8 @@ const IngredientSchema = new Schema<IIngredient>({
 const RecipeSchema = new Schema<IRecipe>({
   title: { type: String, required: true },
   ingredients: {type: [IngredientSchema], required: true},
-  instruction: { type: String, required: true },
-  image: { type: String, required: true },
+  instructions: { type: [String], required: true },
+  imageUrl: { type: String, required: true },
   category: { type: String, required: true },
 });
 
