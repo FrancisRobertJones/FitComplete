@@ -30,20 +30,7 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
   const [showModal, setShowModal] = useState(false)
   const [selectedExercises, setSelectedExercises] = useState<WorkoutExercise[]>([])
   const [exercisesFromDb, setExercisesFromDb] = useState<ExerciseFromDB[]>([])
-  const [workoutExercisesTransformed, setWworkoutExercisesTransformed] = useState<WorkoutExercise[]>([])
 
-  const exercises: WorkoutExercise[] = [
-    new WorkoutExercise("1", "Squats", "legs", "10", "3", "0"),
-    new WorkoutExercise("2", "Pushups", "cardio", "0", "0", "0"),
-    new WorkoutExercise("3", "Lunges", "legs", "12", "3", "0"),
-    new WorkoutExercise("4", "Jumping Jacks", "cardio", "0", "0"),
-    new WorkoutExercise("5", "Plank", "core", "0", "0", "30"),
-    new WorkoutExercise("6", "Crunches", "core", "15", "3", "0"),
-    new WorkoutExercise("7", "Burpees", "cardio", "0", "30"),
-    new WorkoutExercise("8", "Leg Raises", "legs", "12", "2", "0"),
-    new WorkoutExercise("9", "Mountain Climbers", "cardio", "0", "0", "30"),
-    new WorkoutExercise("10", "Shoulder Taps", "core", "15", "3", "0"),
-  ];
 
   const getAllWorkouts = async () => {
     try {
@@ -57,7 +44,7 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
   }
 
   const fetchExercisesAndTransformToWorkoutExercises = useCallback(async () => {
-    const exercisesFromDb = await getAllWorkouts() 
+    const exercisesFromDb = await getAllWorkouts()
     setExercisesFromDb(exercisesFromDb)
   }, [newExercise])
 
@@ -96,6 +83,7 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
     if (exercisesFromDb) {
       return exercisesFromDb.map(transformToWorkoutExercise);
     }
+
   }, [exercisesFromDb]);
 
 
@@ -113,8 +101,11 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
     setShowModal(true)
   }
 
+  useEffect(() => {
+    console.log(workoutExercisesFromDb, "here are the transformed exerices>>>>")
+  }, [workoutExercisesFromDb])
 
-  const filteredExercises = exercises.filter((exercise) => {
+  const filteredExercises = workoutExercisesFromDb?.filter((exercise) => {
     return (
       exercise.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (selectedTypes.length === 0 || selectedTypes.includes(exercise.type))
@@ -167,7 +158,7 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-48">
-              {["cardio", "legs", "core"].map((type) => (
+              {["pull", "push", "legs", "cardio", "cooldown", "warmup", "core", "arms"].map((type) => (
                 <DropdownMenuCheckboxItem
                   key={type}
                   checked={selectedTypes.includes(type)}
@@ -180,7 +171,7 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
           </DropdownMenu>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {filteredExercises.map((exercise) => (
+          {filteredExercises?.map((exercise) => (
             <Card
               key={exercise.exerciseId}
               className={`cursor-pointer ${selectedExercise?.exerciseId === exercise.exerciseId
