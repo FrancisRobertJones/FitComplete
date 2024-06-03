@@ -5,7 +5,7 @@ import {
   SelectValue,
   SelectContent,
   SelectItem,
-} from "@radix-ui/react-select";
+} from "@/components/ui/select";
 import { XIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
