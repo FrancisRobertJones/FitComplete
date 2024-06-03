@@ -1,14 +1,15 @@
 import Recipe, { IRecipe } from "../models/recipe";
-import Workout, { IExercise } from "../models/exercise";
+import Exercise, { IExercise } from "../models/exercise";
 
 class ContentRepository {
   async create(content: IExercise | IRecipe) {
-    console.log(content.category, ">>>>>>>>>>>>")
     switch (content.category) {
       case "exercise":
-        return Workout.create(content);
+        //TODO change from workout to exercise
+        return Exercise.create(content);
       case "recipe":
         return Recipe.create(content);
+        //TODO add workout create 
       default:
         throw new Error("Unknown category");
     }
@@ -17,7 +18,7 @@ class ContentRepository {
   async getAll(type: string) {
     switch (type) {
       case "exercise":
-        return Workout.find();
+        return Exercise.find();
       case "recipes":
         return Recipe.find();
       default:
@@ -28,7 +29,7 @@ class ContentRepository {
   async getSingle(type: string, id: string) {
     switch (type) {
       case "exercise":
-        return Workout.findOne({ _id: id });
+        return Exercise.findOne({ _id: id });
       case "recipes":
         return Recipe.findOne({ _id: id });
       default:
@@ -43,7 +44,7 @@ class ContentRepository {
   ) {
     switch (type) {
       case "exercise":
-        return Workout.updateOne({ _id: id }, newContent);
+        return Exercise.updateOne({ _id: id }, newContent);
       case "recipes":
         return Recipe.updateOne({ _id: id }, newContent);
       default:
@@ -54,7 +55,7 @@ class ContentRepository {
   async delete(type: string, id: string) {
     switch (type) {
       case "exercise":
-        return Workout.deleteOne({ _id: id });
+        return Exercise.deleteOne({ _id: id });
       case "recipes":
         return Recipe.deleteOne({ _id: id });
       default:
