@@ -1,4 +1,5 @@
-import axios from "axios";
+import { toast } from "@/components/ui/use-toast";
+import axios, { AxiosError } from "axios";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -58,9 +59,20 @@ export const handleSubmit = async (
     const response = await axios.post("http://localhost:3000/content/create", {
       contentData,
     });
+    toast({
+      title: "Success!",
+      description: `Your ${contentType} has been saved`,
+    })
     console.log(response.status);
     console.log(response, "<>>>>");
   } catch (error) {
+    if (axios.isAxiosError(error)) {
+      toast({
+        variant: "destructive",
+        title: `There was a problem saving your ${contentType}!`,
+        description: `${error.message}`,
+      })
+    }
     console.log(error);
   }
 };

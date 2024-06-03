@@ -16,6 +16,7 @@ import { ExerciseFromDB, NewExercise, WorkoutExercise } from "@/models/classes/E
 import axios from "axios"
 import { NewWorkout } from "@/models/classes/Workouts"
 import { handleChange, handleSubmit } from "@/lib/utils"
+import { toast } from "./ui/use-toast"
 
 interface IWorkoutAdminInterface {
   newExercise: NewExercise
@@ -300,15 +301,33 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
                 </Button>
               </div>
             ))}
-            <Button className="ml-6 mt-24" onClick={() => handleSubmit(
-              { ...newWorkout, exercises: selectedExercises }
-              , [], [], "workout")}>Save workout</Button>
+            {newWorkout?.title ?
+              <Button
+                className="ml-6 mt-24"
+                onClick={() => {
+                  handleSubmit(
+                    { ...newWorkout, exercises: selectedExercises }
+                    , [], [], "workout")
+                }}
+              >
+                Save workout
+              </Button>
+              :
+              <Button
+                className="ml-6 mt-24"
+                onClick={() => toast({
+                  variant: "destructive",
+                  title: "Please name your workout",
+                  description: `Workout title needed`,
+                })}> Save workout
+              </Button>
+            }
           </div>
         )}
 
 
       </div>
-    </div>
+    </div >
   )
 }
 
