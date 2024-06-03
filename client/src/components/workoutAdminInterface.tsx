@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
-import { NewExercise, WorkoutExercise } from "@/models/classes/Exercises"
+import { ExerciseFromDB, NewExercise, WorkoutExercise } from "@/models/classes/Exercises"
 import axios from "axios"
 
 interface IWorkoutAdminInterface {
@@ -29,7 +29,8 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
   const [duration, setDuration] = useState("0")
   const [showModal, setShowModal] = useState(false)
   const [selectedExercises, setSelectedExercises] = useState<WorkoutExercise[]>([])
-  const [exercisesFromDb, setExercisesFromDb] = useState<
+  const [exercisesFromDb, setExercisesFromDb] = useState<ExerciseFromDB[]>([])
+  const [workoutExercisesTransformed, setWworkoutExercisesTransformed] = useState<WorkoutExercise[]>([])
 
   const exercises: WorkoutExercise[] = [
     new WorkoutExercise("1", "Squats", "legs", "10", "3", "0"),
@@ -48,6 +49,7 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
     try {
       const res = await axios.get("http://localhost:3000/content?type=exercise");
       const exercisesFromDb = res.data
+      console.log(exercisesFromDb)
       return exercisesFromDb
     } catch (error) {
       console.log(error)
@@ -55,9 +57,9 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
   }
 
   const fetchExercisesAndTransformToWorkoutExercises = useCallback(async () => {
-    const exercisesFromDb = await getAllWorkouts()
+    const exercisesFromDb = await getAllWorkouts() 
     setExercisesFromDb(exercisesFromDb)
-  }, [])
+  }, [newExercise])
 
 
 
@@ -97,8 +99,6 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
   }, [exercisesFromDb]);
 
 
-
-
   const handleExerciseSelect = (exercise: WorkoutExercise) => {
     setSelectedExercise(exercise)
     if (exercise.type === "warmup" || exercise.type === "cooldown" || exercise.type === "cardio") {
@@ -131,7 +131,7 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
   const handleAddExercise = () => {
     if (selectedExercise) {
       const exerciseToAdd = new WorkoutExercise(
-        selectedExercise.id,
+        selectedExercise.exerciseId,
         selectedExercise.name,
         selectedExercise.type,
         reps,
@@ -143,9 +143,7 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
     }
   };
 
-  const handleAddNewExercise = () => {
-    console.log("Added new exercise")
-  }
+
   const handleRemoveExercise = (index: number) => {
     const updatedExercises = [...selectedExercises]
     updatedExercises.splice(index, 1)
@@ -184,8 +182,8 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredExercises.map((exercise) => (
             <Card
-              key={exercise.id}
-              className={`cursor-pointer ${selectedExercise?.id === exercise.id
+              key={exercise.exerciseId}
+              className={`cursor-pointer ${selectedExercise?.exerciseId === exercise.exerciseId
                 ? "border-2 border-blue-500"
                 : "border border-gray-200 dark:border-gray-800"
                 }`}
@@ -212,11 +210,11 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
               <div className="grid gap-4 py-4">
                 {selectedExercise?.type === "warmup" || selectedExercise?.type === "cooldown" || selectedExercise?.type === "cardio" ? (
                   <div className="grid items-center grid-cols-4 gap-4">
-                    <Label htmlFor={`duration-${selectedExercise?.id}`} className="text-right">
+                    <Label htmlFor={`duration-${selectedExercise?.exerciseId}`} className="text-right">
                       Duration
                     </Label>
                     <Input
-                      id={`duration-${selectedExercise?.id}`}
+                      id={`duration-${selectedExercise?.exerciseId}`}
                       type="number"
                       min="0"
                       max="60"
@@ -229,11 +227,11 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
                 ) : (
                   <>
                     <div className="grid items-center grid-cols-4 gap-4">
-                      <Label htmlFor={`reps-${selectedExercise?.id}`} className="text-right">
+                      <Label htmlFor={`reps-${selectedExercise?.exerciseId}`} className="text-right">
                         Reps
                       </Label>
                       <Input
-                        id={`reps-${selectedExercise?.id}`}
+                        id={`reps-${selectedExercise?.exerciseId}`}
                         type="number"
                         min="0"
                         max="20"
@@ -243,11 +241,11 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
                       />
                     </div>
                     <div className="grid items-center grid-cols-4 gap-4">
-                      <Label htmlFor={`sets-${selectedExercise?.id}`} className="text-right">
+                      <Label htmlFor={`sets-${selectedExercise?.exerciseId}`} className="text-right">
                         Sets
                       </Label>
                       <Input
-                        id={`sets-${selectedExercise?.id}`}
+                        id={`sets-${selectedExercise?.exerciseId}`}
                         type="number"
                         min="0"
                         max="4"
