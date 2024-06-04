@@ -123,7 +123,14 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
   }
 
   const handleAddExercise = () => {
-    if (selectedExercise) {
+    if((selectedExercise?.type === "warmup" || selectedExercise?.type === "cooldown" || selectedExercise?.type === "cardio") && duration === "0") {
+      toast({
+        title: "please select a valid duration",
+        variant: "destructive"
+      })
+    }
+
+    else if (selectedExercise) {
       const exerciseToAdd = new WorkoutExercise(
         selectedExercise.exerciseId,
         selectedExercise.name,
