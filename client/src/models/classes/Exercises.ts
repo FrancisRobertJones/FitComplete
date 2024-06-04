@@ -14,6 +14,7 @@ export class WorkoutExercise{
         public type: string,
         public reps: string,
         public sets: string,
+        public instructions: string[],
         public duration?: string | null,
     ) {}
 }
