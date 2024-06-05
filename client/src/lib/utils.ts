@@ -49,6 +49,7 @@ export const handleSubmit = async (
   if (contentType === "workout") {
     contentData = {
       ...state,
+      instructions: instructions,
       category: contentType
     }
   }

@@ -22,6 +22,8 @@ class ContentRepository {
         return Exercise.find();
       case "recipes":
         return Recipe.find();
+      case "workouts":
+        return Workout.find()
       default:
         throw new Error("Unknown type");
     }

@@ -14,9 +14,12 @@ const WorkoutExerciseSchema = new Schema<IWorkoutExercise>({
     exerciseId: { type: String, required: true },
     name: { type: String, required: true },
     type: { type: String, required: true },
+    description: { type: String, required: true },
     reps: { type: String, required: false },
     sets: { type: String, required: false },
     duration: { type: String, required: false },
+    videoURL: { type: String, required: true },
+    instructions: { type: [String], required: true }
 });
 
 const WorkoutSchema = new Schema<IWorkout>({

@@ -11,9 +11,12 @@ export class WorkoutExercise{
     constructor(
         public exerciseId: string | undefined,
         public name: string,
+        public description: string,
+        public videoURL: string,
         public type: string,
         public reps: string,
         public sets: string,
+        public instructions: string[],
         public duration?: string | null,
     ) {}
 }

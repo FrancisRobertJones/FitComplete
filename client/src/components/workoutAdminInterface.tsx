@@ -35,9 +35,9 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
   const [newWorkout, setNewWorkout] = useState<NewWorkout>()
   const [titleToggle, setTitleToggle] = useState(false)
 
-  const getAllWorkouts = async () => {
+  const getAllExercises = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/content?type=exercise");
+      const res = await axios.get<ExerciseFromDB[]>("http://localhost:3000/content?type=exercise");
       const exercisesFromDb = res.data
       console.log(exercisesFromDb)
       return exercisesFromDb
@@ -46,9 +46,11 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
     }
   }
 
+
+
   const fetchExercisesAndTransformToWorkoutExercises = useCallback(async () => {
-    const exercisesFromDb = await getAllWorkouts()
-    setExercisesFromDb(exercisesFromDb)
+    const exercisesFromDb = await getAllExercises()
+    if(exercisesFromDb) setExercisesFromDb(exercisesFromDb)
   }, [newExercise])
 
 
@@ -75,9 +77,12 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
     return new WorkoutExercise(
       exercise._id,
       exercise.name,
+      exercise.description,
+      exercise.videoUrl,
       exercise.type,
       repsForWorkout,
       setsForWorkout,
+      exercise.instructions,
       duration
     );
   }
@@ -134,15 +139,21 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
       const exerciseToAdd = new WorkoutExercise(
         selectedExercise.exerciseId,
         selectedExercise.name,
+        selectedExercise.description,
+        selectedExercise.videoURL,
         selectedExercise.type,
         reps,
         sets,
+        selectedExercise.instructions,
         duration,
       );
+      console.log(exerciseToAdd, "here is the exercise im adding to state<<<<<")
       setSelectedExercises([...selectedExercises, exerciseToAdd]);
       setShowModal(false);
     }
   };
+
+  useEffect(() => {console.log("selected exercise state>>>", selectedExercises)},[selectedExercises])
 
 
   const handleRemoveExercise = (index: number) => {
@@ -152,7 +163,7 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
   }
 
   useEffect(() => {
-    console.log(newWorkout)
+    console.log(newWorkout, "<<<< new workout")
   }, [newWorkout])
 
   return (
