@@ -26,8 +26,9 @@ export interface IRecipe {
   id: string;
   title: string;
   image: string;
-  ingredients: IIngredient[];
-  instruction: string;
+  description: string;
+  ingredients: string[];
+  instructions: string[];
   status: string;
   level: number;
 }
