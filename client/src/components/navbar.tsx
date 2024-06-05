@@ -25,8 +25,8 @@ export function Navbar() {
 
   return (
     <>
-      <NavigationMenu className="h-[60px] flex">
-        <NavigationMenuList>
+      <NavigationMenu className="h-[60px] flex w-full items-center justify-between px-4">
+        <NavigationMenuList className="flex">
           <NavigationMenuItem>
             <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -59,29 +59,28 @@ export function Navbar() {
             </NavigationMenuContent>
           </NavigationMenuItem>
           {authedUser.loggedIn && <Button onClick={() => logOut()}>Logout</Button>}
-
-
         </NavigationMenuList>
-        <div className="ml-auto">
-              <Link to={"/subscriptions/basic"}><Button>Workouts</Button></Link>
-              {authedUser.level && authedUser.level  >= 2 ? (
-                        <Link to="/subscriptions/medium">
-                            <Button>Tutorials</Button>
-                        </Link>
-                    ) : (
-                        <Button disabled>Tutorials</Button>
-                    )}
-                    {authedUser.level && authedUser.level >= 3 ? (
-                        <Link to="/subscriptions/premium">
-                            <Button>Recipies</Button>
-                        </Link>
-                    ) : (
-                        <Button disabled>Recipies</Button>
-                    )}
-                    <Link to="/contentadmin">
-                            <Button>Admin</Button>
-                        </Link>
-          </div>
+
+        <div className="flex space-x-2">
+          <Link to={"/subscriptions/basic"}><Button>Workouts</Button></Link>
+          {authedUser.level && authedUser.level >= 2 ? (
+            <Link to="/subscriptions/medium">
+              <Button>Tutorials</Button>
+            </Link>
+          ) : (
+            <Button disabled>Tutorials</Button>
+          )}
+          {authedUser.level && authedUser.level >= 3 ? (
+            <Link to="/subscriptions/premium">
+              <Button>Recipies</Button>
+            </Link>
+          ) : (
+            <Button disabled>Recipies</Button>
+          )}
+          <Link to="/contentadmin">
+            <Button>Admin</Button>
+          </Link>
+        </div>
       </NavigationMenu>
     </>
   )

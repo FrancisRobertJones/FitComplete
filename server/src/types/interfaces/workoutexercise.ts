@@ -5,4 +5,7 @@ export interface IWorkoutExercise {
     reps: string,
     sets: string,
     duration?: string | null,
+    description: string,
+    videoURL: string,
+    instructions: string[]
 }

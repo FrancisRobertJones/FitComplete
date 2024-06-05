@@ -1,11 +1,12 @@
+import { WorkoutExercise } from "../classes/Exercises";
+
 export interface IWorkout {
-  id: string;
+  _id: string;
   title: string;
-  description: string;
-  imageUrl: string;
-  status: string;
-  level: number;
+  exercises: WorkoutExercise[]; //TODO fix description
+
 }
+
 
 export interface IVideo {
   id: string;
