@@ -10,6 +10,7 @@ import { IUser } from "./models/user";
 import contentRoutes from "./routes/contentRoutes";
 import ordersRoutes from "./routes/orderRoutes"
 import cors from 'cors'
+import subscriptionRoutes from "./routes/subscriptionRoutes";
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ app.use('/users', userRoutes)
 app.use('/', sessionRoutes)
 app.use('/content', contentRoutes)
 app.use('/orders', ordersRoutes)
+app.use('/subscriptions', subscriptionRoutes)
 
 
 declare module "express-session" {
