@@ -15,10 +15,10 @@ interface IPlayCardProps {
   level: string;
 }
 
+
 export default function PlanCard({ level }: IPlayCardProps) {
   const [subscription, setSubscription] = useState<ISubscription>();
 
-  console.log(level);
 
   useEffect(() => {
     const fetchSubscriptionFromParams = async () => {
@@ -26,7 +26,7 @@ export default function PlanCard({ level }: IPlayCardProps) {
         const res = await axios.get<ISubscription>(
           `http://localhost:3000/subscriptions/${level}`
         );
-        console.log(res);
+        console.log("this is res>>>", res);
         const subscription = res.data;
         setSubscription(subscription);
       } catch (error) {
@@ -36,10 +36,19 @@ export default function PlanCard({ level }: IPlayCardProps) {
     fetchSubscriptionFromParams();
   }, []);
 
+
+  let nameLowercase = subscription?.subscription.name
+  let capitlisedName = ""
+  if (nameLowercase) {
+    let firstLetter = nameLowercase?.slice(0, 1);
+    let firstLetterCapitilised = firstLetter.toUpperCase();
+    capitlisedName = firstLetterCapitilised + nameLowercase.slice(1)
+  }
+
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle>{subscription?.subscription.level} Subscription</CardTitle>
+        <CardTitle>{capitlisedName} Subscription</CardTitle>
         <CardDescription>
           Unlock exclusive features and benefits
         </CardDescription>

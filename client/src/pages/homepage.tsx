@@ -23,9 +23,9 @@ const Homepage = () => {
         </div>
 
         <div className='flex justify-between items-center w-full gap-4 pl-16'>
-          <Homepagecard title={"Lite"} description={"Ideal for getting started"} linkUrl={'/payment/Lite'} />
-          <Homepagecard title={"Basic"} description={"For people looking for more"} linkUrl={'/payment/Basic'} />
-          <Homepagecard title={"Premium"} description={"The full package"} linkUrl={'/payment/Premium'} />
+          <Homepagecard title={"Lite"} description={"Ideal for getting started"} linkUrl={'/payment/lite'} />
+          <Homepagecard title={"Basic"} description={"For people looking for more"} linkUrl={'/payment/basic'} />
+          <Homepagecard title={"Premium"} description={"The full package"} linkUrl={'/payment/premium'} />
         </div>
 
         <h1>hello</h1>

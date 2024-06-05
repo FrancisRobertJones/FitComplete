@@ -2,9 +2,9 @@ import orderRepository from "../repositories/orderRepository";
 import subscriptionRepository from "../repositories/subscriptionRepository";
 
 class SubscriptionService {
-    async getOne(level: string) {
+    async getOne(name: string) {
         try {
-            const subscription = await subscriptionRepository.getOne(level);
+            const subscription = await subscriptionRepository.getOne(name);
             console.log("subscription retrieved:", subscription);
 
             return subscription;

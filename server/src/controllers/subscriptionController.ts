@@ -8,7 +8,8 @@ class SubscriptionController {
     response: Response,
     next: NextFunction
   ) {
-    const { name } = request.params;
+    const name = request.params.name;
+    
     try {
       const subscription = await SubscriptionService.getOne(name);
       if (subscription) {

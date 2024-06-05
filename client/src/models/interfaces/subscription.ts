@@ -1,7 +1,7 @@
 export interface ISubscription {
   subscription: {
     id: string;
-    level: string;
+    name: string;
     price: number;
   };
 }
