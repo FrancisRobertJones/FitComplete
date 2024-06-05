@@ -3,10 +3,12 @@ import {
   } from "react-router-dom";
 import Layout from "./Layout";
 import Homepage from "./pages/homepage";
-import Basic from "./pages/levels/basic";
-import Medium from "./pages/levels/medium";
 import Premium from "./pages/levels/premium";
 import ContentAdminPage from "./pages/contentAdmin";
+import { Payment } from "./pages/payment";
+import { PaymentSuccessful } from "./pages/payment-successful";
+import Lite from "./pages/levels/lite";
+import Basic from "./pages/levels/lite";
 
   export const router = createBrowserRouter([
     {
@@ -19,12 +21,12 @@ import ContentAdminPage from "./pages/contentAdmin";
           index: true,
         },
         {
-          path: "/subscriptions/basic",
-          element: <Basic />
+          path: "/subscriptions/lite",
+          element: <Lite />
         },
         {
-            path: "/subscriptions/medium",
-            element: <Medium />
+            path: "/subscriptions/basic",
+            element: <Basic />
 
         },
         {
@@ -40,6 +42,14 @@ import ContentAdminPage from "./pages/contentAdmin";
         {
           path: "/contentadmin",
           element: <ContentAdminPage />
+        },
+        {
+          path: "/payment/:level",
+          element: <Payment />
+        },
+        {
+          path: "/payment-successful",
+          element: <PaymentSuccessful />
         }
       ]
     },
