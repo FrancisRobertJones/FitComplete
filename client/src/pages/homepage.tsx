@@ -27,11 +27,12 @@ const Homepage = () => {
           <Homepagecard title={"Basic"} description={"For people looking for more"} linkUrl={'/payment/basic'} />
           <Homepagecard title={"Premium"} description={"The full package"} linkUrl={'/payment/premium'} />
         </div>
-
-        <h1>hello</h1>
       </div>
     </>
   )
+
+  
 }
 
 export default Homepage
+

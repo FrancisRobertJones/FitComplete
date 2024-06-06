@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/select"
 import { Separator } from "@radix-ui/react-separator"
 import { Link } from "react-router-dom"
+import { CheckIcon } from "./svg/checkicon"
+import { XIcon } from "./svg/xicon"
 
 interface IHomepageCardProps {
   title: string,
@@ -29,11 +31,11 @@ export function Homepagecard({ title, description, linkUrl }: IHomepageCardProps
   const FEATURES = ["Workouts", "Videos", "Nutrition"]
 
   const FEATURE_ARRAY: { [key: string]: { noLine: string[], line: string[] } } = {
-    "Basic": {
+    "Lite": {
       noLine: [FEATURES[0]],
       line: [FEATURES[1], FEATURES[2]]
     },
-    "Medium": {
+    "Basic": {
       noLine: [FEATURES[0], FEATURES[1]],
       line: [FEATURES[2]]
     },
@@ -67,16 +69,21 @@ export function Homepagecard({ title, description, linkUrl }: IHomepageCardProps
               <ul>
                 {FEATURES_NOLINE.map((feature) => {
                   return (
-                    <li key={feature} className="list-disc ml-6">{feature}</li>
+                    <div className="flex">
+                      <CheckIcon className="h-5 w-5" />
+                      <li key={feature} className="ml-6">{feature}</li>
+                    </div>
                   )
                 })}
                 {FEATURES_LINE && FEATURES_LINE.map((feature) => {
                   return (
-                    <li key={feature} className="list-disc ml-6 line-through">{feature}</li>
+                    <div className="flex">
+                      <XIcon className="h-5 w-5" />
+                      <li key={feature} className="ml-6 line-through">{feature}</li>
+                    </div>
                   )
                 })}
               </ul>
-              <h4>Name of subscription level</h4>
             </div>
 
           </div>

@@ -13,7 +13,6 @@ export const Payment = () => {
   const { level } = useParams();
 
   useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
     fetch("http://localhost:3000/subscriptions/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
