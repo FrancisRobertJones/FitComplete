@@ -14,7 +14,7 @@ export const Payment = () => {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch("/create-payment-intent", {
+    fetch("http://localhost:3000/subscriptions/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items: [{ name: level }] }),
@@ -27,22 +27,22 @@ export const Payment = () => {
     theme: 'stripe',
   };
 
-  
+
   const options: StripeElementsOptions = {
     clientSecret,
     appearance,
   };
 
-  useEffect(() => {console.log(clientSecret)}, [clientSecret])
+  useEffect(() => { console.log(clientSecret) }, [clientSecret])
 
   return (
-    <div className="flex gap-10 px-20 justify-center">
-      {level && <PlanCard level={level} />}
-       {clientSecret && level && (
-        <Elements options={options} stripe={stripePromise}>
-          <PaymentCard level={level} />
-        </Elements>
-      )} 
-    </div>
+      <div className="flex gap-10 px-20 justify-center pt-24">
+        {level && <PlanCard level={level} />}
+        {clientSecret && level && (
+          <Elements options={options} stripe={stripePromise}>
+            <PaymentCard level={level} />
+          </Elements>
+        )}
+      </div>
   );
 };

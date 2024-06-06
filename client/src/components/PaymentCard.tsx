@@ -78,7 +78,7 @@ export const PaymentCard = ({ level }: IPaymentCard) => {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
+        return_url: "http://localhost:5173/payment-successful",
       },
     });
 
@@ -89,31 +89,41 @@ export const PaymentCard = ({ level }: IPaymentCard) => {
     // redirected to the `return_url`.
 
 
-      if (error.type === "card_error" || error.type === "validation_error") {
-        setMessage(error.message as string);
-      } else {
-        setMessage("An unexpected error occurred.");
-      }
+    if (error.type === "card_error" || error.type === "validation_error") {
+      setMessage(error.message as string);
+    } else {
+      setMessage("An unexpected error occurred.");
+    }
 
-      setIsLoading(false);
-    };
-  
+    setIsLoading(false);
+  };
+
   const paymentElementOptions: StripePaymentElementOptions = {
     layout: "tabs"
   }
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle>Secure Payment</CardTitle>
+        <CardDescription>
+          Enter your payment details to complete your purchase.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <form id="payment-form" onSubmit={handleSubmit}>
 
-      <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
-        <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-        </span>
-      </button>
-      {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
-    </form>
+          <PaymentElement id="payment-element" options={paymentElementOptions} />
+          <Button className="mt-8" disabled={isLoading || !stripe || !elements} id="submit">
+            <span id="button-text">
+              {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+            </span>
+          </Button>
+          {/* Show any error or success messages */}
+          {message && <div id="payment-message">{message}</div>}
+        </form>
+      </CardContent>
+    </Card>
   );
 };
 
