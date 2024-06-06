@@ -4,12 +4,9 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
-  CardFooter,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { StripePaymentElementOptions, loadStripe } from "@stripe/stripe-js";
+import { StripePaymentElementOptions } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import {
   PaymentElement,

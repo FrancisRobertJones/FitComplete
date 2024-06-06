@@ -4,9 +4,7 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
-  CardFooter,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { ISubscription } from "@/models/interfaces/subscription";
@@ -16,7 +14,6 @@ import { XIcon } from "./svg/xicon";
 interface IPlayCardProps {
   level: string;
 }
-
 
 export default function PlanCard({ level }: IPlayCardProps) {
   const [subscription, setSubscription] = useState<ISubscription>();

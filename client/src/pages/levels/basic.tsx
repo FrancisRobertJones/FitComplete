@@ -1,6 +1,6 @@
-import { IVideo, IWorkout } from "@/models/interfaces/content";
+import { IVideo } from "@/models/interfaces/content";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const Basic = () => {
   const [contents, setContents] = useState<IVideo[]>([]);
@@ -34,7 +34,6 @@ const Basic = () => {
           </a>
         ))}
       </div>
-      {/* <ButtonSecondary text={"Subscribe"} url={""} height={"Medium"} /> */}
     </div>
   );
 };

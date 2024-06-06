@@ -4,6 +4,7 @@
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 
+import { CheckIconCurrent } from "@/components/svg/checkicon";
 import { Link } from "react-router-dom";
 
 export const PaymentSuccessful = () => {
@@ -13,7 +14,7 @@ export const PaymentSuccessful = () => {
       <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
         <div className="flex flex-col items-center justify-center space-y-6">
           <div className="bg-green-500 rounded-full p-4">
-            <CheckIcon className="h-8 w-8 text-white" />
+            <CheckIconCurrent className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
             Payment Successful
@@ -57,33 +58,10 @@ export const PaymentSuccessful = () => {
           >
             Go to Homepage
           </Link>
-          {/* <Link
-            to={"#"}
-            className="ml-4 inline-flex items-center justify-center rounded-md border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-950 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-50 dark:hover:bg-gray-800 dark:focus:ring-gray-300"
-          >
-            View Order History
-          </Link> */}
         </div>
       </div>
     </div>
   );
 };
 
-function CheckIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M20 6 9 17l-5-5" />
-    </svg>
-  );
-}
+

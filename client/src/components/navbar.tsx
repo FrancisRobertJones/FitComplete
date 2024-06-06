@@ -1,5 +1,4 @@
 import * as React from "react"
-
 import { cn } from "@/lib/utils"
 import {
   NavigationMenu,
@@ -8,20 +7,13 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { ButtonHeight, ButtonSecondary } from "./buttonSecondary"
 import { AuthContext } from "@/context/authContext"
 import { Button } from "./ui/button"
-import { toast } from "./ui/use-toast"
-import { LogOut } from "lucide-react"
 import { Link } from "react-router-dom"
-
-
 
 export function Navbar() {
   const { checkAuth, logOut, authedUser } = React.useContext(AuthContext)
-
 
   return (
     <>
