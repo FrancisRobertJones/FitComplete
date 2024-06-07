@@ -13,10 +13,15 @@ const Homepage = () => {
       <div className=''>
         <div className='flex justify-content mb-28'>
           <div className='flex flex-col mr-28'>
-            <h1 className='text-8xl mb-12'>THIS IS HOME</h1>
-            <h4 className='text-6xl mb-12'>Lorem ipsum</h4>
-            <p className='text-xl mb-12'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
+            <h1 className='text-8xl mb-12'>FitComplete</h1>
+            <h4 className='text-6xl mb-12 leading-relaxed'>Unlock Your Best Self with FitComplete</h4>
+            <p className='text-xl mb-12'>At FitComplete, we believe that fitness and wellness should be accessible to everyone. Our app provides a comprehensive platform where you can view, track, and complete workouts, all designed to help you achieve your fitness goals. Whether you’re a beginner or a seasoned athlete, FitComplete offers tailored solutions to fit your needs.</p>
+            <p><strong>Why Choose FitComplete?</strong></p>
+            <ul className='leading-relaxed'>
+              <li>🥉 Free Workouts: Browse and view a wide variety of workouts for free.</li>
+              <li>🥈 Video Access: Upgrade to unlock detailed video tutorials for every workout.</li>
+              <li>🥇 Premium Recipes: Elevate your nutrition with exclusive, delicious, and healthy recipes.</li>
+            </ul>
           </div>
           {authedUser.loggedIn ? <HomepageDashboard /> : <AuthComponent />}
 
@@ -31,7 +36,7 @@ const Homepage = () => {
     </>
   )
 
-  
+
 }
 
 export default Homepage
