@@ -11,6 +11,7 @@ import { Navbar } from './components/navbar'
 import { ILevelCheckRes } from './models/interfaces/level'
 import { User } from './models/classes/User'
 import { AuthResponse } from './models/interfaces/auth'
+import Navbar2 from './components/navbar2'
 
 const Layout = () => {
     const [authedUser, dispatchAuth] = useReducer(AuthReducer, new AuthState(false, null))
@@ -77,7 +78,7 @@ const Layout = () => {
     return (
         <>
             <AuthContext.Provider value={{ dispatchAuth, logOut, authedUser, checkAuth }}>
-                <Navbar />
+                <Navbar2 />
                 <main className='max-w-screen-xl w-full py-12 my-0 mx-auto'>
                     <Outlet />
                 </main>
