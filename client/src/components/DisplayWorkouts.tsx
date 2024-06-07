@@ -71,7 +71,7 @@ export default function DisplayWorkouts({ workouts }: IDisplayWorkoutsProps) {
                                         variant="ghost"
                                         size="icon"
                                         onClick={() => handleLike(workout.title)}
-                                        className={`w-auto h-auto flex items-center ${likedWorkouts.includes("burpees")
+                                        className={`w-auto h-auto flex items-center ${likedWorkouts.includes(workout.title)
                                             ? "text-red-500 dark:text-red-500"
                                             : "text-gray-500 dark:text-gray-400"
                                             }`}
@@ -81,11 +81,11 @@ export default function DisplayWorkouts({ workouts }: IDisplayWorkoutsProps) {
                                     </Button>
                                     <Button
                                         variant="outline"
-                                        className={`${completedWorkouts.includes("burpees")
+                                        className={`${completedWorkouts.includes(workout.title)
                                             ? "bg-green-500 text-white"
                                             : "bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400"
                                             }`}
-                                        onClick={() => handleComplete("burpees")}
+                                        onClick={() => handleComplete(workout.title)}
                                     >
                                         <CheckIconCurrent className="h-4 w-4 mr-2" />
                                         Completed
