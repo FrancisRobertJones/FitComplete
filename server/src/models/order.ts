@@ -1,7 +1,9 @@
 import { Schema, model, Document } from "mongoose";
 
 interface IOrder extends Document {
-  customerId: string;
+  paymentMethod: string;
+  stripeCustomerId: string;
+  email: string;
   level: number;
   orderDate: Date;
   activeUntil: Date;
@@ -10,7 +12,9 @@ interface IOrder extends Document {
 }
 
 const OrderSchema = new Schema<IOrder>({
-  customerId: { type: String, required: true },
+  paymentMethod: { type: String, required: true },
+  stripeCustomerId: { type: String, required: true },
+  email: { type: String, required: true },
   level: { type: Number, required: true },
   orderDate: { type: Date, required: true },
   activeUntil: { type: Date, required: true },

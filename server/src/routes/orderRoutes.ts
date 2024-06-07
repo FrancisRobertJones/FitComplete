@@ -1,8 +1,10 @@
-import express from "express";
+import express, { request } from "express";
 import OrderController from "../controllers/orderController";
+import orderController from "../controllers/orderController";
 
 const router = express.Router();
 
+router.post("/payment-successful", orderController.createOrder);
 
 router.post('/getOne', (request, response) => {
     OrderController.getOneOrder(request, response, () => {

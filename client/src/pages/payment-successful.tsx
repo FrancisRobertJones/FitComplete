@@ -1,28 +1,35 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/0ch0Rck7KC3
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
-
 import { CheckIconCurrent } from "@/components/svg/checkicon";
+import { AuthContext } from "@/context/authContext";
 import axios from "axios";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export const PaymentSuccessful = () => {
+  const { authedUser } = useContext(AuthContext);
+
   useEffect(() => {
-    const fetchData = async () => {
+    const paymentSuccess = async () => {
       const searchParams = new URLSearchParams(location.search);
       const paymentIntentId = searchParams.get("payment_intent");
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/orders/payment-successful",
+          {
+            payment_intent: paymentIntentId,
+            userData: {
+              level: authedUser.level,
+              userEmail: authedUser.User?.email,
+            },
+          }
+        );
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
 
-      const response = await axios.post(
-        "http://localhost:3000/stripe/payment-successful",
-        { payment_intent: paymentIntentId }
-      );
-      console.log(response);
+      if (authedUser) paymentSuccess();
     };
-    fetchData();
-  }, []);
+  }, [authedUser]);
 
   // TODO: Modify amount & payment method
   return (

@@ -1,17 +1,23 @@
 import { Request, Response } from "express";
 import stripe from "../utils/stripeInit";
+import { IOrderDataFromFrontEnd, NewOrder } from "../types/interfaces/orders";
+import orderRepository from "../repositories/orderRepository";
+import { PaymentIntentData } from "../types/paymentIntent";
 
 class StripeController {
   async createPaymentIntent(request: Request, response: Response) {
-    const { items } = request.body;
-    const calculateOrderAmount = (items: string) => {
-      return 5000;
-    };
+    const { userData } = request.body;
+
+    const orderDate = new Date();
+    // const calculateOrderAmount = (items: string) => {
+    //   return 5000;
+    // };
 
     try {
       // Create a PaymentIntent with the order amount and currency
-      const firstPaymentIntent = await stripe.paymentIntents.create({
-        amount: calculateOrderAmount(items),
+      const paymentIntent = await stripe.paymentIntents.create({
+        // Get from DB
+        amount: 5000,
         currency: "usd",
         // payment_method_types: ["card"],
         automatic_payment_methods: {
@@ -20,8 +26,23 @@ class StripeController {
         setup_future_usage: "off_session",
       });
 
+    //   const newOrderData = new NewOrder(
+    //     userData.userEmail,
+    //     userData.level,
+    //     orderDate,
+    //     paymentIntent
+    //   );
+
+      const paymentIntentData = new PaymentIntentData(
+        userData.userEmail,
+        orderDate,
+        paymentIntent
+      );
+
+      const intent = await orderRepository.createPaymentIntent(paymentIntentData);
+
       response.send({
-        clientSecret: firstPaymentIntent.client_secret,
+        clientSecret: paymentIntent.client_secret,
       });
     } catch (error) {
       if (error instanceof Error) {
@@ -37,12 +58,10 @@ class StripeController {
   async createCustomer(request: Request, response: Response) {
     try {
       const paymentIntentId = request.body.payment_intent as string;
-      console.log("payment intent id<<<<<<<<<<<<<<<<", paymentIntentId);
 
       const paymentIntent = await stripe.paymentIntents.retrieve(
         paymentIntentId
       );
-      console.log(paymentIntent);
 
       const paymentMethodId = paymentIntent["payment_method"] as string;
 

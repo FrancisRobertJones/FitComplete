@@ -12,5 +12,9 @@ class OrderService {
             throw new Error("Error fetching order");
         }
     }
+
+    async createOne() {
+        
+    }
 } 
 export default new OrderService();
