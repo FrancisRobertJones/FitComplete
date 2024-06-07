@@ -11,6 +11,7 @@ import contentRoutes from "./routes/contentRoutes";
 import ordersRoutes from "./routes/orderRoutes"
 import cors from 'cors'
 import subscriptionRoutes from "./routes/subscriptionRoutes";
+import stripeRoutes from "./routes/stripeRoutes";
 
 dotenv.config();
 
@@ -45,7 +46,7 @@ app.use('/', sessionRoutes)
 app.use('/content', contentRoutes)
 app.use('/orders', ordersRoutes)
 app.use('/subscriptions', subscriptionRoutes)
-
+app.use('/stripe', stripeRoutes)
 
 declare module "express-session" {
     interface SessionData {

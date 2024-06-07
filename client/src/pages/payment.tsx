@@ -5,7 +5,10 @@ import { useParams } from "react-router-dom";
 import { StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
-const stripePromise = loadStripe("pk_test_51P1TQwRpeYHWrPIgsbNvxpB3TIi5D8nfaNLvsqHHQXdUXEKhJg69uGNUVGDJ0nqdN3wootBAe4O80PS9qoVw4Vrw00t4VeEE9g");
+// const stripePromise = loadStripe("pk_test_51P1TQwRpeYHWrPIgsbNvxpB3TIi5D8nfaNLvsqHHQXdUXEKhJg69uGNUVGDJ0nqdN3wootBAe4O80PS9qoVw4Vrw00t4VeEE9g");
+const stripePromise = loadStripe(
+  "pk_test_51P11ke17MeC2urWPdWrIXo7Coa1UFEgdYlLMzQxK6YDJ8wvQIMJI3q10IkIv4ZRrbp2m8tdD8Hl5pgI6iZa5C5fG00GXNOc3W3"
+);
 
 
 export const Payment = () => {
@@ -13,7 +16,7 @@ export const Payment = () => {
   const { level } = useParams();
 
   useEffect(() => {
-    fetch("http://localhost:3000/subscriptions/create-payment-intent", {
+    fetch("http://localhost:3000/stripe/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items: [{ name: level }] }),

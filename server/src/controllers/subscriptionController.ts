@@ -9,7 +9,7 @@ class SubscriptionController {
     next: NextFunction
   ) {
     const name = request.params.name;
-    
+
     try {
       const subscription = await SubscriptionService.getOne(name);
       if (subscription) {

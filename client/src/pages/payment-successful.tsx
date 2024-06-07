@@ -5,10 +5,26 @@
  */
 
 import { CheckIconCurrent } from "@/components/svg/checkicon";
+import axios from "axios";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export const PaymentSuccessful = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      const searchParams = new URLSearchParams(location.search);
+      const paymentIntentId = searchParams.get("payment_intent");
 
+      const response = await axios.post(
+        "http://localhost:3000/stripe/payment-successful",
+        { payment_intent: paymentIntentId }
+      );
+      console.log(response);
+    };
+    fetchData();
+  }, []);
+
+  // TODO: Modify amount & payment method
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-4">
       <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
@@ -63,5 +79,3 @@ export const PaymentSuccessful = () => {
     </div>
   );
 };
-
-

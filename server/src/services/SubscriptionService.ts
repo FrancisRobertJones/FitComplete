@@ -13,5 +13,6 @@ class SubscriptionService {
             throw new Error("Error fetching subscription");
         }
     }
+
 } 
 export default new SubscriptionService();
