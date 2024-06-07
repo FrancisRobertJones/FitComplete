@@ -23,7 +23,7 @@ const Homepage = () => {
         </div>
 
         <div className='flex justify-between items-center w-full gap-4 pl-16'>
-          <Homepagecard title={"Lite"} description={"Ideal for getting started"} linkUrl={'/payment/lite'} />
+          <Homepagecard title={"Lite (FREE)"} description={"Ideal for getting started"} linkUrl={'/payment/lite'} />
           <Homepagecard title={"Basic"} description={"For people looking for more"} linkUrl={'/payment/basic'} />
           <Homepagecard title={"Premium"} description={"The full package"} linkUrl={'/payment/premium'} />
         </div>
