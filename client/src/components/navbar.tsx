@@ -54,9 +54,9 @@ export function Navbar() {
         </NavigationMenuList>
 
         <div className="flex space-x-2">
-          <Link to={"/subscriptions/basic"}><Button>Workouts</Button></Link>
+          <Link to={"/subscriptions/lite"}><Button>Workouts</Button></Link>
           {authedUser.level && authedUser.level >= 2 ? (
-            <Link to="/subscriptions/medium">
+            <Link to="/subscriptions/basic">
               <Button>Tutorials</Button>
             </Link>
           ) : (

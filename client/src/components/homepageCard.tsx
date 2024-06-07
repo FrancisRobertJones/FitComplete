@@ -23,7 +23,7 @@ export function Homepagecard({ title, description, linkUrl }: IHomepageCardProps
   const FEATURES = ["Workouts", "Videos", "Nutrition"]
 
   const FEATURE_ARRAY: { [key: string]: { noLine: string[], line: string[] } } = {
-    "Lite": {
+    "Lite (FREE)": {
       noLine: [FEATURES[0]],
       line: [FEATURES[1], FEATURES[2]]
     },

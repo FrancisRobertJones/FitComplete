@@ -9,6 +9,10 @@ import { Payment } from "./pages/payment";
 import { PaymentSuccessful } from "./pages/payment-successful";
 import Lite from "./pages/levels/lite";
 import Basic from "./pages/levels/lite";
+import { AuthContext } from "./context/authContext";
+import { useContext } from "react";
+import UnAuthorised from "./pages/unAuthorised";
+import ProtectedRoute from "./components/routes/protectedRoute";
 
   export const router = createBrowserRouter([
     {
@@ -22,16 +26,15 @@ import Basic from "./pages/levels/lite";
         },
         {
           path: "/subscriptions/lite",
-          element: <Lite />
+          element: <ProtectedRoute Component={Lite} minLevel={1}/>
         },
         {
             path: "/subscriptions/basic",
-            element: <Basic />
-
+            element: <ProtectedRoute Component={Basic} minLevel={2}/>
         },
         {
             path: "/subscriptions/premium",
-            element: <Premium /> 
+            element: <ProtectedRoute Component={Premium} minLevel={3}/>
         },
         {
           path: "/orders",
@@ -50,6 +53,10 @@ import Basic from "./pages/levels/lite";
         {
           path: "/payment-successful",
           element: <PaymentSuccessful />
+        },
+        {
+          path: "/unauthorised",
+          element: <UnAuthorised />
         }
       ]
     },
