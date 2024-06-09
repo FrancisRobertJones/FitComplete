@@ -41,22 +41,24 @@ class OrderController {
 
   async createOrder(request: Request, response: Response) {
     console.log("req.body<<<<<<<<<<<<<", request.body);
-    
-    const {userData} = request.body;
-    const paymentIntentId = request.body.payment_intent as string;
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
-    const orderDate = new Date();
+    const { userData, payment_intent: paymentIntentId } = request.body;
+    try {
+      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
-    const newOrderData = new NewOrder(
-      userData.userEmail,
-      userData.level,
-      orderDate,
-      paymentIntent
-    );
+      const orderDate = new Date();
 
-    console.log("neworderdata<<<<<<<<<<<<<<", newOrderData);
-    
+      const newOrderData = new NewOrder(
+        userData.userEmail,
+        userData.level,
+        orderDate,
+        paymentIntent
+      );
+      console.log("neworderdata<<<<<<<<<<<<<<", newOrderData);
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 

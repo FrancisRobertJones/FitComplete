@@ -6,6 +6,7 @@ import { PaymentIntentData } from "../types/paymentIntent";
 
 class StripeController {
   async createPaymentIntent(request: Request, response: Response) {
+    console.log("create paymentintent hit once")
     const { userData } = request.body;
 
     const orderDate = new Date();
@@ -39,7 +40,7 @@ class StripeController {
         paymentIntent
       );
 
-      const intent = await orderRepository.createPaymentIntent(paymentIntentData);
+      await orderRepository.createPaymentIntent(paymentIntentData);
 
       response.send({
         clientSecret: paymentIntent.client_secret,
