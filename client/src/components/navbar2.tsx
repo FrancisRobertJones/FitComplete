@@ -76,7 +76,7 @@ export default function Navbar2() {
                         <LogOutIcon className="h-6 w-6" />
                         <span className="sr-only">Logout</span>
                     </Button> :
-                        <Button>Login</Button>
+                        <Link to={"/login"}><Button>Login</Button></Link>
                     }
                 </div>
             </header>
