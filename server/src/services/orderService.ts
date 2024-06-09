@@ -1,9 +1,9 @@
 import orderRepository from "../repositories/orderRepository";
 
 class OrderService {
-    async getOne(customerId: string) {
+    async getOne(email: string) {
         try {
-            const order = await orderRepository.getOne(customerId);
+            const order = await orderRepository.getOne(email);
             console.log("order retrieved:", order);
 
             return order;

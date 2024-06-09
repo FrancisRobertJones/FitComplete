@@ -13,9 +13,14 @@ declare module "express-serve-static-core" {
 
 class OrderController {
   async getOneOrder(request: Request, response: Response, next: NextFunction) {
-    const customerId = request.body.customerId;
+
+    const email = request.body.email;
+    console.log("email in order", email)
+
     try {
-      const order = await OrderService.getOne(customerId);
+      const order = await OrderService.getOne(email);
+      console.log("order in order<<<<<<<<<<", order)
+
       if (!order) {
         return response.status(404).json({ error: "Order not found" });
       }
@@ -28,6 +33,7 @@ class OrderController {
 
   async getLevel(request: Request, response: Response) {
     try {
+
       const order = request.order;
       if (order) {
         response.status(200).json({ level: order.level });

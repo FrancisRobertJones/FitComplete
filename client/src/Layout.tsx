@@ -42,10 +42,10 @@ const Layout = () => {
             const res = await axios.get<AuthResponse>("http://localhost:3000/session", { withCredentials: true })
             if (res.data.isAuthenticated) {
                 const userData = res.data
-                const userId = res.data.user?._id;
+                const email = res.data.user?.email;
                 let level: number | undefined ;
-                if(userId) {
-                     level = await checkLevel(userId as string);
+                if(email) {
+                     level = await checkLevel(email as string);
                 }
                 console.log("User data before dispatch:", { ...userData, level });
 
@@ -60,9 +60,9 @@ const Layout = () => {
 
 
 
-    const checkLevel = async (userId: string) => {
+    const checkLevel = async (email: string) => {
         try {
-            const res = await axios.post<ILevelCheckRes>("http://localhost:3000/orders/level", {"customerId": userId })
+            const res = await axios.post<ILevelCheckRes>("http://localhost:3000/orders/level", {"email": email })
             const level = res.data.level;
             return level;
         } catch (err) {
