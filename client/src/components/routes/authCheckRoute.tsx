@@ -2,24 +2,19 @@ import { AuthContext } from '@/context/authContext'
 import React, { useContext } from 'react'
 import { Navigate } from 'react-router-dom';
 
-interface IProtectedRoute {
+interface IAuthCheck {
     Component: React.ComponentType,
-    minLevel: number
 }
 
-const ProtectedRoute = ({ Component, minLevel }: IProtectedRoute) => {
+const AuthCheck = ({ Component }: IAuthCheck) => {
     const { authedUser } = useContext(AuthContext)
 
     if (!authedUser.loggedIn) {
         return <Navigate to="/login" />;
     }
 
-    if (authedUser.level === undefined || authedUser.level < minLevel) {
-        return <Navigate to="/unauthorised" />;
-      }
- 
      return <Component />;
 
 }
 
-export default ProtectedRoute
+export default AuthCheck

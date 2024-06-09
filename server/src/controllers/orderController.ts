@@ -3,7 +3,8 @@ import { Request, Response } from "express";
 import OrderService from "../services/orderService";
 import Order, { IOrder } from "../models/order";
 import stripe from "../utils/stripeInit";
-import { NewOrder } from "../types/interfaces/orders";
+import { NewOrderDataFromClient } from "../types/interfaces/orders";
+import orderService from "../services/orderService";
 
 declare module "express-serve-static-core" {
   interface Request {
@@ -13,9 +14,14 @@ declare module "express-serve-static-core" {
 
 class OrderController {
   async getOneOrder(request: Request, response: Response, next: NextFunction) {
-    const customerId = request.body.customerId;
+
+    const email = request.body.email;
+    console.log("email in order", email)
+
     try {
-      const order = await OrderService.getOne(customerId);
+      const order = await OrderService.getOne(email);
+      console.log("order in order<<<<<<<<<<", order)
+
       if (!order) {
         return response.status(404).json({ error: "Order not found" });
       }
@@ -28,6 +34,7 @@ class OrderController {
 
   async getLevel(request: Request, response: Response) {
     try {
+
       const order = request.order;
       if (order) {
         response.status(200).json({ level: order.level });
@@ -40,23 +47,25 @@ class OrderController {
   }
 
   async createOrder(request: Request, response: Response) {
-    console.log("req.body<<<<<<<<<<<<<", request.body);
-    
-    const {userData} = request.body;
-    const paymentIntentId = request.body.payment_intent as string;
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    const { userData, payment_intent: paymentIntentId } = request.body;
+    try {
+      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
-    const orderDate = new Date();
+      const orderDate = new Date();
 
-    const newOrderData = new NewOrder(
-      userData.userEmail,
-      userData.level,
-      orderDate,
-      paymentIntent
-    );
+      const newOrderDataFromClient = new NewOrderDataFromClient(
+        userData.userEmail,
+        userData.level,
+        orderDate,
+        paymentIntent
+      );
 
-    console.log("neworderdata<<<<<<<<<<<<<<", newOrderData);
-    
+      const savedOrder = orderService.createOrder(newOrderDataFromClient);
+      response.status(200).json({ success: true, order: savedOrder });
+    } catch (error) {
+      response.status(500).json({ error: 'Failed to create order' });
+      console.log(error)
+    }
   }
 }
 
