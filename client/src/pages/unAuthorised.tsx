@@ -15,13 +15,7 @@ export default function Component() {
                     <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4xl">
                         Access Denied
                     </h1>
-                    <p className="text-gray-600 dark:text-gray-400">Please log in to access this page</p>
-                    <Link
-                        to="/login"
-                        className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-6 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
-                    >
-                        Login
-                    </Link>
+                    <p className="text-gray-600 dark:text-gray-400">Please upgrade your subscription to access this page</p>
                 </div>
             </div>
             <div className='flex justify-between items-center w-full gap-4 pl-16'>
@@ -29,6 +23,11 @@ export default function Component() {
                 <Homepagecard title={"Basic"} description={"For people looking for more"} linkUrl={'/payment/basic'} />
                 <Homepagecard title={"Premium"} description={"The full package"} linkUrl={'/payment/premium'} />
             </div>
+            <ul className='leading-relaxed'>
+                        <li>🥉 Free Workouts: Browse and view a wide variety of workouts for free.</li>
+                        <li>🥈 Video Access: Upgrade to unlock detailed video tutorials for every workout.</li>
+                        <li>🥇 Premium Recipes: Elevate your nutrition with exclusive, delicious, and healthy recipes.</li>
+                    </ul>
         </div>
     )
 }

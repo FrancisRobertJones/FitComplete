@@ -10,8 +10,8 @@ interface IProtectedRoute {
 const ProtectedRoute = ({ Component, minLevel }: IProtectedRoute) => {
     const { authedUser } = useContext(AuthContext)
 
-    if (!authedUser) {
-        return <Navigate to="/unauthorised" />;
+    if (!authedUser.loggedIn) {
+        return <Navigate to="/login" />;
     }
 
     if (authedUser.level === undefined || authedUser.level < minLevel) {
