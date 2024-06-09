@@ -1,10 +1,51 @@
 import { Request, Response } from "express";
 import stripe from "../utils/stripeInit";
-import { IOrderDataFromFrontEnd } from "../types/interfaces/orders";
+import { IOrderDataFromFrontEnd, NewOrderDataFromClient } from "../types/interfaces/orders";
 import orderRepository from "../repositories/orderRepository";
 import { PaymentIntentData } from "../types/paymentIntent";
+import orderService from "../services/orderService";
 
 class StripeController {
+
+  async createCustomerAndOrder(request: Request, response: Response){
+    const { userData, payment_intent: paymentIntentId } = request.body;
+    try {
+      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+
+      const paymentMethodId = paymentIntent.payment_method as string;
+
+      const customer = await stripe.customers.create({
+        name: userData.name,
+        email: userData.userEmail,
+        payment_method: paymentMethodId,
+      });
+
+      await stripe.paymentIntents.update(paymentIntentId, {
+        customer: customer.id,
+      });
+
+      const orderDate = new Date();
+      const newOrderDataFromClient = new NewOrderDataFromClient(
+        userData.userEmail,
+        userData.level,
+        orderDate,
+        paymentIntent
+      );
+
+      newOrderDataFromClient.paymentIntent.customer = customer.id
+
+      const savedOrder = await orderService.createOrder(newOrderDataFromClient);
+
+      response.status(200).json({ success: true, order: savedOrder });
+    } catch (error) {
+      response.status(500).json({ error: 'Failed to create order' });
+      console.log(error)
+    }
+  }
+
+
+
+
   async createPaymentIntent(request: Request, response: Response) {
     console.log("create paymentintent hit once")
     const { userData } = request.body;
@@ -56,29 +97,6 @@ class StripeController {
     }
   }
 
-  async createCustomer(request: Request, response: Response) {
-    try {
-      const paymentIntentId = request.body.payment_intent as string;
-
-      const paymentIntent = await stripe.paymentIntents.retrieve(
-        paymentIntentId
-      );
-
-      const paymentMethodId = paymentIntent["payment_method"] as string;
-
-      // TODO: customer email, name and more?
-      const customer = await stripe.customers.create({
-        name: "test",
-        email: "test@test.com",
-        payment_method: paymentMethodId,
-      });
-
-      response.status(200).json({ customer: customer });
-    } catch (error) {
-      console.error("Unknown error:", error);
-      response.status(500).send({ error: "An unknown error occurred " });
-    }
-  }
 
   async renewPayment(request: Request, response: Response) {
     try {

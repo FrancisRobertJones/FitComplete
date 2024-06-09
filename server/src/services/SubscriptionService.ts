@@ -5,7 +5,6 @@ class SubscriptionService {
     async getOne(name: string) {
         try {
             const subscription = await subscriptionRepository.getOne(name);
-            console.log("subscription retrieved:", subscription);
 
             return subscription;
         } catch (error) {

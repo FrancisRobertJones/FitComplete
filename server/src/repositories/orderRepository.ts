@@ -1,5 +1,6 @@
 import Order from "../models/order";
 import PaymentIntent, { IPaymentIntent } from "../models/paymentintent";
+import { OrderDataForDb } from "../types/interfaces/orders";
 import { PaymentIntentData } from "../types/paymentIntent";
 
 class OrderRepository {
@@ -24,6 +25,40 @@ class OrderRepository {
       return newPaymentIntent;
     } catch (error) {
       console.error("Error creating payment intent:", error);
+      throw error;
+    }
+  }
+
+  async saveOrder(orderDataForDb: OrderDataForDb) {
+    const { paymentMethod,
+      stripeCustomerId,
+      email,
+      level,
+      orderDate,
+      activeUntil,
+      isPaymentSuccess,
+      renewStatus,
+      transactionId,
+      amount,
+      currency } = orderDataForDb
+
+    try {
+      const savedOrder = await Order.create({
+        paymentMethod,
+        stripeCustomerId,
+        email,
+        level,
+        orderDate,
+        activeUntil,
+        isPaymentSuccess,
+        renewStatus,
+        transactionId,
+        amount,
+        currency
+      })
+      return savedOrder
+    } catch (error) {
+      console.log("Problem creating order", error)
       throw error;
     }
   }

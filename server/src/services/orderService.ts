@@ -5,7 +5,6 @@ class OrderService {
     async getOne(email: string) {
         try {
             const order = await orderRepository.getOne(email);
-            console.log("order retrieved:", order);
 
             return order;
         } catch (error) {
@@ -32,7 +31,8 @@ class OrderService {
             newOrderDataFromClient.paymentIntent.currency
         )   
 
-        console.log(orderDataForDb, "HERE IS THE DATA TO BE SAVED >>>>>>>>>>>>>>>>>>>>")
+        const savedOrder = await orderRepository.saveOrder(orderDataForDb)
+        return savedOrder
     }
     
 }
