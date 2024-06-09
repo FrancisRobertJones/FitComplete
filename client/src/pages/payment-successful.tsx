@@ -8,29 +8,26 @@ export const PaymentSuccessful = () => {
   const { authedUser } = useContext(AuthContext);
 
   useEffect(() => {
-    if (authedUser) {
-      const paymentSuccess = async () => {
-        const searchParams = new URLSearchParams(location.search);
-        const paymentIntentId = searchParams.get("payment_intent");
-        try {
-          console.log("attempting to post data to endpoint in success")
-          const response = await axios.post("http://localhost:3000/orders/payment-successful",
-            {
-              payment_intent: paymentIntentId,
-              userData: {
-                level: authedUser.level,
-                userEmail: authedUser.User?.email,
-              },
-            }
-          );
-          console.log(response, "resposne from successs<>>>>");
-        } catch (error) {
-          console.log(error);
-        }
-
-        if (authedUser) paymentSuccess();
-      };
-    }
+    const paymentSuccess = async () => {
+      const searchParams = new URLSearchParams(location.search);
+      const paymentIntentId = searchParams.get("payment_intent");
+      try {
+        console.log("attempting to post data to endpoint in success")
+        const response = await axios.post("http://localhost:3000/orders/payment-successful",
+          {
+            payment_intent: paymentIntentId,
+            userData: {
+              level: authedUser.level,
+              userEmail: authedUser.User?.email,
+            },
+          }
+        );
+        console.log(response, "resposne from successs<>>>>");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (authedUser) paymentSuccess();
   }, [authedUser]);
 
   // TODO: Modify amount & payment method

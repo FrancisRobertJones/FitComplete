@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import stripe from "../utils/stripeInit";
-import { IOrderDataFromFrontEnd, NewOrder } from "../types/interfaces/orders";
+import { IOrderDataFromFrontEnd } from "../types/interfaces/orders";
 import orderRepository from "../repositories/orderRepository";
 import { PaymentIntentData } from "../types/paymentIntent";
 

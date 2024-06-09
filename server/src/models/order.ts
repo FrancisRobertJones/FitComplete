@@ -9,6 +9,10 @@ interface IOrder extends Document {
   activeUntil: Date;
   isPaymentSuccess: boolean;
   renewStatus: boolean;
+  transactionId: string,
+  amount: number,
+  currency: string
+
 }
 
 const OrderSchema = new Schema<IOrder>({
@@ -20,6 +24,9 @@ const OrderSchema = new Schema<IOrder>({
   activeUntil: { type: Date, required: true },
   isPaymentSuccess: { type: Boolean, required: true },
   renewStatus: { type: Boolean, required: true },
+  transactionId: { type: String, required: true, index: true },
+  amount: { type: Number, required: true },
+  currency: { type: String, required: true },
 });
 
 const Order = model<IOrder>("Order", OrderSchema);

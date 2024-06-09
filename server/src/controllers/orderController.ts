@@ -3,7 +3,8 @@ import { Request, Response } from "express";
 import OrderService from "../services/orderService";
 import Order, { IOrder } from "../models/order";
 import stripe from "../utils/stripeInit";
-import { NewOrder } from "../types/interfaces/orders";
+import { NewOrderDataFromClient } from "../types/interfaces/orders";
+import orderService from "../services/orderService";
 
 declare module "express-serve-static-core" {
   interface Request {
@@ -46,23 +47,23 @@ class OrderController {
   }
 
   async createOrder(request: Request, response: Response) {
-    console.log("req.body<<<<<<<<<<<<<", request.body);
-
     const { userData, payment_intent: paymentIntentId } = request.body;
     try {
       const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
       const orderDate = new Date();
 
-      const newOrderData = new NewOrder(
+      const newOrderDataFromClient = new NewOrderDataFromClient(
         userData.userEmail,
         userData.level,
         orderDate,
         paymentIntent
       );
-      console.log("neworderdata<<<<<<<<<<<<<<", newOrderData);
 
+      const savedOrder = orderService.createOrder(newOrderDataFromClient);
+      response.status(200).json({ success: true, order: savedOrder });
     } catch (error) {
+      response.status(500).json({ error: 'Failed to create order' });
       console.log(error)
     }
   }
