@@ -9,6 +9,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { AuthContext } from '@/context/authContext'
+import PaymentFailureAlert from './PaymentFailureAlert'
 
 const HomepageDashboard = () => {
     const [dashboardSubscription, setDashboardSubscription] = useState<string>()
@@ -30,7 +31,7 @@ const HomepageDashboard = () => {
     return (
         <div className='flex justify-center'>
 
-            {authedUser.level ?
+            {authedUser.level !== undefined && authedUser.level !== 0 &&
                 <Card className="w-[400px]">
                     <CardHeader>
                         <CardTitle>Welcome back {authedUser.User?.firstName}</CardTitle>
@@ -75,7 +76,9 @@ const HomepageDashboard = () => {
                         </div>
                     </CardContent>
                 </Card>
-                : <Card className="w-[400px]">
+            }
+            {authedUser.level === undefined &&
+                <Card className="w-[400px]">
                     <CardHeader>
                         <CardTitle>Welcome back {authedUser.User?.firstName}</CardTitle>
                         <CardDescription>
@@ -91,7 +94,7 @@ const HomepageDashboard = () => {
                         <h1 className='text-2xl mb-4'>
                             Susbcribe to access our awesome features! Including:
                         </h1>
-                   <ul className='leading-relaxed space-y-4'>
+                        <ul className='leading-relaxed space-y-4'>
                             <li>🥉 Free Workouts</li>
                             <li >🥈 Video Access: Upgrade to unlock video workout tutorials.</li>
                             <li>🥇 Premium Recipes: Elevate your nutrition with healthy recipes.</li>
@@ -102,8 +105,13 @@ const HomepageDashboard = () => {
                             <Button>Subscribe now</Button>
                         </div>
                     </CardContent>
-                </Card>
+                </Card>}
+            {authedUser.level === 0 &&
+            <div className="w-[400px] flex items-center justify-center">
+                <PaymentFailureAlert />
+                </div>
             }
+            
 
         </div>
     )

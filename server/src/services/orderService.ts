@@ -13,7 +13,6 @@ class OrderService {
         }
     }
 
-    // TODO: time 2h
     // TODO: payment unsuccess
 
     async createOrder(newOrderDataFromClient: NewOrderDataFromClient) {
