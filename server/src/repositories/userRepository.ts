@@ -10,6 +10,8 @@ class UserRepository {
         const { email } = user;
         return User.findOne({ email }) 
     }
+
+
 }
 
 
