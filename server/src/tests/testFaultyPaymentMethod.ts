@@ -3,7 +3,7 @@ import Order from "../models/order";
 import stripe from "../utils/stripeInit";
 
 const faultyPaymentMethodId = 'pm_card_chargeCustomerFail'
-
+/* 
 
 const updateOrderWithFaultyPaymentMethod = async (email: string, faultyPaymentMethodId: string) => {
     try {
@@ -28,4 +28,4 @@ const updateOrderWithFaultyPaymentMethod = async (email: string, faultyPaymentMe
 const email = "failtest@gmail.com"
 
 
-updateOrderWithFaultyPaymentMethod(email, faultyPaymentMethodId);
+updateOrderWithFaultyPaymentMethod(email, faultyPaymentMethodId); */
