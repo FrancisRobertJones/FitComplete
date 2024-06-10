@@ -13,7 +13,6 @@ class OrderRepository {
     return Order.find({});
   }
 
-
   /*  async createOrder( userData ) {
     const { paymentIntent, orderDate, email } = userData;
     return Order.create({});
@@ -36,7 +35,8 @@ class OrderRepository {
   }
 
   async saveOrder(orderDataForDb: OrderDataForDb) {
-    const { paymentMethod,
+    const {
+      paymentMethod,
       stripeCustomerId,
       email,
       level,
@@ -46,7 +46,8 @@ class OrderRepository {
       renewStatus,
       transactionId,
       amount,
-      currency } = orderDataForDb
+      currency,
+    } = orderDataForDb;
 
     try {
       const savedOrder = await Order.create({
@@ -60,18 +61,28 @@ class OrderRepository {
         renewStatus,
         transactionId,
         amount,
-        currency
-      })
-      return savedOrder
+        currency,
+      });
+      return savedOrder;
     } catch (error) {
-      console.log("Problem creating order", error)
+      console.log("Problem creating order", error);
       throw error;
     }
   }
 
   async updateRenewalDate(orderId: string, newRenewalDate: Date) {
-    const result = Order.findByIdAndUpdate(orderId, {activeUntil: newRenewalDate});
+    const result = Order.findByIdAndUpdate(orderId, {
+      activeUntil: newRenewalDate,
+    });
     return result;
+  }
+
+  async toggleRenewStatus(id: string) {
+    try {
+      return Order.findByIdAndUpdate(id, { renewStatus: false }, { new: true });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   /* async createNewOrder*/
