@@ -1,12 +1,14 @@
 import AuthComponent from '@/components/AuthComponent'
 import { Homepagecard } from '@/components/homepageCard'
+import { HomepagecardAuthed } from '@/components/homepageCardAuthed'
 import HomepageDashboard from '@/components/homepageDashboard'
 import { AuthContext } from '@/context/authContext'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 
 const Homepage = () => {
   const { authedUser } = useContext(AuthContext)
+
 
   return (
     <>
@@ -27,11 +29,19 @@ const Homepage = () => {
 
         </div>
 
-        <div className='flex justify-between items-center w-full gap-4 pl-16'>
-          <Homepagecard title={"Lite (FREE)"} description={"Ideal for getting started"} linkUrl={'/payment/lite'} />
-          <Homepagecard title={"Basic"} description={"For people looking for more"} linkUrl={'/payment/basic'} />
-          <Homepagecard title={"Premium"} description={"The full package"} linkUrl={'/payment/premium'} />
-        </div>
+        {authedUser.loggedIn ?
+          <div className='flex justify-between items-center w-full gap-4 pl-16'>
+            <HomepagecardAuthed title={"Lite (FREE)"} description={"Ideal for getting started"} linkUrl={'/payment/lite'} />
+            <HomepagecardAuthed title={"Basic"} description={"For people looking for more"} linkUrl={'/payment/basic'} />
+            <HomepagecardAuthed title={"Premium"} description={"The full package"} linkUrl={'/payment/premium'} />
+          </div> 
+          :
+          <div className='flex justify-between items-center w-full gap-4 pl-16'>
+            <Homepagecard title={"Lite (FREE)"} description={"Ideal for getting started"} linkUrl={'/payment/lite'} />
+            <Homepagecard title={"Basic"} description={"For people looking for more"} linkUrl={'/payment/basic'} />
+            <Homepagecard title={"Premium"} description={"The full package"} linkUrl={'/payment/premium'} />
+          </div>
+        }
       </div>
     </>
   )

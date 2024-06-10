@@ -24,7 +24,7 @@ export const Payment = () => {
       fetch("http://localhost:3000/stripe/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userData: { level: level, userEmail: userEmail } }),
+        body: JSON.stringify({ userData: { name: name, userEmail: userEmail }, subscriptionName: level}),
       })
         .then((res) => res.json())
         .then((data) => setClientSecret(data.clientSecret));

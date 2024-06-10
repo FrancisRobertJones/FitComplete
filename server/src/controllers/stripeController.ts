@@ -7,18 +7,19 @@ import {
 import orderRepository from "../repositories/orderRepository";
 import { PaymentIntentData } from "../types/paymentIntent";
 import orderService from "../services/orderService";
+import subscriptionRepository from "../repositories/subscriptionRepository";
 import ngrok from "@ngrok/ngrok";
 import userRepository from "../repositories/userRepository";
 import { DateTime } from "luxon";
 import { IOrder } from "../models/order";
 
 class StripeController {
+
   async createCustomerAndOrder(request: Request, response: Response) {
     const { userData, payment_intent: paymentIntentId } = request.body;
     try {
-      const paymentIntent = await stripe.paymentIntents.retrieve(
-        paymentIntentId
-      );
+
+      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
       const paymentMethodId = paymentIntent.payment_method as string;
 
@@ -52,33 +53,37 @@ class StripeController {
   }
 
   async createPaymentIntent(request: Request, response: Response) {
-    console.log("create paymentintent hit once");
-    const { userData } = request.body;
+    console.log("create paymentintent hit once")
+    const { userData, subscriptionName } = request.body;
+
 
     const orderDate = new Date();
     // const calculateOrderAmount = (items: string) => {
     //   return 5000;
     // };
-
+    let price = 0
     try {
-      // Create a PaymentIntent with the order amount and currency
+      let subscriptionData = await subscriptionRepository.getOne(subscriptionName)
+      if (subscriptionData) {
+         price = subscriptionData.price;
+      }
+    } catch (error) {
+      console.log("problem fetching subscription data price")
+      throw Error
+    }
+    
+    
+    try {
       const paymentIntent = await stripe.paymentIntents.create({
-        // Get from DB
-        amount: 5000,
-        currency: "usd",
+        amount: price,
+        description: subscriptionName,
+        currency: "SEK",
         // payment_method_types: ["card"],
         automatic_payment_methods: {
           enabled: true,
         },
         setup_future_usage: "off_session",
       });
-
-      //   const newOrderData = new NewOrder(
-      //     userData.userEmail,
-      //     userData.level,
-      //     orderDate,
-      //     paymentIntent
-      //   );
 
       const paymentIntentData = new PaymentIntentData(
         userData.userEmail,

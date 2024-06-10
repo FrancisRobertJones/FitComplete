@@ -18,13 +18,22 @@ class OrderService {
 
     async createOrder(newOrderDataFromClient: NewOrderDataFromClient) {
         const renewalDate = new Date(newOrderDataFromClient.orderDate)
+        let level = 0
+        if (newOrderDataFromClient.paymentIntent.description === "lite") {
+            level = 1
+        } else if (newOrderDataFromClient.paymentIntent.description === "basic") {
+            level = 2
+        } else if (newOrderDataFromClient.paymentIntent.description === "premium") {
+            level = 3
+        }
+
         renewalDate.setDate(renewalDate.getDate() + 7)
         
         const orderDataForDb = new OrderDataForDb(
             newOrderDataFromClient.paymentIntent.payment_method as string,
             newOrderDataFromClient.paymentIntent.customer as string,
             newOrderDataFromClient.email,
-            Number(newOrderDataFromClient.level),
+            level,
             newOrderDataFromClient.orderDate,
             renewalDate,
             newOrderDataFromClient.paymentIntent.status === "succeeded",
