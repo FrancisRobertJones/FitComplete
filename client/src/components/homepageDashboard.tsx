@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -11,7 +11,21 @@ import {
 import { AuthContext } from '@/context/authContext'
 
 const HomepageDashboard = () => {
-    const { checkAuth, authedUser } = useContext(AuthContext)
+    const [dashboardSubscription, setDashboardSubscription] = useState<string>()
+    const { authedUser } = useContext(AuthContext)
+
+    useEffect(() => {
+        if (authedUser.level) {
+            if (authedUser.level === 1) {
+                setDashboardSubscription("Lite (Free)")
+            } else if (authedUser.level === 2) {
+                setDashboardSubscription("Basic")
+            } else if (authedUser.level === 3) {
+                setDashboardSubscription("Premium")
+            }
+        }
+    }, [])
+
 
     return (
         <div className='flex justify-center'>
@@ -26,7 +40,7 @@ const HomepageDashboard = () => {
 
                 <CardContent className="space-y-2">
                     <h1 className='text-2xl'>Current tier:</h1>
-                    <h4 className='text-6xl'>Premium</h4>
+                    <h4 className='text-6xl'>{dashboardSubscription}</h4>
                 </CardContent>
 
                 <CardContent className="space-y-2 flex">
