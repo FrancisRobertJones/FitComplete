@@ -8,7 +8,6 @@ import orderRepository from "../repositories/orderRepository";
 import { PaymentIntentData } from "../types/paymentIntent";
 import orderService from "../services/orderService";
 import subscriptionRepository from "../repositories/subscriptionRepository";
-import ngrok from "@ngrok/ngrok";
 import userRepository from "../repositories/userRepository";
 import { DateTime } from "luxon";
 import { IOrder } from "../models/order";
@@ -65,14 +64,14 @@ class StripeController {
     try {
       let subscriptionData = await subscriptionRepository.getOne(subscriptionName)
       if (subscriptionData) {
-         price = subscriptionData.price;
+        price = subscriptionData.price;
       }
     } catch (error) {
       console.log("problem fetching subscription data price")
       throw Error
     }
-    
-    
+
+
     try {
       const paymentIntent = await stripe.paymentIntents.create({
         amount: price,
@@ -125,25 +124,33 @@ class StripeController {
           const newRenewalDate = renewalDate.plus({ days: 7 }).toJSDate();
           console.log(newRenewalDate);
 
-          const result = await orderRepository.updateRenewalDate(
-            orderId,
-            newRenewalDate
-          );
+          try {
+            const paymentIntent = await stripe.paymentIntents.create({
+              amount: order.amount,
+              currency: order.currency,
+              customer: order.stripeCustomerId,
+              payment_method: order.paymentMethod,
+              off_session: true,
+              confirm: true,
+            });
 
-          
+            console.log("paymentmethod<<<<<<<<<<", order.paymentMethod);
+            console.log("paymentintent<<<<<<<<<<<<<", paymentIntent);
 
-          const paymentIntent = await stripe.paymentIntents.create({
-            amount: order.amount,
-            currency: order.currency,
-            customer: order.stripeCustomerId,
-            payment_method: order.paymentMethod,
-            off_session: true,
-            confirm: true,
-          });
+            const result = await orderRepository.updateRenewalDate(
+              orderId,
+              newRenewalDate
+            );
+          } catch (error) {
+            console.error(`failed to renew order ${orderId}:`, error)
 
-          console.log("paymentmethod<<<<<<<<<<", order.paymentMethod);
-          console.log("paymentintent<<<<<<<<<<<<<", paymentIntent);
-          
+            await orderRepository.updateSubscriptionStatus(
+              orderId, {
+              level: 0,
+              renewalStatus: false
+            }
+            )
+          }
 
           response.status(200).json({ "new date": renewalDate });
         } else {
@@ -151,14 +158,15 @@ class StripeController {
         }
       }
     } catch (error) {
-      response.status(500).send({ error: error });
+      response.status(500).send({ error: 'payment failed' });
+      console.log(error)
     }
   }
 
   async checkIfUserHasOrder(userEmail: string) {
     try {
       const allOrder = await orderRepository.getAllOrder();
-    } catch (error) {}
+    } catch (error) { }
   }
 }
 
