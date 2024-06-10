@@ -1,10 +1,3 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/7fQwUXj5qNd
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { NewExercise } from "@/models/classes/Exercises";
 import CreateRecipe from "./CreateRecipe";
@@ -23,6 +16,7 @@ export default function ContentAdminInterFace({
   newExercise,
   setNewExercise,
 }: IContentadminInterfaceProps) {
+
   return (
     <div className="flex flex-col gap-8 p-6 md:p-10">
       <div className="flex items-center justify-between">
