@@ -2,34 +2,16 @@ import DatabaseConnection from "../db/databaseConnection";
 import Order from "../models/order";
 import stripe from "../utils/stripeInit";
 
-const createFaultyPaymentMethod = async () => {
-
-    try {
-        const paymentMethod = await stripe.paymentMethods.create({
-            type: 'card',
-            card: {
-                number: '4000000000009995',
-                exp_month: 12,
-                exp_year: 2025,
-                cvc: '123',
-            },
-        });
-
-        console.log('Faulty Payment Method created:', paymentMethod.id);
-        return paymentMethod.id;
-    } catch (error) {
-        console.error('Error creating faulty payment method:', error);
-    }
-};
+const faultyPaymentMethodId = 'pm_card_chargeCustomerFail'
 
 
-const updateOrderWithFaultyPaymentMethod = async (email: string) => {
+const updateOrderWithFaultyPaymentMethod = async (email: string, faultyPaymentMethodId: string) => {
     try {
         const db = DatabaseConnection.getInstance();
         await db.connect();
         console.log('Connected to db!');
      
-            const faultyPaymentMethodId = await createFaultyPaymentMethod();
+            faultyPaymentMethodId;
             const order = await Order.findOne({ email });
             if (order && faultyPaymentMethodId) {
                 order.paymentMethod = faultyPaymentMethodId;
@@ -46,4 +28,4 @@ const updateOrderWithFaultyPaymentMethod = async (email: string) => {
 const email = "failtest@gmail.com"
 
 
-updateOrderWithFaultyPaymentMethod(email);
+updateOrderWithFaultyPaymentMethod(email, faultyPaymentMethodId);

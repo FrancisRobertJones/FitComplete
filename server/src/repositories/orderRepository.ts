@@ -74,7 +74,7 @@ class OrderRepository {
     return result;
   }
 
-  async updateSubscriptionStatus(orderId: string, updates: {level: number, renewalStatus: boolean}) {
+  async updateSubscriptionStatus(orderId: string, updates: {level: number, isPaymentSuccess: boolean}) {
     return await Order.findByIdAndUpdate(orderId, updates)
   }
 

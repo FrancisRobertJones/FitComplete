@@ -112,6 +112,7 @@ class StripeController {
     try {
       const allOrder = await orderRepository.getAllOrder();
       const now = DateTime.now();
+      const results = []
 
       for (const order of allOrder) {
         const orderId = order._id as string;
@@ -137,29 +138,38 @@ class StripeController {
             console.log("paymentmethod<<<<<<<<<<", order.paymentMethod);
             console.log("paymentintent<<<<<<<<<<<<<", paymentIntent);
 
-            const result = await orderRepository.updateRenewalDate(
+            await orderRepository.updateRenewalDate(
               orderId,
               newRenewalDate
             );
+            results.push({ orderId, status: 'renewed', newRenewalDate });
+
           } catch (error) {
-            console.error(`failed to renew order ${orderId}:`, error)
+            console.error(`failed to renew order ${orderId}:`)
 
             await orderRepository.updateSubscriptionStatus(
               orderId, {
               level: 0,
-              renewalStatus: false
+              isPaymentSuccess: false
             }
             )
+            if(error instanceof Error){
+            results.push({ orderId, status: 'failed', error: error.message });
+          } else {
+            results.push({ orderId, status: 'failed', error: "unknown error" });
           }
 
-          response.status(200).json({ "new date": renewalDate });
+          }
         } else {
           console.log(`Order ${orderId} is still valid.`);
         }
+
       }
+      response.status(200).json({results})
     } catch (error) {
-      response.status(500).send({ error: 'payment failed' });
       console.log(error)
+      response.status(500).json({ error: 'Internal server error' });
+
     }
   }
 
