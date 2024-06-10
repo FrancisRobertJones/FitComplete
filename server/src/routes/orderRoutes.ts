@@ -4,6 +4,7 @@ import orderController from "../controllers/orderController";
 
 const router = express.Router();
 
+router.post('/level', OrderController.getOneOrder, OrderController.getLevel);
 router.post("/payment-successful", orderController.createOrder);
 
 router.post('/getOne', (request, response) => {
@@ -11,7 +12,6 @@ router.post('/getOne', (request, response) => {
         response.status(200).json(request.order);
     });
 });
-
-router.post('/level', OrderController.getOneOrder, OrderController.getLevel);
+router.post("/unsubscribe", orderController.cancelOrder)
 
 export default router;
