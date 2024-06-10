@@ -1,16 +1,24 @@
 import { Request, Response } from "express";
 import stripe from "../utils/stripeInit";
-import { IOrderDataFromFrontEnd, NewOrderDataFromClient } from "../types/interfaces/orders";
+import {
+  IOrderDataFromFrontEnd,
+  NewOrderDataFromClient,
+} from "../types/interfaces/orders";
 import orderRepository from "../repositories/orderRepository";
 import { PaymentIntentData } from "../types/paymentIntent";
 import orderService from "../services/orderService";
+import ngrok from "@ngrok/ngrok";
+import userRepository from "../repositories/userRepository";
+import { DateTime } from "luxon";
+import { IOrder } from "../models/order";
 
 class StripeController {
-
-  async createCustomerAndOrder(request: Request, response: Response){
+  async createCustomerAndOrder(request: Request, response: Response) {
     const { userData, payment_intent: paymentIntentId } = request.body;
     try {
-      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+      const paymentIntent = await stripe.paymentIntents.retrieve(
+        paymentIntentId
+      );
 
       const paymentMethodId = paymentIntent.payment_method as string;
 
@@ -32,22 +40,19 @@ class StripeController {
         paymentIntent
       );
 
-      newOrderDataFromClient.paymentIntent.customer = customer.id
+      newOrderDataFromClient.paymentIntent.customer = customer.id;
 
       const savedOrder = await orderService.createOrder(newOrderDataFromClient);
 
       response.status(200).json({ success: true, order: savedOrder });
     } catch (error) {
-      response.status(500).json({ error: 'Failed to create order' });
-      console.log(error)
+      response.status(500).json({ error: "Failed to create order" });
+      console.log(error);
     }
   }
 
-
-
-
   async createPaymentIntent(request: Request, response: Response) {
-    console.log("create paymentintent hit once")
+    console.log("create paymentintent hit once");
     const { userData } = request.body;
 
     const orderDate = new Date();
@@ -68,12 +73,12 @@ class StripeController {
         setup_future_usage: "off_session",
       });
 
-    //   const newOrderData = new NewOrder(
-    //     userData.userEmail,
-    //     userData.level,
-    //     orderDate,
-    //     paymentIntent
-    //   );
+      //   const newOrderData = new NewOrder(
+      //     userData.userEmail,
+      //     userData.level,
+      //     orderDate,
+      //     paymentIntent
+      //   );
 
       const paymentIntentData = new PaymentIntentData(
         userData.userEmail,
@@ -97,24 +102,58 @@ class StripeController {
     }
   }
 
-
   async renewPayment(request: Request, response: Response) {
-    try {
-      const customer = "";
-      const weeklyPaymentIntent = await stripe.paymentIntents.create({
-        // TODO: Get amount
-        amount: 500,
-        currency: "usd",
-        confirm: true,
-        off_session: true,
-        customer: customer,
-      });
+    console.log("cronjob running");
 
-      console.log(weeklyPaymentIntent);
-      response.status(200).send({ weeklyPaymentIntent: weeklyPaymentIntent });
+    try {
+      const allOrder = await orderRepository.getAllOrder();
+      const now = DateTime.now();
+
+      for (const order of allOrder) {
+        const orderId = order._id as string;
+        const renewStatus = order.renewStatus;
+        const activeUntilISO = order.activeUntil.toISOString();
+        const renewalDate = DateTime.fromISO(activeUntilISO);
+
+        if (renewStatus && now >= renewalDate) {
+          console.log(`Order ${orderId} needs to be renewed.`);
+          const newRenewalDate = renewalDate.plus({ days: 7 }).toJSDate();
+          console.log(newRenewalDate);
+
+          const result = await orderRepository.updateRenewalDate(
+            orderId,
+            newRenewalDate
+          );
+
+          
+
+          const paymentIntent = await stripe.paymentIntents.create({
+            amount: order.amount,
+            currency: order.currency,
+            customer: order.stripeCustomerId,
+            payment_method: order.paymentMethod,
+            off_session: true,
+            confirm: true,
+          });
+
+          console.log("paymentmethod<<<<<<<<<<", order.paymentMethod);
+          console.log("paymentintent<<<<<<<<<<<<<", paymentIntent);
+          
+
+          response.status(200).json({ "new date": renewalDate });
+        } else {
+          console.log(`Order ${orderId} is still valid.`);
+        }
+      }
     } catch (error) {
       response.status(500).send({ error: error });
     }
+  }
+
+  async checkIfUserHasOrder(userEmail: string) {
+    try {
+      const allOrder = await orderRepository.getAllOrder();
+    } catch (error) {}
   }
 }
 

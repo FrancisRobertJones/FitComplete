@@ -1,5 +1,6 @@
 import Order from "../models/order";
 import PaymentIntent, { IPaymentIntent } from "../models/paymentintent";
+import { IUserCredentials } from "../types/interfaces/auth";
 import { OrderDataForDb } from "../types/interfaces/orders";
 import { PaymentIntentData } from "../types/paymentIntent";
 
@@ -7,6 +8,11 @@ class OrderRepository {
   async getOne(email: string) {
     return Order.findOne({ email });
   }
+
+  async getAllOrder() {
+    return Order.find({});
+  }
+
 
   /*  async createOrder( userData ) {
     const { paymentIntent, orderDate, email } = userData;
@@ -61,6 +67,11 @@ class OrderRepository {
       console.log("Problem creating order", error)
       throw error;
     }
+  }
+
+  async updateRenewalDate(orderId: string, newRenewalDate: Date) {
+    const result = Order.findByIdAndUpdate(orderId, {activeUntil: newRenewalDate});
+    return result;
   }
 
   /* async createNewOrder*/

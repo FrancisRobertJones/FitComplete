@@ -13,6 +13,9 @@ class OrderService {
         }
     }
 
+    // TODO: time 2h
+    // TODO: payment unsuccess
+
     async createOrder(newOrderDataFromClient: NewOrderDataFromClient) {
         const renewalDate = new Date(newOrderDataFromClient.orderDate)
         renewalDate.setDate(renewalDate.getDate() + 7)

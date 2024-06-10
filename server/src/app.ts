@@ -12,6 +12,7 @@ import ordersRoutes from "./routes/orderRoutes"
 import cors from 'cors'
 import subscriptionRoutes from "./routes/subscriptionRoutes";
 import stripeRoutes from "./routes/stripeRoutes";
+import { renewPayment } from "./utils/cronjob";
 
 dotenv.config();
 
@@ -62,6 +63,7 @@ const startServer = async () => {
         app.listen(port, () => {
             console.log(`Server is up and running on port ${port}`);
         });
+        // renewPayment();
     } catch (error) {
         console.error('Failed to connect to the database', error);
       
