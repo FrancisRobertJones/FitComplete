@@ -54,9 +54,9 @@ const Homepage = () => {
 
 
 
-            <div className="flex justify-between items-center w-full gap-4 pl-16">
+  
               <Homepagecard
-                title={"Lite (FREE)"}
+                title={"Lite"}
                 description={"Ideal for getting started"}
                 linkUrl={"/payment/lite"} price={"30"}            />
             <Homepagecard
@@ -69,7 +69,6 @@ const Homepage = () => {
                 linkUrl={"/payment/premium"} price={"200"}            />
           </div>
 
-      </div>
     </>
   );
 };
