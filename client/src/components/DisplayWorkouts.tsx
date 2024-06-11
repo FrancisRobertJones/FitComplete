@@ -68,7 +68,7 @@ export default function DisplayWorkouts({ workouts }: IDisplayWorkoutsProps) {
               <img
                 src={workout.thumbnail}
                 alt="Workout Thumbnail"
-                className="w-full object-cover"
+                className="w-full object-cover h-56"
               />
             </div>
             <div className="p-6">

@@ -8,6 +8,7 @@ interface IWorkout extends Document {
     exercises: IWorkoutExercise[];
     createdOn: Date;
     category: string;
+    thumbnail: string;
 }
 
 const WorkoutExerciseSchema = new Schema<IWorkoutExercise>({
@@ -23,10 +24,11 @@ const WorkoutExerciseSchema = new Schema<IWorkoutExercise>({
 });
 
 const WorkoutSchema = new Schema<IWorkout>({
-    title: { type: String, required: true },
-    exercises: { type: [WorkoutExerciseSchema], required: true },
-    createdOn: { type: Date, default: Date.now() },
-    category: { type: String, required: true },
+  title: { type: String, required: true },
+  exercises: { type: [WorkoutExerciseSchema], required: true },
+  createdOn: { type: Date, default: Date.now() },
+  category: { type: String, required: true },
+  thumbnail: { type: String, required: true },
 });
 
 const Workout = model<IWorkout>("Workout", WorkoutSchema);
