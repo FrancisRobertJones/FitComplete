@@ -1,6 +1,5 @@
 import AuthComponent from "@/components/AuthComponent";
-import { Homepagecard } from "@/components/homepageCard";
-import { HomepagecardAuthed } from "@/components/homepageCardAuthed";
+import { Homepagecard } from "@/components/PlanCard";
 import HomepageDashboard from "@/components/homepageDashboard";
 import { AuthContext } from "@/context/authContext";
 import { useContext, useEffect, useState } from "react";
@@ -48,47 +47,23 @@ const Homepage = () => {
           {authedUser.loggedIn ? <HomepageDashboard /> : <AuthComponent />}
         </div>
 
-        {
-          authedUser.paymentSuccess === true || authedUser.paymentSuccess === undefined? (
-          authedUser.loggedIn ? (
-            <div className="flex justify-between items-center w-full gap-4 pl-16">
-              <HomepagecardAuthed
+        {authedUser.paymentSuccess === true ||
+        authedUser.paymentSuccess === undefined ? (
+          <div className="flex justify-between items-center w-full gap-4">
+            <Homepagecard
                 title={"Lite"}
                 description={"Ideal for getting started"}
-                linkUrl={"/payment/lite"}
-              />
-              <HomepagecardAuthed
+                linkUrl={"/payment/lite"} price={"30"}            />
+            <Homepagecard
                 title={"Basic"}
                 description={"For people looking for more"}
-                linkUrl={"/payment/basic"}
-              />
-              <HomepagecardAuthed
+                linkUrl={"/payment/basic"} price={"60"}            />
+            <Homepagecard
                 title={"Premium"}
                 description={"The full package"}
-                linkUrl={"/payment/premium"}
-              />
-            </div>
-          ) : (
-            <div className="flex justify-between items-center w-full gap-4 pl-16">
-              <Homepagecard
-                title={"Lite (FREE)"}
-                description={"Ideal for getting started"}
-                linkUrl={"/payment/lite"}
-              />
-              <Homepagecard
-                title={"Basic"}
-                description={"For people looking for more"}
-                linkUrl={"/payment/basic"}
-              />
-              <Homepagecard
-                title={"Premium"}
-                description={"The full package"}
-                linkUrl={"/payment/premium"}
-              />
-            </div>
-          ) 
-         ) : null
-        }
+                linkUrl={"/payment/premium"} price={"200"}            />
+          </div>
+        ) : null}
       </div>
     </>
   );

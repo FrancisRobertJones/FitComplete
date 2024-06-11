@@ -10,8 +10,11 @@ interface IProtectedRoute {
 const ProtectedRoute = ({ Component, minLevel }: IProtectedRoute) => {
     const { authedUser } = useContext(AuthContext)
 
-    if (!authedUser.loggedIn) {
-        return <Navigate to="/login" />;
+    if(authedUser) {
+        if (!authedUser.loggedIn) {
+            return <Navigate to="/login" />;
+        }
+
     }
     if (!authedUser.paymentSuccess) {
         return <Navigate to="/payment-error" />;

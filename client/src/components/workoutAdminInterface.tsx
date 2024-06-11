@@ -36,6 +36,7 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
   const [exercisesFromDb, setExercisesFromDb] = useState<ExerciseFromDB[]>([])
   const [newWorkout, setNewWorkout] = useState<NewWorkout>()
   const [titleToggle, setTitleToggle] = useState(false)
+  const [thumbnailToggle, setThumbnailToggle] = useState(false)
 
   const getAllExercises = async () => {
     try {
@@ -202,7 +203,7 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
           {filteredExercises?.map((exercise) => (
             <Card
               key={exercise.exerciseId}
-              className={`cursor-pointer ${selectedExercise?.exerciseId === exercise.exerciseId
+              className={`cursor-pointer flex flex-col items-center justify-between ${selectedExercise?.exerciseId === exercise.exerciseId
                 ? "border-2 border-blue-500"
                 : "border border-gray-200 dark:border-gray-800"
                 }`}
@@ -289,9 +290,13 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
       </div>
       <div className="bg-gray-100 dark:bg-gray-800 p-8 w-[300px] border-l border-gray-200 dark:border-gray-700 max-h-screen overflow-y-auto">
         <h2 className="text-2xl font-bold mb-4">Selected Exercises</h2>
-        <div className="flex mb-12">
+        <div className="flex flex-col gap-2 justify-center mb-6">
           <Input disabled={titleToggle} placeholder="workout title" name="title" onChange={(e) => handleChange(e, setNewWorkout, newWorkout)}></Input>
-          {!titleToggle ? <Button className="ml-6" onClick={() => setTitleToggle((prev) => !prev)}>Save title</Button> : <Button className="ml-6" onClick={() => setTitleToggle((prev) => !prev)}>Edit title</Button>}
+          {!titleToggle ? <Button onClick={() => setTitleToggle((prev) => !prev)}>Save title</Button> : <Button onClick={() => setTitleToggle((prev) => !prev)}>Edit title</Button>}
+        </div>
+        <div className="flex flex-col gap-2 justify-center mb-6">
+          <Input disabled={titleToggle} placeholder="workout thumbnail" name="thumbnail" onChange={(e) => handleChange(e, setNewWorkout, newWorkout)}></Input>
+          {!thumbnailToggle ? <Button onClick={() => setThumbnailToggle((prev) => !prev)}>Save thumbnail</Button> : <Button onClick={() => setThumbnailToggle((prev) => !prev)}>Edit thumbnail</Button>}
         </div>
         {selectedExercises.length === 0 ? (
           <p className="text-gray-500 dark:text-gray-400">No exercises selected yet.</p>
@@ -321,7 +326,7 @@ export default function WorkoutAdminInterface({ newExercise }: IWorkoutAdminInte
                 </Button>
               </div>
             ))}
-            {newWorkout?.title ?
+            {newWorkout?.title && newWorkout.thumbnail ?
               <Button
                 className="ml-6 mt-24"
                 onClick={() => {
