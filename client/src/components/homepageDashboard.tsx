@@ -31,6 +31,7 @@ const HomepageDashboard = () => {
     return (
         <div className='flex justify-center'>
 
+
             {authedUser.level !== undefined && authedUser.isPaymentSuccess &&
                 <Card className="w-[400px]">
                     <CardHeader>
@@ -39,11 +40,17 @@ const HomepageDashboard = () => {
                             Lets take a quick look at your account details.
                         </CardDescription>
 
+
+
                     </CardHeader>
+
                     <CardContent className="space-y-2">
                         <h1 className='text-2xl'>Current tier:</h1>
                         <h4 className='text-6xl'>{dashboardSubscription}</h4>
                     </CardContent>
+                    {!authedUser.isActive && <CardContent className="space-y-2">
+                        <h1 className='text-2xl'>Your account is inactive, please renew if you want to access our content</h1>
+                    </CardContent>}
                     {authedUser.isCancelling &&
                         <CardContent className="space-y-2">
                             <h1 className='text-2xl'>We're sad to see you go</h1>

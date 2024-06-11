@@ -104,6 +104,11 @@ class OrderRepository {
     return await Order.findByIdAndUpdate(orderId, updates)
   }
 
+  async updateActivityStatus(orderId: string, updates: { isActive: false, isCancelling: false}) {
+    return await Order.findByIdAndUpdate(orderId, updates)
+
+  }
+
   async toggleRenewStatus(id: string) {
     try {
       return Order.findByIdAndUpdate(id, { renewStatus: false, isCancelling: true }, { new: true });

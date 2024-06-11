@@ -117,6 +117,7 @@ class StripeController {
       for (const order of allOrder) {
         const orderId = order._id as string;
         const renewStatus = order.renewStatus;
+
         const activeUntilISO = order.activeUntil.toISOString();
         const renewalDate = DateTime.fromISO(activeUntilISO);
 
@@ -152,19 +153,24 @@ class StripeController {
               isPaymentSuccess: false
             }
             )
-            if(error instanceof Error){
-            results.push({ orderId, status: 'failed', error: error.message });
-          } else {
-            results.push({ orderId, status: 'failed', error: "unknown error" });
-          }
+            if (error instanceof Error) {
+              results.push({ orderId, status: 'failed', error: error.message });
+            } else {
+              results.push({ orderId, status: 'failed', error: "unknown error" });
+            }
 
           }
+        } else if (!renewStatus && now >= renewalDate) {
+          await orderRepository.updateActivityStatus(orderId, {
+            isActive: false,
+            isCancelling: false
+          })
         } else {
           console.log(`Order ${orderId} is still valid.`);
         }
 
       }
-      response.status(200).json({results})
+      response.status(200).json({ results })
     } catch (error) {
       console.log(error)
       response.status(500).json({ error: 'Internal server error' });
