@@ -44,6 +44,11 @@ const HomepageDashboard = () => {
                         <h1 className='text-2xl'>Current tier:</h1>
                         <h4 className='text-6xl'>{dashboardSubscription}</h4>
                     </CardContent>
+                    {authedUser.isCancelling &&
+                        <CardContent className="space-y-2">
+                            <h1 className='text-2xl'>We're sad to see you go</h1>
+                        </CardContent>
+                    }
 
                     <CardContent className="space-y-2 flex">
                         <div className='flex mt-6 justify-center'>
@@ -107,14 +112,14 @@ const HomepageDashboard = () => {
                     </CardContent>
                 </Card>}
             {authedUser.isPaymentSuccess === false &&
-            <div className="w-[400px] flex items-center justify-center">
-                
-                <PaymentFailureAlert 
-                    level = {dashboardSubscription}
-                />
+                <div className="w-[400px] flex items-center justify-center">
+
+                    <PaymentFailureAlert
+                        level={dashboardSubscription}
+                    />
                 </div>
             }
-            
+
 
         </div>
     )
