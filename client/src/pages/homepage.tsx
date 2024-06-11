@@ -46,43 +46,48 @@ const Homepage = () => {
           {authedUser.loggedIn ? <HomepageDashboard /> : <AuthComponent />}
         </div>
 
-        {authedUser.loggedIn ? (
-          <div className="flex justify-between items-center w-full gap-4 pl-16">
-            <HomepagecardAuthed
-              title={"Lite (FREE)"}
-              description={"Ideal for getting started"}
-              linkUrl={"/payment/lite"}
-            />
-            <HomepagecardAuthed
-              title={"Basic"}
-              description={"For people looking for more"}
-              linkUrl={"/payment/basic"}
-            />
-            <HomepagecardAuthed
-              title={"Premium"}
-              description={"The full package"}
-              linkUrl={"/payment/premium"}
-            />
-          </div>
-        ) : (
-          <div className="flex justify-between items-center w-full gap-4 pl-16">
-            <Homepagecard
-              title={"Lite (FREE)"}
-              description={"Ideal for getting started"}
-              linkUrl={"/payment/lite"}
-            />
-            <Homepagecard
-              title={"Basic"}
-              description={"For people looking for more"}
-              linkUrl={"/payment/basic"}
-            />
-            <Homepagecard
-              title={"Premium"}
-              description={"The full package"}
-              linkUrl={"/payment/premium"}
-            />
-          </div>
-        )}
+
+        {
+          authedUser.paymentSuccess === true || authedUser.paymentSuccess === undefined? (
+          authedUser.loggedIn ? (
+            <div className="flex justify-between items-center w-full gap-4 pl-16">
+              <HomepagecardAuthed
+                title={"Lite (FREE)"}
+                description={"Ideal for getting started"}
+                linkUrl={"/payment/lite"}
+              />
+              <HomepagecardAuthed
+                title={"Basic"}
+                description={"For people looking for more"}
+                linkUrl={"/payment/basic"}
+              />
+              <HomepagecardAuthed
+                title={"Premium"}
+                description={"The full package"}
+                linkUrl={"/payment/premium"}
+              />
+            </div>
+          ) : (
+            <div className="flex justify-between items-center w-full gap-4 pl-16">
+              <Homepagecard
+                title={"Lite (FREE)"}
+                description={"Ideal for getting started"}
+                linkUrl={"/payment/lite"}
+              />
+              <Homepagecard
+                title={"Basic"}
+                description={"For people looking for more"}
+                linkUrl={"/payment/basic"}
+              />
+              <Homepagecard
+                title={"Premium"}
+                description={"The full package"}
+                linkUrl={"/payment/premium"}
+              />
+            </div>
+          ) 
+         ) : null
+        }
       </div>
     </>
   );

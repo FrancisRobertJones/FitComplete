@@ -27,33 +27,81 @@ export const PaymentSuccessful = () => {
         setLevel(3)
       }
 
-      if (authedUser.User?.email && !sendCreateOrderRequest.current) {
+      if (authedUser.User?.email && !sendCreateOrderRequest.current && paymentIntentId) {
         sendCreateOrderRequest.current = true
         try {
-          console.log("attempting to post data to endpoint in success")
-          console.log("authedUser: ", authedUser);
-
-          const response = await axios.post("http://localhost:3000/stripe/payment-successful",
-            {
-              payment_intent: paymentIntentId,
-              userData: {
-                name: (authedUser.User.firstName + ' ' + authedUser.User.lastName),
-                level: level,
-                userEmail: authedUser.User?.email,
-              },
-            }
-          );
-          console.log(response, "order creation response");
-          setOrderResponse(response.data.order)
-          setIsLoading(false)
-
+          const { status, orderId } = await checkForExistingOrder(authedUser.User.email)
+          if (status === 200 && orderId) {
+            updateExistingOrder(paymentIntentId, orderId)
+          }
+          if (status === 404) {
+            createNewOrder(paymentIntentId, authedUser.User.firstName, authedUser.User.lastName)
+          }
         } catch (error) {
-          console.log(error);
+          console.log(error)
         }
       }
     };
     if (authedUser) paymentSuccess();
-  }, [authedUser]);
+  }, [authedUser, location.search]);
+
+
+  const checkForExistingOrder = async (email: string) => {
+    try {
+      console.log("checking for existing order on frontend")
+      const response = await axios.post("http://localhost:3000/orders/getOne", { email });
+      const orderId = response.data._id
+      return { status: response.status, orderId };
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        return { status: 404 };
+      }
+      throw error;
+    }
+  }
+
+  const updateExistingOrder = async (paymentIntentId: string, orderId: string) => {
+    try {
+      console.log(`Updating existing order with orderId: ${orderId}, paymentIntentId: ${paymentIntentId}`);
+
+      const response = await axios.post("http://localhost:3000/orders/update-success", {
+        orderId: orderId,
+        payment_intent: paymentIntentId
+      })
+      console.log("updating existing order on frontend")
+      setIsLoading(false)
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+
+    }
+  }
+
+
+  const createNewOrder = async (paymentIntentId: string, firstName: string, lastName: string) => {
+    try {
+      console.log("attempting to post data to endpoint in success")
+      console.log("authedUser: ", authedUser);
+
+      const response = await axios.post("http://localhost:3000/stripe/payment-successful",
+        {
+          payment_intent: paymentIntentId,
+          userData: {
+            name: (firstName + ' ' + lastName),
+            level: level,
+            userEmail: authedUser.User?.email,
+          },
+        }
+      );
+      console.log(response, "order creation response");
+      setOrderResponse(response.data.order)
+      setIsLoading(false)
+
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false)
+    }
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen ">
@@ -101,15 +149,15 @@ export const PaymentSuccessful = () => {
             </div>
           </div>
           <div className="mt-8 flex justify-center">
-            <Link
-              to={"/"}
+            <a
+              href="/"
               className="inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-gray-900/90 focus:outline-none focus:ring-2 focus:ring-gray-950 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus:ring-gray-300"
             >
               Go to Homepage
-            </Link>
+            </a>
           </div>
         </div>
-        }
+      }
     </div>
   );
 };

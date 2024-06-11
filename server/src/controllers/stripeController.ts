@@ -149,7 +149,6 @@ class StripeController {
 
             await orderRepository.updateSubscriptionStatus(
               orderId, {
-              level: 0,
               isPaymentSuccess: false
             }
             )

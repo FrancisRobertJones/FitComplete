@@ -15,6 +15,7 @@ import UnAuthorised from "./pages/unAuthorised";
 import ProtectedRoute from "./components/routes/protectedRoute";
 import Login from "./pages/login";
 import AuthCheck from "./components/routes/authCheckRoute";
+import PaymentUnsuccessful from "./pages/payment-unsuccessful";
 
 export const router = createBrowserRouter([
   {
@@ -63,6 +64,10 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />
+      },
+      {
+        path: "/payment-error",
+        element: <PaymentUnsuccessful />
       }
     ]
   },

@@ -17,7 +17,7 @@ export enum AuthActionType {
 export const AuthReducer = (state: AuthState, action: IAuthAction) => {
     switch (action.type) {
         case AuthActionType.LOGIN:
-            return new AuthState(action.payload.isAuthenticated, action.payload.user, action.payload.level)
+            return new AuthState(action.payload.isAuthenticated, action.payload.user, action.payload.level, action.payload.paymentSuccess)
         case AuthActionType.LOGOUT:
             return new AuthState(false, null)
         default: return new AuthState(false, null)

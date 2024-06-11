@@ -1,4 +1,5 @@
-import Order from "../models/order";
+import Stripe from "stripe";
+import Order, { IOrder } from "../models/order";
 import PaymentIntent, { IPaymentIntent } from "../models/paymentintent";
 import { IUserCredentials } from "../types/interfaces/auth";
 import { OrderDataForDb } from "../types/interfaces/orders";
@@ -77,8 +78,29 @@ class OrderRepository {
     return result;
   }
 
+  async updatePaymentSuccess(orderId: string, updateData: Partial<IOrder>) {
+    try {
+      const updatedOrder = await Order.findByIdAndUpdate(
+        orderId,
+        { $set: updateData },
+        { new: true, runValidators: true }
+      );
 
-  async updateSubscriptionStatus(orderId: string, updates: {level: number, isPaymentSuccess: boolean}) {
+      if (!updatedOrder) {
+        console.log(`Order with ID ${orderId} not found`);
+        return null;
+      }
+
+      console.log('Order updated successfully:', updatedOrder);
+      return updatedOrder;
+    } catch (error) {
+      console.error('Error updating order:', error);
+      throw error;
+    }
+  }
+
+
+  async updateSubscriptionStatus(orderId: string, updates: { isPaymentSuccess: boolean }) {
     return await Order.findByIdAndUpdate(orderId, updates)
   }
 
