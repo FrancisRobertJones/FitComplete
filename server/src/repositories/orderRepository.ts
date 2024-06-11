@@ -106,7 +106,7 @@ class OrderRepository {
 
   async toggleRenewStatus(id: string) {
     try {
-      return Order.findByIdAndUpdate(id, { renewStatus: false }, { new: true });
+      return Order.findByIdAndUpdate(id, { renewStatus: false, isCancelling: true }, { new: true });
     } catch (error) {
       console.error(error);
     }
