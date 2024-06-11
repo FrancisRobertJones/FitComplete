@@ -92,7 +92,7 @@ const Layout = () => {
         <>
             <AuthContext.Provider value={{ dispatchAuth, logOut, authedUser, checkAuth }}>
                 <Navbar2 />
-                <main className='max-w-screen-xl w-full py-12 my-0 mx-auto'>
+                <main className='max-w-screen-xl w-full p-16 my-0 mx-auto'>
                     <Outlet />
                 </main>
                 <Toaster />
