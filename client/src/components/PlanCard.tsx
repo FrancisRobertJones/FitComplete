@@ -55,22 +55,22 @@ export default function PlanCard({ level }: IPlayCardProps) {
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <CheckIcon className="h-5 w-5 fill-green-500" />
+            <CheckIcon className="h-5 w-5" />
             <span>Free access to our workouts for everyone!!</span>
           </div>
           <div className="flex items-center gap-2">
-            {level === "Lite" ? (
-              <XIcon className="h-5 w-5 fill-red-500" />
+            {level === "lite" ? (
+              <XIcon className="h-5 w-5" />
             ) : (
-              <CheckIcon className="h-5 w-5 fill-green-500" />
+              <CheckIcon className="h-5 w-5" />
             )}
             <span>Access our workout video tutorials!!</span>
           </div>
           <div className="flex items-center gap-2">
-            {level === "Lite" || level === "Basic" ? (
-              <XIcon className="h-5 w-5 fill-red-500" />
+            {level === "lite" || level === "basic" ? (
+              <XIcon className="h-5 w-5" />
             ) : (
-              <CheckIcon className="h-5 w-5 fill-green-500" />
+              <CheckIcon className="h-5 w-5" />
             )}
             <span>Access to workout videos and healthy recipies!!</span>
           </div>
@@ -78,7 +78,7 @@ export default function PlanCard({ level }: IPlayCardProps) {
         <div className="flex items-center justify-between pt-10">
           <span className="text-gray-500 dark:text-gray-400">Monthly</span>
           <span className="text-3xl font-bold">
-            {subscription?.subscription.price} USD
+            {subscription?.subscription.price && subscription?.subscription.price / 100} SEK
           </span>
         </div>
       </CardContent>
