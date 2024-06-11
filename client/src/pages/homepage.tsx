@@ -51,20 +51,17 @@ const Homepage = () => {
         authedUser.paymentSuccess === undefined ? (
           <div className="flex justify-between items-center w-full gap-4">
             <Homepagecard
-              title={"Lite"}
-              description={"Ideal for getting started"}
-              linkUrl={"/payment/lite"}
-            />
+                title={"Lite"}
+                description={"Ideal for getting started"}
+                linkUrl={"/payment/lite"} price={"30"}            />
             <Homepagecard
-              title={"Basic"}
-              description={"For people looking for more"}
-              linkUrl={"/payment/basic"}
-            />
+                title={"Basic"}
+                description={"For people looking for more"}
+                linkUrl={"/payment/basic"} price={"60"}            />
             <Homepagecard
-              title={"Premium"}
-              description={"The full package"}
-              linkUrl={"/payment/premium"}
-            />
+                title={"Premium"}
+                description={"The full package"}
+                linkUrl={"/payment/premium"} price={"200"}            />
           </div>
         ) : null}
       </div>

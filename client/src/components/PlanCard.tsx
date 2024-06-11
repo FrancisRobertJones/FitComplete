@@ -20,12 +20,14 @@ interface IHomepageCardProps {
   title: string;
   description: string;
   linkUrl: string;
+  price: string;
 }
 
 export function Homepagecard({
   title,
   description,
   linkUrl,
+  price,
 }: IHomepageCardProps) {
   const [cardLevel, setCardLevel] = useState<number>();
   const { authedUser } = useContext(AuthContext);
@@ -79,36 +81,41 @@ export function Homepagecard({
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="included">Included in plan:</Label>
-              <ul>
-                {FEATURES_NOLINE.map((feature) => {
-                  return (
-                    <div className="flex">
-                      <CheckIcon className="h-5 w-5" />
-                      <li key={feature} className="ml-6">
-                        {feature}
-                      </li>
-                    </div>
-                  );
-                })}
-                {FEATURES_LINE &&
-                  FEATURES_LINE.map((feature) => {
+        <div className="flex flex-col gap-5">
+          <form>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="included">Included in plan:</Label>
+                <ul>
+                  {FEATURES_NOLINE.map((feature) => {
                     return (
                       <div className="flex">
-                        <XIcon className="h-5 w-5" />
-                        <li key={feature} className="ml-6 line-through">
+                        <CheckIcon className="h-5 w-5" />
+                        <li key={feature} className="ml-6">
                           {feature}
                         </li>
                       </div>
                     );
                   })}
-              </ul>
+                  {FEATURES_LINE &&
+                    FEATURES_LINE.map((feature) => {
+                      return (
+                        <div className="flex">
+                          <XIcon className="h-5 w-5" />
+                          <li key={feature} className="ml-6 line-through">
+                            {feature}
+                          </li>
+                        </div>
+                      );
+                    })}
+                </ul>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+          <p>
+            <span className="text-3xl font-extrabold">{price}</span> SEK / month
+          </p>
+        </div>
       </CardContent>
       <CardFooter className="flex justify-between">
         {authedUser.level === cardLevel ? (
