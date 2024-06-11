@@ -26,7 +26,9 @@ const Homepage = () => {
               your needs.
             </p> */}
             <div className="flex flex-col gap-4">
-              <p className="text-xl"><strong>Why Choose FitComplete?</strong></p>
+              <p className="text-xl">
+                <strong>Why Choose FitComplete?</strong>
+              </p>
               <ul className="flex flex-col gap-3">
                 <li>
                   🥉 Free Workouts: Browse and view a wide variety of workouts
@@ -46,43 +48,45 @@ const Homepage = () => {
           {authedUser.loggedIn ? <HomepageDashboard /> : <AuthComponent />}
         </div>
 
-        {authedUser.loggedIn ? (
-          <div className="flex justify-between items-center w-full gap-4">
-            <HomepagecardAuthed
-              title={"Lite (FREE)"}
-              description={"Ideal for getting started"}
-              linkUrl={"/payment/lite"}
-            />
-            <HomepagecardAuthed
-              title={"Basic"}
-              description={"For people looking for more"}
-              linkUrl={"/payment/basic"}
-            />
-            <HomepagecardAuthed
-              title={"Premium"}
-              description={"The full package"}
-              linkUrl={"/payment/premium"}
-            />
-          </div>
-        ) : (
-          <div className="flex justify-between items-center w-full gap-4">
-            <Homepagecard
-              title={"Lite (FREE)"}
-              description={"Ideal for getting started"}
-              linkUrl={"/payment/lite"}
-            />
-            <Homepagecard
-              title={"Basic"}
-              description={"For people looking for more"}
-              linkUrl={"/payment/basic"}
-            />
-            <Homepagecard
-              title={"Premium"}
-              description={"The full package"}
-              linkUrl={"/payment/premium"}
-            />
-          </div>
-        )}
+        <div className="flex justify-between items-center w-full gap-4">
+          {authedUser.loggedIn ? (
+            <>
+              <HomepagecardAuthed
+                title={"Lite"}
+                description={"Ideal for getting started"}
+                linkUrl={"/payment/lite"}
+              />
+              <HomepagecardAuthed
+                title={"Basic"}
+                description={"For people looking for more"}
+                linkUrl={"/payment/basic"}
+              />
+              <HomepagecardAuthed
+                title={"Premium"}
+                description={"The full package"}
+                linkUrl={"/payment/premium"}
+              />
+            </>
+          ) : (
+            <>
+              <Homepagecard
+                title={"Lite"}
+                description={"Ideal for getting started"}
+                linkUrl={"/payment/lite"}
+              />
+              <Homepagecard
+                title={"Basic"}
+                description={"For people looking for more"}
+                linkUrl={"/payment/basic"}
+              />
+              <Homepagecard
+                title={"Premium"}
+                description={"The full package"}
+                linkUrl={"/payment/premium"}
+              />
+            </>
+          )}
+        </div>
       </div>
     </>
   );
