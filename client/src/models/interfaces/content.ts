@@ -7,7 +7,6 @@ export interface IWorkout {
   thumbnail: string
 }
 
-
 export interface IVideo {
   id: string;
   title: string;
@@ -16,16 +15,10 @@ export interface IVideo {
   status: string;
   level: number;
 }
-
-interface IIngredient {
-  name: string;
-  amount: string;
-}
-
 export interface IRecipe {
   id: string;
   title: string;
-  image: string;
+  imageUrl: string;
   description: string;
   ingredients: string[];
   instructions: string[];

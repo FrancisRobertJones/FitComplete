@@ -9,7 +9,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import {HeartIcon} from './svg/hearticon'
+import { HeartIcon } from "./svg/hearticon";
 import { CheckIconCurrent } from "./svg/checkicon";
 
 interface IDisplayRecipesProps {
@@ -20,35 +20,39 @@ export default function DisplayRecipes({ recipes }: IDisplayRecipesProps) {
   const [likedRecipes, setLikedRecipes] = useState([""]);
   const [completedRecipes, setCompletedRecipes] = useState([""]);
   const [showInstructionsModal, setShowInstructionsModal] = useState(false);
-  const [currentRecipeInstructions, setCurrentRecipeInstructions] = useState<string[]>([]);
-  const [currentRecipeIngredients, setCurrentRecipeIngredients] = useState<string[]>([]);
+  const [currentRecipeInstructions, setCurrentRecipeInstructions] = useState<
+    string[]
+  >([]);
+  const [currentRecipeIngredients, setCurrentRecipeIngredients] = useState<
+    string[]
+  >([]);
   const [currentRecipeName, setCurrentRecipeName] = useState<string>();
 
-  const handleShowInstructions = (instructions: string[], name: string) => {
+  const handleShowInstructions = (instructions: string[], name: string, ingredients: string[]) => {
     setCurrentRecipeInstructions(instructions);
     setCurrentRecipeName(name);
+    setCurrentRecipeIngredients(ingredients)
     setShowInstructionsModal(true);
   };
 
-
   const handleLike = (id: string) => {
     if (likedRecipes.includes(id)) {
-      setLikedRecipes(likedRecipes.filter((workout) => workout !== id));
+      setLikedRecipes(likedRecipes.filter((recipe) => recipe !== id));
     } else {
       setLikedRecipes([...likedRecipes, id]);
     }
   };
   const handleComplete = (id: string) => {
     if (completedRecipes.includes(id)) {
-      setCompletedRecipes(completedRecipes.filter((workout) => workout !== id));
+      setCompletedRecipes(completedRecipes.filter((recipe) => recipe !== id));
     } else {
       setCompletedRecipes([...completedRecipes, id]);
     }
   };
 
-  console.log("liked recipes >>>>>>", likedRecipes);
-  console.log("completed recipes >>>>>>", completedRecipes);
+  console.log(recipes);
   
+
 
   const handleCloseInstructionsModal = () => {
     setShowInstructionsModal(false);
@@ -62,7 +66,7 @@ export default function DisplayRecipes({ recipes }: IDisplayRecipesProps) {
           <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden">
             <div className="relative h-48 md:h-64">
               <img
-                src="/placeholder.svg"
+                src={recipe.imageUrl}
                 alt="Workout Thumbnail"
                 width={600}
                 height={400}
@@ -99,11 +103,12 @@ export default function DisplayRecipes({ recipes }: IDisplayRecipesProps) {
                   </Button>
                 </div>
                 <h1 className="text-4xl underline">{recipe.title}</h1>
+                <p>{recipe.description}</p>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() =>
-                    handleShowInstructions(recipe.instructions, recipe.title)
+                    handleShowInstructions(recipe.instructions, recipe.title, recipe.ingredients)
                   }
                 >
                   Instructions
@@ -119,19 +124,19 @@ export default function DisplayRecipes({ recipes }: IDisplayRecipesProps) {
           open={showInstructionsModal}
           onOpenChange={setShowInstructionsModal}
         >
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="max-w-fit w-full h-fit px-16 py-10">
             <DialogHeader>
-              <DialogTitle>{currentRecipeName} instructions</DialogTitle>
+              <DialogTitle className="text-2xl">
+                {currentRecipeName}
+              </DialogTitle>
               <DialogDescription>Do the following:</DialogDescription>
             </DialogHeader>
-            <div className="flex flex-col mx-6">
+            <div className="flex flex-col gap-6 *:flex *:flex-col *:gap-4">
               <ul>
-                {currentRecipeInstructions.map((instruction) => {
-                  return <li className="list-decimal">{instruction}</li>;
-                })}
+                {currentRecipeIngredients.map((ingredient) => {
+                  return <li className="list-disc">{ingredient}</li>;
+              })}
               </ul>
-            </div>
-            <div className="flex flex-col mx-6">
               <ul>
                 {currentRecipeInstructions.map((instruction) => {
                   return <li className="list-decimal">{instruction}</li>;
@@ -143,7 +148,7 @@ export default function DisplayRecipes({ recipes }: IDisplayRecipesProps) {
                 variant="outline"
                 onClick={() => setShowInstructionsModal(false)}
               >
-                Cancel
+                Close
               </Button>
             </DialogFooter>
           </DialogContent>
