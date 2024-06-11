@@ -49,7 +49,7 @@ export const PaymentSuccessful = () => {
   const checkForExistingOrder = async (email: string) => {
     try {
       console.log("checking for existing order on frontend")
-      const response = await axios.post("http://localhost:3000/orders/getOne", { email });
+      const response = await axios.post("http://localhost:3000/orders/get-one", { email });
       const orderId = response.data._id
       return { status: response.status, orderId };
     } catch (error) {

@@ -16,7 +16,7 @@ const ProtectedRoute = ({ Component, minLevel }: IProtectedRoute) => {
         }
 
     }
-    if (!authedUser.paymentSuccess) {
+    if (authedUser.isPaymentSuccess === false) {
         return <Navigate to="/payment-error" />;
     }
 

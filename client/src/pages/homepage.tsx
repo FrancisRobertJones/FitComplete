@@ -7,6 +7,10 @@ import { useContext, useEffect, useState } from "react";
 const Homepage = () => {
   const { authedUser } = useContext(AuthContext);
 
+  useEffect(() => {
+    console.log(authedUser, "this is the auth state")
+  }, [authedUser])
+
   return (
     <>
       <div className="">
@@ -47,11 +51,11 @@ const Homepage = () => {
           {authedUser.loggedIn ? <HomepageDashboard /> : <AuthComponent />}
         </div>
 
-        {authedUser.paymentSuccess === true ||
-        authedUser.paymentSuccess === undefined ? (
-          <div className="flex justify-between items-center w-full gap-4">
-            <Homepagecard
-                title={"Lite"}
+
+
+            <div className="flex justify-between items-center w-full gap-4 pl-16">
+              <Homepagecard
+                title={"Lite (FREE)"}
                 description={"Ideal for getting started"}
                 linkUrl={"/payment/lite"} price={"30"}            />
             <Homepagecard
@@ -63,7 +67,7 @@ const Homepage = () => {
                 description={"The full package"}
                 linkUrl={"/payment/premium"} price={"200"}            />
           </div>
-        ) : null}
+
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react'
+import React, { useEffect, useReducer, useRef } from 'react'
 import { Outlet } from 'react-router-dom'
 import { AuthActionType, AuthReducer } from './reducers/authReducer'
 import { AuthState } from './models/classes/Auth'
@@ -13,9 +13,11 @@ import { User } from './models/classes/User'
 import { AuthResponse } from './models/interfaces/auth'
 import Navbar2 from './components/navbar2'
 import { IPaymentStatusRes } from './models/interfaces/paymentStatus'
+import { IOrderResponse } from './models/interfaces/order'
 
 const Layout = () => {
     const [authedUser, dispatchAuth] = useReducer(AuthReducer, new AuthState(false, null))
+
 
     const logOut = async () => {
         try {
@@ -43,14 +45,25 @@ const Layout = () => {
             const res = await axios.get<AuthResponse>("http://localhost:3000/session", { withCredentials: true })
             if (res.data.isAuthenticated) {
                 const userData = res.data
+                console.log(userData, "this is user data")
                 const email = res.data.user?.email;
-                let level: number | undefined ;
-                let paymentSuccess: boolean | undefined;
-                if(email) {
-                     level = await checkLevel(email as string);
-                     paymentSuccess = await checkPaymentSuccess(email as string);
+
+                let level: number | undefined = undefined;
+                let isPaymentSuccess: boolean | undefined = undefined;
+                let isActive: boolean | undefined = true;
+                let isCancelling: boolean | undefined = false;
+
+                if (email && userData) {
+                    const orderData = await checkOrder(email as string);
+                    if (orderData) {
+                            level = orderData.level,
+                            isActive = orderData.isActive,
+                            isCancelling = orderData.isCancelling,
+                            isPaymentSuccess = orderData.isPaymentSuccess
+                    }
                 }
-                dispatchAuth({type:AuthActionType.LOGIN, payload: {...userData, level: level, paymentSuccess: paymentSuccess}})
+
+                dispatchAuth({ type: AuthActionType.LOGIN, payload: { ...userData, level: level, isPaymentSuccess: isPaymentSuccess, isActive: isActive, isCancelling: isCancelling } })
             } else {
                 dispatchAuth({ type: AuthActionType.LOGOUT, payload: { isAuthenticated: false, user: null } })
             }
@@ -60,22 +73,10 @@ const Layout = () => {
     }
 
 
-
-    const checkLevel = async (email: string) => {
+    const checkOrder = async (email: string) => {
         try {
-            const res = await axios.post<ILevelCheckRes>("http://localhost:3000/orders/level", {"email": email })
-            const level = res.data.level;
-            return level;
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    const checkPaymentSuccess = async (email:string) => {
-        try {
-            const res = await axios.post<IPaymentStatusRes>("http://localhost:3000/orders/payment-success-status", {"email": email })
-            const paymentSuccess = res.data.paymentSuccess; 
-            return paymentSuccess;
+            const res = await axios.post<IOrderResponse>("http://localhost:3000/orders/get-one", { "email": email })
+            return res.data;
         } catch (err) {
             console.log(err)
         }
@@ -83,6 +84,7 @@ const Layout = () => {
 
     useEffect(() => {
         checkAuth();
+        console.log(">>>>>>>>>>>>> were running auth check")
     }, [])
 
 

@@ -9,7 +9,6 @@ class OrderService {
   async getOne(email: string) {
     try {
       const order = await orderRepository.getOne(email);
-
       return order;
     } catch (error) {
       console.error(`Error fetching order: ${error}`);

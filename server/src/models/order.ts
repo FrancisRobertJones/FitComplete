@@ -11,7 +11,9 @@ interface IOrder extends Document {
   renewStatus: boolean;
   transactionId: string,
   amount: number,
-  currency: string
+  currency: string,
+  isActive: boolean,
+  isCancelling: boolean
 
 }
 
@@ -27,6 +29,8 @@ const OrderSchema = new Schema<IOrder>({
   transactionId: { type: String, required: true, index: true },
   amount: { type: Number, required: true },
   currency: { type: String, required: true },
+  isActive: { type: Boolean, required: true, default: true },
+  isCancelling: { type: Boolean, required: true, default: false }
 });
 
 const Order = model<IOrder>("Order", OrderSchema);

@@ -10,6 +10,8 @@ export interface IOrderResponse {
     transactionId: string,
     amount: number,
     currency: string,
+    isCancelling: boolean,
+    isActive: boolean
 }
 
 

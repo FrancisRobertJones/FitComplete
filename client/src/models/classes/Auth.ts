@@ -5,7 +5,9 @@ export class AuthState {
         public loggedIn: boolean,
         public User: User | null,
         public level?: number,
-        public paymentSuccess?: boolean
+        public isPaymentSuccess?: boolean,
+        public isActive?: boolean,
+        public isCancelling?: boolean
     ){}
 }
 
