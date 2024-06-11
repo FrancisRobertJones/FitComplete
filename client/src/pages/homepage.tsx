@@ -30,7 +30,9 @@ const Homepage = () => {
               your needs.
             </p> */}
             <div className="flex flex-col gap-4">
-              <p className="text-xl"><strong>Why Choose FitComplete?</strong></p>
+              <p className="text-xl">
+                <strong>Why Choose FitComplete?</strong>
+              </p>
               <ul className="flex flex-col gap-3">
                 <li>
                   🥉 Free Workouts: Browse and view a wide variety of workouts
@@ -51,6 +53,7 @@ const Homepage = () => {
         </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
         {
           authedUser.isPaymentSuccess === true || authedUser.isPaymentSuccess === undefined ? (
@@ -58,6 +61,13 @@ const Homepage = () => {
             <div className="flex justify-between items-center w-full gap-4 pl-16">
               <HomepagecardAuthed
                 title={"Lite (FREE)"}
+=======
+        <div className="flex justify-between items-center w-full gap-4">
+          {authedUser.loggedIn ? (
+            <>
+              <HomepagecardAuthed
+                title={"Lite"}
+>>>>>>> 252aed7 (Change title)
                 description={"Ideal for getting started"}
                 linkUrl={"/payment/lite"}
               />
@@ -71,11 +81,19 @@ const Homepage = () => {
                 description={"The full package"}
                 linkUrl={"/payment/premium"}
               />
+<<<<<<< HEAD
             </div>
           ) : (
             <div className="flex justify-between items-center w-full gap-4 pl-16">
               <Homepagecard
                 title={"Lite (FREE)"}
+=======
+            </>
+          ) : (
+            <>
+              <Homepagecard
+                title={"Lite"}
+>>>>>>> 252aed7 (Change title)
                 description={"Ideal for getting started"}
                 linkUrl={"/payment/lite"}
               />
@@ -89,6 +107,7 @@ const Homepage = () => {
                 description={"The full package"}
                 linkUrl={"/payment/premium"}
               />
+<<<<<<< HEAD
             </div>
           ) 
          ) : null
@@ -132,6 +151,11 @@ const Homepage = () => {
           </div>
         )}
 >>>>>>> 1a8ee11 (Small layout changes)
+=======
+            </>
+          )}
+        </div>
+>>>>>>> 252aed7 (Change title)
       </div>
     </>
   );
