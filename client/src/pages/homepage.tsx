@@ -8,6 +8,10 @@ import { useContext, useEffect, useState } from 'react'
 const Homepage = () => {
   const { authedUser } = useContext(AuthContext)
 
+  useEffect(() => {
+    console.log(authedUser, "this is the auth state")
+  }, [authedUser])
+
   return (
     <>
       <div className="">
@@ -48,7 +52,7 @@ const Homepage = () => {
 
 
         {
-          authedUser.paymentSuccess === true || authedUser.paymentSuccess === undefined? (
+          authedUser.isPaymentSuccess === true || authedUser.isPaymentSuccess === undefined ? (
           authedUser.loggedIn ? (
             <div className="flex justify-between items-center w-full gap-4 pl-16">
               <HomepagecardAuthed

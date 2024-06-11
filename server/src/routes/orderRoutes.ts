@@ -4,16 +4,11 @@ import orderController from "../controllers/orderController";
 
 const router = express.Router();
 
-router.post('/level', OrderController.getOneOrder, OrderController.getLevel);
 router.post('/payment-success-status', OrderController.getOneOrder, OrderController.getPaymentSuccessStatus)
 router.post("/payment-successful", orderController.createOrder);
 router.post("/update-success", orderController.updateSuccess)
 
-router.post('/getOne', (request, response) => {
-    OrderController.getOneOrder(request, response, () => {
-        response.status(200).json(request.order);
-    });
-});
+router.post('/get-one', OrderController.getOneOrder);
 router.post("/unsubscribe", orderController.cancelOrder)
 
 export default router;

@@ -13,7 +13,7 @@ const ProtectedRoute = ({ Component, minLevel }: IProtectedRoute) => {
     if (!authedUser.loggedIn) {
         return <Navigate to="/login" />;
     }
-    if (!authedUser.paymentSuccess) {
+    if (authedUser.isPaymentSuccess === false) {
         return <Navigate to="/payment-error" />;
     }
 

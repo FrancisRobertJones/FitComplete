@@ -15,29 +15,15 @@ declare module "express-serve-static-core" {
 class OrderController {
   async getOneOrder(request: Request, response: Response, next: NextFunction) {
     const email = request.body.email;
-    console.log("getting order in ordercontroller")
     try {
       const order = await OrderService.getOne(email);
-      if (!order) {
-        return response.status(404).json({ error: "Order not found" });
-      }
-      request.order = order;
-      next();
-    } catch (error) {
-      response.status(500).json({ error: "Failed to fetch order" });
-    }
-  }
-
-  async getLevel(request: Request, response: Response) {
-    try {
-      const order = request.order;
       if (order) {
-        response.status(200).json({ level: order.level });
+        response.status(200).json(order);
       } else {
         response.status(404).json({ error: "Order not found" });
       }
     } catch (error) {
-      response.status(500).json({ error: "Failed to fetch order level" });
+      response.status(500).json({ error: "Failed to fetch order" });
     }
   }
 

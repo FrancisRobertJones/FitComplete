@@ -4,5 +4,7 @@ export interface AuthResponse {
     isAuthenticated: boolean,
     user: User | null,
     level?: number,
-    paymentSuccess?: boolean,
+    isPaymentSuccess?: boolean,
+    isActive?: boolean,
+    isCancelling?: boolean
 }

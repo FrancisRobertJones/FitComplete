@@ -99,7 +99,6 @@ export function HomepagecardAuthed({
     }
   };
 
-  console.log(orderData);
 
   return (
     <Card
