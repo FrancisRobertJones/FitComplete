@@ -11,7 +11,6 @@ const Lite = () => {
       const response = await axios.get<IWorkout[]>(
         "http://localhost:3000/content?type=workouts"
       );
-      console.log(response.data);
       setWorkouts(response.data);
     };
     fetchContents();
