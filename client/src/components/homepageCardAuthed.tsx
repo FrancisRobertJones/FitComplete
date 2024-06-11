@@ -42,7 +42,7 @@ export function HomepagecardAuthed({
   const [message, setMessage] = useState<string>();
 
   useEffect(() => {
-    if (title === "Lite (FREE)") {
+    if (title === "Lite") {
       setCardLevel(1);
     } else if (title === "Basic") {
       setCardLevel(2);
@@ -55,7 +55,7 @@ export function HomepagecardAuthed({
 
   const FEATURE_ARRAY: { [key: string]: { noLine: string[]; line: string[] } } =
     {
-      "Lite (FREE)": {
+      Lite: {
         noLine: [FEATURES[0]],
         line: [FEATURES[1], FEATURES[2]],
       },
