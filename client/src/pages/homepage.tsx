@@ -51,11 +51,11 @@ const Homepage = () => {
           {authedUser.loggedIn ? <HomepageDashboard /> : <AuthComponent />}
         </div>
 
-
-
-
+            </div>
   
-              <Homepagecard
+            <div className="flex justify-between items-center w-full gap-4 pl-16">
+
+            <Homepagecard
                 title={"Lite"}
                 description={"Ideal for getting started"}
                 linkUrl={"/payment/lite"} price={"30"}            />
@@ -69,8 +69,8 @@ const Homepage = () => {
                 linkUrl={"/payment/premium"} price={"200"}            />
           </div>
 
-    </>
-  );
-};
+            </>
+          )}
+  
 
 export default Homepage;
