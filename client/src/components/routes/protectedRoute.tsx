@@ -15,16 +15,17 @@ const ProtectedRoute = ({ Component, minLevel }: IProtectedRoute) => {
       return <Navigate to="/login" />;
     }
     if (authedUser.isPaymentSuccess === false) {
-        return <Navigate to="/payment-error" />;
+      return <Navigate to="/payment-error" />;
     }
 
-    if(minLevel) {
+    if (minLevel) {
       if (authedUser.level === undefined || authedUser.level < minLevel || !authedUser.isActive) {
-          return <Navigate to="/unauthorised" />;
+        return <Navigate to="/unauthorised" />;
       }
     }
 
-  return <Component />;
-};
+    return <Component />;
+  };
+}
 
 export default ProtectedRoute;

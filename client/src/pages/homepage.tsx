@@ -51,8 +51,8 @@ const Homepage = () => {
           {authedUser.loggedIn ? <HomepageDashboard /> : <AuthComponent />}
         </div>
 
-        {authedUser.paymentSuccess === true ||
-          authedUser.paymentSuccess === undefined ? (
+         {authedUser.isPaymentSuccess === true ||
+          authedUser.isPaymentSuccess === undefined ? (
           <div className="flex justify-between items-center w-full gap-4">
             <Homepagecard
               title={"Lite"}
@@ -67,7 +67,7 @@ const Homepage = () => {
               description={"The full package"}
               linkUrl={"/payment/premium"} price={"200"} />
           </div>
-        ) : null}
+        ) : null} 
       </div>
 
     </>)

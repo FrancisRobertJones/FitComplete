@@ -16,9 +16,12 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/authContext";
 import { UnsubscribeDialog } from "./UnsubscribeDialog";
 
-
-
-
+interface IHomepageCardProps {
+  title: string,
+  description: string,
+  linkUrl: string,
+  price: string
+}
 
 export function Homepagecard({
   title,
@@ -79,36 +82,6 @@ export function Homepagecard({
         <CardDescription>{description}</CardDescription>
       </CardHeader>
 
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <CheckIcon className="h-5 w-5" />
-            <span>Free access to our workouts for everyone!!</span>
-          </div>
-          <div className="flex items-center gap-2">
-            {level === "lite" ? (
-              <XIcon className="h-5 w-5" />
-            ) : (
-              <CheckIcon className="h-5 w-5" />
-            )}
-            <span>Access our workout video tutorials!!</span>
-          </div>
-          <div className="flex items-center gap-2">
-            {level === "lite" || level === "basic" ? (
-              <XIcon className="h-5 w-5" />
-            ) : (
-              <CheckIcon className="h-5 w-5" />
-            )}
-            <span>Access to workout videos and healthy recipies!!</span>
-          </div>
-        </div>
-        <div className="flex items-center justify-between pt-10">
-          <span className="text-gray-500 dark:text-gray-400">Monthly</span>
-          <span className="text-3xl font-bold">
-            {subscription?.subscription.price && subscription?.subscription.price / 100} SEK
-          </span>
-        </div>
-      </CardContent>
       <CardContent>
         <div className="flex flex-col gap-5">
           <form>
