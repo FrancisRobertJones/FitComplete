@@ -52,14 +52,16 @@ const Layout = () => {
                 let isPaymentSuccess: boolean | undefined = undefined;
                 let isActive: boolean | undefined = true;
                 let isCancelling: boolean | undefined = false;
+                let daysLeft: number | undefined = undefined
 
                 if (email && userData) {
                     const orderData = await checkOrder(email as string);
+                    console.log(orderData, "THIS IS THE ORDER DATA")
                     if (orderData) {
                             level = orderData.level,
                             isActive = orderData.isActive,
                             isCancelling = orderData.isCancelling,
-                            isPaymentSuccess = orderData.isPaymentSuccess
+                            isPaymentSuccess = orderData.isPaymentSuccess                            
                     }
                 }
 
