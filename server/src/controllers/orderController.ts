@@ -15,12 +15,9 @@ declare module "express-serve-static-core" {
 class OrderController {
   async getOneOrder(request: Request, response: Response, next: NextFunction) {
     const email = request.body.email;
-    console.log("email in order", email);
-
+    console.log("getting order in ordercontroller")
     try {
       const order = await OrderService.getOne(email);
-      console.log("order in order<<<<<<<<<<", order);
-
       if (!order) {
         return response.status(404).json({ error: "Order not found" });
       }
@@ -44,6 +41,19 @@ class OrderController {
     }
   }
 
+  async getPaymentSuccessStatus(request: Request, response: Response) {
+    try {
+      const order = request.order;
+      if (order) {
+        response.status(200).json({ paymentSuccess: order.isPaymentSuccess });
+      } else {
+        response.status(404).json({ error: "paymentSuccess not found" });
+      }
+    } catch (error) {
+      response.status(500).json({ error: "Failed to fetch order paymentSuccess" });
+    }
+  }
+
   async createOrder(request: Request, response: Response) {
     const { userData, payment_intent: paymentIntentId } = request.body;
     try {
@@ -62,6 +72,23 @@ class OrderController {
 
       const savedOrder = orderService.createOrder(newOrderDataFromClient);
       response.status(200).json({ success: true, order: savedOrder });
+    } catch (error) {
+      response.status(500).json({ error: "Failed to create order" });
+      console.log(error);
+    }
+  }
+
+
+  async updateSuccess(request: Request, response: Response) {
+    const { orderId, payment_intent: paymentIntentId } = request.body;
+    try {
+      const paymentIntent = await stripe.paymentIntents.retrieve(
+        paymentIntentId
+      );
+
+      const updatedOrder = orderService.updatePaymentSuccess(orderId, paymentIntent);
+
+      response.status(200).json({ success: true, order: updatedOrder });
     } catch (error) {
       response.status(500).json({ error: "Failed to create order" });
       console.log(error);
