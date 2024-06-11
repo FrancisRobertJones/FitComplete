@@ -47,7 +47,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/contentadmin",
-        element: <ContentAdminPage />
+        element: <ProtectedRoute Component={ContentAdminPage} />
       },
       {
         path: "/payment/:level",
