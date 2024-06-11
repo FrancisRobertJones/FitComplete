@@ -11,3 +11,8 @@ export interface IOrderResponse {
     amount: number,
     currency: string,
 }
+
+
+export interface IExistingOrderResData {
+    _id: string
+}
