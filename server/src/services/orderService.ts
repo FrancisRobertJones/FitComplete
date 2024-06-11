@@ -53,7 +53,7 @@ class OrderService {
 
   async updatePaymentSuccess(orderId: string, paymentIntent: Stripe.Response<Stripe.PaymentIntent>) {
     const updatedOrderDate = new Date();
-    const renewalDate = updatedOrderDate
+    const renewalDate = new Date();
     renewalDate.setDate(renewalDate.getDate() + 7);
 
     const updateData = {

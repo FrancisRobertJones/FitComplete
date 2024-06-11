@@ -18,7 +18,7 @@ const HomepageDashboard = () => {
     useEffect(() => {
         if (authedUser.level) {
             if (authedUser.level === 1) {
-                setDashboardSubscription("Lite (Free)")
+                setDashboardSubscription("Lite")
             } else if (authedUser.level === 2) {
                 setDashboardSubscription("Basic")
             } else if (authedUser.level === 3) {
@@ -108,7 +108,10 @@ const HomepageDashboard = () => {
                 </Card>}
             {authedUser.paymentSuccess === false &&
             <div className="w-[400px] flex items-center justify-center">
-                <PaymentFailureAlert />
+                
+                <PaymentFailureAlert 
+                    level = {dashboardSubscription}
+                />
                 </div>
             }
             
