@@ -4,7 +4,7 @@ export interface IWorkout {
   _id: string;
   title: string;
   exercises: WorkoutExercise[]; //TODO fix description
-
+  thumbnail: string
 }
 
 

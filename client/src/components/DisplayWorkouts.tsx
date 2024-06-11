@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { IWorkout } from "@/models/interfaces/content";
 import { Link } from "react-router-dom";
@@ -30,8 +30,6 @@ export default function DisplayWorkouts({ workouts }: IDisplayWorkoutsProps) {
   >([]);
   const [currentWorkoutName, setCurrentWorkoutName] = useState<string>();
   const { authedUser } = useContext(AuthContext);
-
-  console.log(authedUser.level);
 
   const handleShowInstructions = (instructions: string[], name: string) => {
     setCurrentWorkoutInstructions(instructions);
@@ -66,13 +64,11 @@ export default function DisplayWorkouts({ workouts }: IDisplayWorkoutsProps) {
       <div className="grid sm:grid-col-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-col-4 gap-8">
         {workouts.map((workout) => (
           <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden">
-            <div className="relative h-48 md:h-64">
+            <div className="relative">
               <img
-                src="/placeholder.svg"
+                src={workout.thumbnail}
                 alt="Workout Thumbnail"
-                width={600}
-                height={400}
-                className="w-full h-full object-cover"
+                className="w-full object-cover"
               />
             </div>
             <div className="p-6">
@@ -127,7 +123,13 @@ export default function DisplayWorkouts({ workouts }: IDisplayWorkoutsProps) {
                     </div>
                     <p className="text-sm">{exercise.description}</p>
                     <div className="flex gap-2">
-                      <Link to={authedUser.level && authedUser.level > 1 ? exercise.videoURL : "/unauthorised"}
+                      <Link
+                        to={
+                          authedUser.level && authedUser.level > 1
+                            ? exercise.videoURL
+                            : "/unauthorised"
+                        }
+                        target="_blank"
                       >
                         <Button variant="outline" size="sm">
                           <PlayIcon className="w-4 h-4 mr-2" />
