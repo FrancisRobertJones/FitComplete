@@ -353,9 +353,10 @@ export default function WorkoutAdminInterface({
           </Dialog>
         )}
       </div>
-      <div className="bg-gray-100 dark:bg-gray-800 p-8 w-[300px] border-l border-gray-200 dark:border-gray-700 max-h-screen overflow-y-auto">
-        <h2 className="text-2xl font-bold mb-4">Selected Exercises</h2>
-        <div className="flex flex-col gap-2 justify-center mb-6">
+      <div className="flex flex-col gap-8 items-center *:w-full bg-gray-100 dark:bg-gray-800 p-8 w-[300px] border-l border-gray-200 dark:border-gray-700 max-h-screen overflow-y-auto">
+        <h2 className="text-2xl font-bold">Your workout</h2>
+        <div className="flex flex-col gap-3">
+          <label htmlFor="">Title:</label>
           <Input
             // disabled={titleToggle}
             placeholder="workout title"
@@ -363,8 +364,7 @@ export default function WorkoutAdminInterface({
             onChange={(e) => handleChange(e, setNewWorkout, newWorkout)}
           ></Input>
           {/* {!titleToggle ? <Button onClick={() => setTitleToggle((prev) => !prev)}>Save title</Button> : <Button onClick={() => setTitleToggle((prev) => !prev)}>Edit title</Button>} */}
-        </div>
-        <div className="flex flex-col gap-2 justify-center mb-6">
+          <label htmlFor="">Thumbnail:</label>
           <Input
             // disabled={thumbnailToggle}
             placeholder="workout thumbnail"
@@ -374,7 +374,7 @@ export default function WorkoutAdminInterface({
           {/* {!thumbnailToggle ? <Button onClick={() => setThumbnailToggle((prev) => !prev)}>Save thumbnail</Button> : <Button onClick={() => setThumbnailToggle((prev) => !prev)}>Edit thumbnail</Button>} */}
         </div>
         {selectedExercises.length === 0 ? (
-          <p className="text-gray-500 dark:text-gray-400">
+          <p className="text-gray-500 dark:text-gray-400 mt-6">
             No exercises selected yet.
           </p>
         ) : (
@@ -421,7 +421,7 @@ export default function WorkoutAdminInterface({
               </Button>
             ) : (
               <Button
-                className="ml-6 mt-24"
+                className="w-full"
                 onClick={() =>
                   toast({
                     variant: "destructive",
