@@ -52,113 +52,26 @@ const Homepage = () => {
           {authedUser.loggedIn ? <HomepageDashboard /> : <AuthComponent />}
         </div>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+            </div>
+  
+            <div className="flex justify-between items-center w-full gap-4 pl-16">
 
-        {
-          authedUser.isPaymentSuccess === true || authedUser.isPaymentSuccess === undefined ? (
-          authedUser.loggedIn ? (
-            <div className="flex justify-between items-center w-full gap-4 pl-16">
-              <HomepagecardAuthed
-                title={"Lite (FREE)"}
-=======
-        <div className="flex justify-between items-center w-full gap-4">
-          {authedUser.loggedIn ? (
-            <>
-              <HomepagecardAuthed
+            <Homepagecard
                 title={"Lite"}
->>>>>>> 252aed7 (Change title)
                 description={"Ideal for getting started"}
-                linkUrl={"/payment/lite"}
-              />
-              <HomepagecardAuthed
+                linkUrl={"/payment/lite"} price={"30"}            />
+            <Homepagecard
                 title={"Basic"}
                 description={"For people looking for more"}
-                linkUrl={"/payment/basic"}
-              />
-              <HomepagecardAuthed
+                linkUrl={"/payment/basic"} price={"60"}            />
+            <Homepagecard
                 title={"Premium"}
                 description={"The full package"}
-                linkUrl={"/payment/premium"}
-              />
-<<<<<<< HEAD
-            </div>
-          ) : (
-            <div className="flex justify-between items-center w-full gap-4 pl-16">
-              <Homepagecard
-                title={"Lite (FREE)"}
-=======
-            </>
-          ) : (
-            <>
-              <Homepagecard
-                title={"Lite"}
->>>>>>> 252aed7 (Change title)
-                description={"Ideal for getting started"}
-                linkUrl={"/payment/lite"}
-              />
-              <Homepagecard
-                title={"Basic"}
-                description={"For people looking for more"}
-                linkUrl={"/payment/basic"}
-              />
-              <Homepagecard
-                title={"Premium"}
-                description={"The full package"}
-                linkUrl={"/payment/premium"}
-              />
-<<<<<<< HEAD
-            </div>
-          ) 
-         ) : null
-        }
-=======
-        {authedUser.loggedIn ? (
-          <div className="flex justify-between items-center w-full gap-4">
-            <HomepagecardAuthed
-              title={"Lite (FREE)"}
-              description={"Ideal for getting started"}
-              linkUrl={"/payment/lite"}
-            />
-            <HomepagecardAuthed
-              title={"Basic"}
-              description={"For people looking for more"}
-              linkUrl={"/payment/basic"}
-            />
-            <HomepagecardAuthed
-              title={"Premium"}
-              description={"The full package"}
-              linkUrl={"/payment/premium"}
-            />
+                linkUrl={"/payment/premium"} price={"200"}            />
           </div>
-        ) : (
-          <div className="flex justify-between items-center w-full gap-4">
-            <Homepagecard
-              title={"Lite (FREE)"}
-              description={"Ideal for getting started"}
-              linkUrl={"/payment/lite"}
-            />
-            <Homepagecard
-              title={"Basic"}
-              description={"For people looking for more"}
-              linkUrl={"/payment/basic"}
-            />
-            <Homepagecard
-              title={"Premium"}
-              description={"The full package"}
-              linkUrl={"/payment/premium"}
-            />
-          </div>
-        )}
->>>>>>> 1a8ee11 (Small layout changes)
-=======
+
             </>
           )}
-        </div>
->>>>>>> 252aed7 (Change title)
-      </div>
-    </>
-  );
-};
+  
 
 export default Homepage;

@@ -11,6 +11,7 @@ import { ISubscription } from "@/models/interfaces/subscription";
 import { CheckIcon } from "./svg/checkicon";
 import { XIcon } from "./svg/xicon";
 
+<<<<<<< HEAD
 interface IPlayCardProps {
   level: string;
 }
@@ -18,6 +19,23 @@ interface IPlayCardProps {
 export default function PlanCard({ level }: IPlayCardProps) {
   const [subscription, setSubscription] = useState<ISubscription>();
 
+=======
+interface IHomepageCardProps {
+  title: string;
+  description: string;
+  linkUrl: string;
+  price: string;
+}
+
+export function Homepagecard({
+  title,
+  description,
+  linkUrl,
+  price,
+}: IHomepageCardProps) {
+  const [cardLevel, setCardLevel] = useState<number>();
+  const { authedUser } = useContext(AuthContext);
+>>>>>>> 25a32ce (add price to cards)
 
   useEffect(() => {
     const fetchSubscriptionFromParams = async () => {
@@ -52,6 +70,7 @@ export default function PlanCard({ level }: IPlayCardProps) {
           Unlock exclusive features and benefits
         </CardDescription>
       </CardHeader>
+<<<<<<< HEAD
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
@@ -80,6 +99,43 @@ export default function PlanCard({ level }: IPlayCardProps) {
           <span className="text-3xl font-bold">
             {subscription?.subscription.price && subscription?.subscription.price / 100} SEK
           </span>
+=======
+      <CardContent>
+        <div className="flex flex-col gap-5">
+          <form>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="included">Included in plan:</Label>
+                <ul>
+                  {FEATURES_NOLINE.map((feature) => {
+                    return (
+                      <div className="flex">
+                        <CheckIcon className="h-5 w-5" />
+                        <li key={feature} className="ml-6">
+                          {feature}
+                        </li>
+                      </div>
+                    );
+                  })}
+                  {FEATURES_LINE &&
+                    FEATURES_LINE.map((feature) => {
+                      return (
+                        <div className="flex">
+                          <XIcon className="h-5 w-5" />
+                          <li key={feature} className="ml-6 line-through">
+                            {feature}
+                          </li>
+                        </div>
+                      );
+                    })}
+                </ul>
+              </div>
+            </div>
+          </form>
+          <p>
+            <span className="text-3xl font-extrabold">{price}</span> SEK / month
+          </p>
+>>>>>>> 25a32ce (add price to cards)
         </div>
       </CardContent>
     </Card>
