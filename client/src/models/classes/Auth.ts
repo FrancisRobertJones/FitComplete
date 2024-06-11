@@ -4,7 +4,8 @@ export class AuthState {
     constructor(
         public loggedIn: boolean,
         public User: User | null,
-        public level?: number
+        public level?: number,
+        public paymentSuccess?: boolean
     ){}
 }
 

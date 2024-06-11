@@ -31,7 +31,7 @@ const HomepageDashboard = () => {
     return (
         <div className='flex justify-center'>
 
-            {authedUser.level !== undefined && authedUser.level !== 0 &&
+            {authedUser.level !== undefined && authedUser.paymentSuccess &&
                 <Card className="w-[400px]">
                     <CardHeader>
                         <CardTitle>Welcome back {authedUser.User?.firstName}</CardTitle>
@@ -106,7 +106,7 @@ const HomepageDashboard = () => {
                         </div>
                     </CardContent>
                 </Card>}
-            {authedUser.level === 0 &&
+            {authedUser.paymentSuccess === false &&
             <div className="w-[400px] flex items-center justify-center">
                 <PaymentFailureAlert />
                 </div>

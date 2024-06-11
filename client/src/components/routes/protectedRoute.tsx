@@ -17,6 +17,10 @@ const ProtectedRoute = ({ Component, minLevel }: IProtectedRoute) => {
     if (authedUser.level === undefined || authedUser.level < minLevel) {
         return <Navigate to="/unauthorised" />;
       }
+
+    if (!authedUser.paymentSuccess) {
+        return <Navigate to="/payment-error" />;
+    }
  
      return <Component />;
 

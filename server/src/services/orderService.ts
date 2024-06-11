@@ -1,3 +1,4 @@
+import Stripe from "stripe";
 import orderRepository from "../repositories/orderRepository";
 import {
   NewOrderDataFromClient,
@@ -48,6 +49,24 @@ class OrderService {
 
     const savedOrder = await orderRepository.saveOrder(orderDataForDb);
     return savedOrder;
+  }
+
+  async updatePaymentSuccess(orderId: string, paymentIntent: Stripe.Response<Stripe.PaymentIntent>) {
+    const updatedOrderDate = new Date();
+    const renewalDate = updatedOrderDate
+    renewalDate.setDate(renewalDate.getDate() + 7);
+
+    const updateData = {
+      paymentMethod: paymentIntent.payment_method as string,
+      transactionId: paymentIntent.id,
+      isPaymentSuccess: true,
+      amount: paymentIntent.amount,
+      orderDate: updatedOrderDate,
+      activeUntil: renewalDate
+      }
+
+    const updatedOrder = await orderRepository.updatePaymentSuccess(orderId, updateData)
+    return updatedOrder
   }
 
   async cancelOrder(email: string) {

@@ -8,7 +8,7 @@ export default function PaymentFailureAlert() {
         <CircleAlertIcon className="h-8 w-8 text-red-500" />
         <h3 className="text-red-900 font-semibold">Payment Failed</h3>
       </div>
-      <p className="text-red-700 mt-2 mb-6">There was an issue processing your payment. Please try again.</p>
+      <p className="text-red-700 mt-2 mb-6">There was an issue processing your payment. Please update your payment details in order to access your content.</p>
       <div className="mt-4 flex justify-center items-center justify-between">
         <Button>
           Retry Payment
