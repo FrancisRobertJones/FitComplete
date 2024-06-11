@@ -31,7 +31,7 @@ export default function Navbar2() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="start">
                             <DropdownMenuItem>
-                                <Link to={"/"} >
+                                <Link to={"/contentadmin"} >
                                     Dashboard
                                 </Link>
                             </DropdownMenuItem>

@@ -19,18 +19,18 @@ export default function Component() {
         <Homepagecard
           title={"Lite"}
           description={"Ideal for getting started"}
-          linkUrl={"/payment/lite"}
-        />
+          linkUrl={"/payment/lite"} 
+          price={"30"}        />
         <Homepagecard
           title={"Basic"}
           description={"For people looking for more"}
-          linkUrl={"/payment/basic"}
-        />
+          linkUrl={"/payment/basic"} 
+          price={"60"}        />
         <Homepagecard
           title={"Premium"}
           description={"The full package"}
-          linkUrl={"/payment/premium"}
-        />
+          linkUrl={"/payment/premium"} 
+          price={"200"}        />
       </div>
       <ul className="flex flex-col gap-6 text-xl">
         <li>
