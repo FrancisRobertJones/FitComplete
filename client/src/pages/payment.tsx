@@ -1,5 +1,5 @@
 import { PaymentCard } from "@/components/PaymentCard";
-import PlanCard from "@/components/PlanCard";
+import PlanCard from "@/components/PlanCardForPayment";
 import { useContext, useEffect, useReducer, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { StripeElementsOptions, loadStripe } from "@stripe/stripe-js";

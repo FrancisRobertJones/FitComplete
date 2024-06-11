@@ -1,5 +1,5 @@
 import { TriangleAlertIcon } from "lucide-react";
-import { Homepagecard } from "@/components/homepageCard";
+import { Homepagecard } from "@/components/PlanCard";
 
 export default function Component() {
   return (
