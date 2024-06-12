@@ -7,4 +7,7 @@ export interface AuthResponse {
     isPaymentSuccess?: boolean,
     isActive?: boolean,
     isCancelling?: boolean
+    orderDate?: string,
+    activeUntil?: string,
+    daysUntilPayment?: number
 }
