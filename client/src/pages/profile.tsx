@@ -1,12 +1,10 @@
-
+import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/context/authContext";
-import React, { ChangeEvent, useContext, useState } from "react";
+import { useContext } from "react";
 
 export const Profile = () => {
   const { authedUser } = useContext(AuthContext);
   const user = authedUser.User;
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
-  console.log(user);
 
   return (
     <>
@@ -16,6 +14,15 @@ export const Profile = () => {
       </p>
       <p>Email: {user?.email}</p>
       <p>Role: {user?.role}</p>
+      {authedUser.User?.role === "customer" && (
+        <div className="flex items-center gap-6">
+          <p>
+            Are you interested in creating your own content? Send a request to
+            us!
+          </p>
+          <Button>Request for creator role</Button>
+        </div>
+      )}
     </>
   );
 };
