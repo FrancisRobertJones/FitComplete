@@ -1,15 +1,22 @@
 import AuthComponent from "@/components/AuthComponent";
-import { Homepagecard } from "@/components/PlanCard";
+import { HomepageCard } from "@/components/PlanCard";
 import HomepageDashboard from "@/components/homepageDashboard";
 import { AuthContext } from "@/context/authContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 const Homepage = () => {
   const { authedUser } = useContext(AuthContext);
+  const PlansTargetref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     console.log(authedUser, "this is the auth state")
   }, [authedUser])
+
+  const scrollToTarget = () => {
+    if (PlansTargetref.current) {
+      PlansTargetref.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <>
@@ -48,26 +55,29 @@ const Homepage = () => {
               </ul>
             </div>
           </div>
-          {authedUser.loggedIn ? <HomepageDashboard /> : <AuthComponent />}
+          {authedUser.loggedIn ? <HomepageDashboard scrollToTarget={scrollToTarget} /> : <AuthComponent />}
         </div>
 
-         {authedUser.isPaymentSuccess === true ||
+        {authedUser.isPaymentSuccess === true ||
           authedUser.isPaymentSuccess === undefined ? (
           <div className="flex justify-between items-center w-full gap-4">
-            <Homepagecard
+            <HomepageCard
+              ref={PlansTargetref}
               title={"Lite"}
               description={"Ideal for getting started"}
               linkUrl={"/payment/lite"} price={"30"} />
-            <Homepagecard
+            <HomepageCard
+              ref={PlansTargetref}
               title={"Basic"}
               description={"For people looking for more"}
               linkUrl={"/payment/basic"} price={"60"} />
-            <Homepagecard
+            <HomepageCard
+              ref={PlansTargetref}
               title={"Premium"}
               description={"The full package"}
               linkUrl={"/payment/premium"} price={"200"} />
           </div>
-        ) : null} 
+        ) : null}
       </div>
 
     </>)

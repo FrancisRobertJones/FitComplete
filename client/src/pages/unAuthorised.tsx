@@ -1,5 +1,5 @@
 import { TriangleAlertIcon } from "lucide-react";
-import { Homepagecard } from "@/components/PlanCard";
+import { HomepageCard } from "@/components/PlanCard";
 
 export default function Component() {
   return (
@@ -16,17 +16,17 @@ export default function Component() {
         </div>
       </div>
       <div className="flex justify-between items-center w-full gap-4 pl-16">
-        <Homepagecard
+        <HomepageCard
           title={"Lite"}
           description={"Ideal for getting started"}
           linkUrl={"/payment/lite"} 
           price={"30"}        />
-        <Homepagecard
+        <HomepageCard
           title={"Basic"}
           description={"For people looking for more"}
           linkUrl={"/payment/basic"} 
           price={"60"}        />
-        <Homepagecard
+        <HomepageCard
           title={"Premium"}
           description={"The full package"}
           linkUrl={"/payment/premium"} 
