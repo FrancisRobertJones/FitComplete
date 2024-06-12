@@ -39,38 +39,39 @@ const HomepageDashboard = ({ scrollToTarget }: IHomepageDashboardProps) => {
         <div className='flex justify-center'>
 
 
-            {/*             {authedUser.isPaymentSuccess &&
- */}                <Card className="w-[400px]">
-                <CardHeader>
-                    <CardTitle>Welcome back {authedUser.User?.firstName}</CardTitle>
-                    <CardDescription>
-                        Lets take a quick look at your account details.
-                    </CardDescription>
-                </CardHeader>
+            {authedUser.isPaymentSuccess &&
+                <Card className="w-[400px]">
+                    <CardHeader>
+                        <CardTitle>Welcome back {authedUser.User?.firstName}</CardTitle>
+                        <CardDescription>
+                            Lets take a quick look at your account details.
+                        </CardDescription>
+                    </CardHeader>
 
-                {
-                    authedUser.isActive &&
-                    authedUser.level === undefined &&
-                    <HPDIsUserNoLevel
-                        authedUser={authedUser}
-                        scrollToTarget={scrollToTarget} />
-                }
-                {
-                    authedUser.isActive &&
-                    authedUser.level && dashboardSubscription &&
-                    <HPDIsUserWithCardLevel
-                        dashboardSubscription={dashboardSubscription}
-                        authedUser={authedUser}
-                    />
-                }
-                {
-                    !authedUser.isActive &&
-                    <HPDIsInactive
-                        scrollToTarget={scrollToTarget}
-                    />
-                }
-            </Card>
-
+                    {
+                        authedUser.isActive &&
+                        authedUser.level === undefined &&
+                        <HPDIsUserNoLevel
+                            authedUser={authedUser}
+                            scrollToTarget={scrollToTarget} />
+                    }
+                    {
+                        authedUser.isActive &&
+                        authedUser.level && dashboardSubscription &&
+                        <HPDIsUserWithCardLevel
+                            dashboardSubscription={dashboardSubscription}
+                            authedUser={authedUser}
+                            scrollToTarget={scrollToTarget}
+                        />
+                    }
+                    {
+                        !authedUser.isActive &&
+                        <HPDIsInactive
+                            scrollToTarget={scrollToTarget}
+                        />
+                    }
+                </Card>
+            }
 
             {authedUser.isPaymentSuccess === false &&
                 <div className="w-[400px] flex items-center justify-center">

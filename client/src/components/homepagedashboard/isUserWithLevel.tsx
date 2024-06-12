@@ -2,13 +2,16 @@ import React from 'react'
 import { CardContent } from '../ui/card'
 import { AuthState } from '@/models/classes/Auth'
 import { Button } from '../ui/button'
+import { UnsubscribeDialog } from '../UnsubscribeDialog'
 
 interface IHPDIsUserWithCardLevel {
     authedUser: AuthState,
-    dashboardSubscription: string
+    dashboardSubscription: string,
+    scrollToTarget: () => void
 }
 
-const HPDIsUserWithCardLevel = ({ authedUser, dashboardSubscription }: IHPDIsUserWithCardLevel) => {
+const HPDIsUserWithCardLevel = ({ authedUser, dashboardSubscription, scrollToTarget}: IHPDIsUserWithCardLevel) => {
+    const title = "plan"
     return (
         <> 
         <CardContent className="space-y-2">
@@ -43,8 +46,8 @@ const HPDIsUserWithCardLevel = ({ authedUser, dashboardSubscription }: IHPDIsUse
             </CardContent>
             <CardContent className="space-y-2">
                 <div className='flex justify-between'>
-                    <Button>Upgrade plan</Button>
-                    <Button variant={"destructive"}>Cancel plan</Button>
+                    <Button onClick={() => {scrollToTarget()}}>Upgrade plan</Button>
+                    <UnsubscribeDialog title={title} />
                 </div>
             </CardContent>
         </>

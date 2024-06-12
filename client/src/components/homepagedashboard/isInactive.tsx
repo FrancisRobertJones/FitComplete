@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { CardContent } from '../ui/card'
 import { Button } from '../ui/button'
+import ReactivateSubscription from '@/custom-hooks/reactivateSubscription'
+import { AuthContext } from '@/context/authContext'
 
 interface IHPDIsInactive {
     scrollToTarget: () => void
 }
 
 const HPDIsInactive = ({ scrollToTarget }: IHPDIsInactive) => {
+    const { handleReactivation } = ReactivateSubscription();
+    const { authedUser } = useContext(AuthContext)
+
     return (
         <>
             <CardContent className="space-y-2 mb-36 mt-12">
@@ -14,7 +19,7 @@ const HPDIsInactive = ({ scrollToTarget }: IHPDIsInactive) => {
             </CardContent>
             <CardContent className="space-y-2">
                 <div className='flex justify-between mt-12'>
-                    <Button onClick={scrollToTarget}>Renew membership</Button>
+                    <Button onClick={() => handleReactivation(authedUser.User?.email as string)}/* {scrollToTarget} */>Renew membership</Button>
                 </div>
             </CardContent>
         </>
