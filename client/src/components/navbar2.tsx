@@ -18,12 +18,12 @@ export default function Navbar2() {
   return (
     <div className="flex flex-col">
       <header className="flex h-16 w-full items-center justify-between px-4 md:px-6">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center">
           <Button variant="outline" size="icon" className="lg:hidden">
             <MenuIcon className="h-6 w-6" />
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
-          <Link to={"/"} className="font-bold">
+          <Link to={"/"} className="font-bold mr-4">
             Fitness App
           </Link>
           {authedUser.User?.role === "admin" && (
