@@ -12,12 +12,13 @@ import { AuthContext } from '@/context/authContext'
 import PaymentFailureAlert from './PaymentFailureAlert'
 import HPDIsUserWithCardLevel from './homepagedashboard/isUserWithLevel'
 import HPDIsUserNoLevel from './homepagedashboard/isUserNoLevel'
+import HPDIsInactive from './homepagedashboard/isInactive'
 
 interface IHomepageDashboardProps {
     scrollToTarget: () => void
 }
 
-const HomepageDashboard = ({scrollToTarget}: IHomepageDashboardProps) => {
+const HomepageDashboard = ({ scrollToTarget }: IHomepageDashboardProps) => {
     const [dashboardSubscription, setDashboardSubscription] = useState<string>()
     const { authedUser } = useContext(AuthContext)
 
@@ -38,31 +39,38 @@ const HomepageDashboard = ({scrollToTarget}: IHomepageDashboardProps) => {
         <div className='flex justify-center'>
 
 
-{/*             {authedUser.isPaymentSuccess &&
+            {/*             {authedUser.isPaymentSuccess &&
  */}                <Card className="w-[400px]">
-                    <CardHeader>
-                        <CardTitle>Welcome back {authedUser.User?.firstName}</CardTitle>
-                        <CardDescription>
-                            Lets take a quick look at your account details.
-                        </CardDescription>
-                    </CardHeader>
+                <CardHeader>
+                    <CardTitle>Welcome back {authedUser.User?.firstName}</CardTitle>
+                    <CardDescription>
+                        Lets take a quick look at your account details.
+                    </CardDescription>
+                </CardHeader>
 
-                     {authedUser.level === undefined &&
-                          <HPDIsUserNoLevel authedUser={authedUser} scrollToTarget={scrollToTarget}/>
-                    } 
+                {
+                    authedUser.isActive &&
+                    authedUser.level === undefined &&
+                    <HPDIsUserNoLevel
+                        authedUser={authedUser}
+                        scrollToTarget={scrollToTarget} />
+                }
+                {
+                    authedUser.isActive &&
+                    authedUser.level && dashboardSubscription &&
+                    <HPDIsUserWithCardLevel
+                        dashboardSubscription={dashboardSubscription}
+                        authedUser={authedUser}
+                    />
+                }
+                {
+                    !authedUser.isActive &&
+                    <HPDIsInactive
+                        scrollToTarget={scrollToTarget}
+                    />
+                }
+            </Card>
 
-                    {authedUser.level && dashboardSubscription &&
-                        <HPDIsUserWithCardLevel
-                            dashboardSubscription={dashboardSubscription}
-                            authedUser={authedUser}
-                        />
-                    }
-
-                    {!authedUser.isActive && <CardContent className="space-y-2">
-                        <h1 className='text-2xl'>Your account is inactive, please renew if you want to access our content</h1>
-                    </CardContent>}
-                </Card>
-       {/*      } */}
 
             {authedUser.isPaymentSuccess === false &&
                 <div className="w-[400px] flex items-center justify-center">

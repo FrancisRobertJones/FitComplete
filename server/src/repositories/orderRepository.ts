@@ -100,22 +100,29 @@ class OrderRepository {
   }
 
 
-  async updateSubscriptionStatus(orderId: string, updates: { isPaymentSuccess: boolean }) {
+  async updateSubscriptionStatus(orderId: string, updates: { isPaymentSuccess: boolean, isCancelling?: boolean, isActive?: boolean }) {
     return await Order.findByIdAndUpdate(orderId, updates)
   }
 
-  async updateActivityStatus(orderId: string, updates: { isActive: false, isCancelling: false}) {
+  async updateActivityStatus(orderId: string, updates: { isActive: false, isCancelling: false }) {
     return await Order.findByIdAndUpdate(orderId, updates)
 
   }
 
-  async toggleRenewStatus(id: string) {
+  async toggleRenewStatusFalse(id: string) {
     try {
       return Order.findByIdAndUpdate(id, { renewStatus: false, isCancelling: true }, { new: true });
     } catch (error) {
       console.error(error);
     }
+  }
 
+  async toggleRenewStatusTrue(id: string) {
+    try {
+      return Order.findByIdAndUpdate(id, { renewStatus: true, isCancelling: false }, { new: true });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   /* async createNewOrder*/

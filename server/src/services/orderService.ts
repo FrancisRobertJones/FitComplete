@@ -73,8 +73,24 @@ class OrderService {
 
     if (order && order.renewStatus === true) {
       const id = order._id as string;
-      const canceledOrder = await orderRepository.toggleRenewStatus(id);
+      const canceledOrder = await orderRepository.toggleRenewStatusFalse(id);
       if (canceledOrder?.renewStatus === false) {
+        return canceledOrder;
+      } else {
+        return `Failed to cancel the order ${id}.`;
+      }
+    } else {
+      return `Order is already canceled.`;
+    }
+  }
+
+  async reactivateOrder(email: string) {
+    const order = await orderRepository.getOne(email);
+
+    if (order && order.renewStatus === false) {
+      const id = order._id as string;
+      const canceledOrder = await orderRepository.toggleRenewStatusTrue(id);
+      if (canceledOrder?.renewStatus === true) {
         return canceledOrder;
       } else {
         return `Failed to cancel the order ${id}.`;
