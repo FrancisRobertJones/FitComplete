@@ -21,7 +21,7 @@ export default function ContentAdminInterFace({
     <div className="flex flex-col gap-8 p-6 md:p-10">
       <div className="flex items-center justify-between">
         <div className="space-y-1">
-          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+          <h1 className="text-2xl font-bold">Creator Dashboard</h1>
           <p className="text-gray-500 dark:text-gray-400">
             Manage your exercises and workouts.
           </p>

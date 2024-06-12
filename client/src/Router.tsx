@@ -9,13 +9,13 @@ import { Payment } from "./pages/payment";
 import { PaymentSuccessful } from "./pages/payment-successful";
 import Lite from "./pages/levels/lite";
 import Basic from "./pages/levels/lite";
-import { AuthContext } from "./context/authContext";
-import { useContext } from "react";
 import UnAuthorised from "./pages/unAuthorised";
 import ProtectedRoute from "./components/routes/protectedRoute";
 import Login from "./pages/login";
 import AuthCheck from "./components/routes/authCheckRoute";
 import PaymentUnsuccessful from "./pages/payment-unsuccessful";
+import { Profile } from "./pages/profile";
+import { Users } from "./pages/admin-users";
 
 export const router = createBrowserRouter([
   {
@@ -29,15 +29,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "/subscriptions/lite",
-        element: <ProtectedRoute Component={Lite} minLevel={1} />
+        element: <ProtectedRoute Component={Lite} minLevel={1} />,
       },
       {
         path: "/subscriptions/basic",
-        element: <ProtectedRoute Component={Basic} minLevel={2} />
+        element: <ProtectedRoute Component={Basic} minLevel={2} />,
       },
       {
         path: "/subscriptions/premium",
-        element: <ProtectedRoute Component={Premium} minLevel={3} />
+        element: <ProtectedRoute Component={Premium} minLevel={3} />,
       },
       {
         path: "/orders",
@@ -47,28 +47,36 @@ export const router = createBrowserRouter([
       },
       {
         path: "/contentadmin",
-        element: <ProtectedRoute Component={ContentAdminPage} />
+        element: <ProtectedRoute Component={ContentAdminPage} />,
       },
       {
         path: "/payment/:level",
-        element: <AuthCheck Component={Payment} />
+        element: <AuthCheck Component={Payment} />,
       },
       {
         path: "/payment-successful",
-        element: <PaymentSuccessful />
+        element: <PaymentSuccessful />,
       },
       {
         path: "/unauthorised",
-        element: <UnAuthorised />
-      }, 
+        element: <UnAuthorised />,
+      },
       {
         path: "/login",
-        element: <Login />
+        element: <Login />,
+      },
+      {
+        path: "/profile",
+        element: <ProtectedRoute Component={Profile} />,
       },
       {
         path: "/payment-error",
-        element: <PaymentUnsuccessful />
-      }
-    ]
+        element: <PaymentUnsuccessful />,
+      },
+      {
+        path: "/admin/users",
+        element: <Users />,
+      },
+    ],
   },
 ]);
