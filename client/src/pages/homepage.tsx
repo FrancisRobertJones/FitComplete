@@ -58,6 +58,9 @@ const Homepage = () => {
           {authedUser.loggedIn ? <HomepageDashboard scrollToTarget={scrollToTarget} /> : <AuthComponent />}
         </div>
 
+        {/* {authedUser.isPaymentSuccess === true && authedUser.isActive && !authedUser.isCancelling ||
+          authedUser.isPaymentSuccess === undefined && !authedUser.isCancelling && authedUser.isActive ? ( */}
+
         {authedUser.isPaymentSuccess === true ||
           authedUser.isPaymentSuccess === undefined ? (
           <div className="flex justify-between items-center w-full gap-4">

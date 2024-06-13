@@ -15,6 +15,8 @@ import { XIcon } from "./svg/xicon";
 import { forwardRef, useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/authContext";
 import { UnsubscribeDialog } from "./UnsubscribeDialog";
+import ReactivateSubscription from "@/custom-hooks/reactivateSubscription";
+import { CardFooterContent } from "./PlanCardFooterContent";
 
 interface IHomepageCardProps {
   title: string,
@@ -31,6 +33,8 @@ export const HomepageCard = forwardRef<HTMLDivElement, IHomepageCardProps>(({
 }, ref) => {
   const [cardLevel, setCardLevel] = useState<number>();
   const { authedUser } = useContext(AuthContext);
+
+
 
 
   useEffect(() => {
@@ -119,19 +123,14 @@ export const HomepageCard = forwardRef<HTMLDivElement, IHomepageCardProps>(({
           </p>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        {authedUser.level === cardLevel ? (
-          <UnsubscribeDialog title={title} />
-        ) : (
-          <Link to={linkUrl}>
-            <Button>
-              {authedUser.loggedIn
-                ? `Change to ${title}`
-                : `Subscribe ${title} plan`}{" "}
-            </Button>
-          </Link>
-        )}
-      </CardFooter>
+
+      <CardFooterContent
+        authedUser={authedUser}
+        cardLevel={cardLevel}
+        title={title}
+        linkUrl={linkUrl}
+      />
+
       <Separator className="my-4" />
     </Card>
   );
