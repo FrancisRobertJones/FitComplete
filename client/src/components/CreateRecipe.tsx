@@ -61,7 +61,7 @@ const CreateRecipe = () => {
           <Input
             id="recipe-image"
             name="imageUrl"
-            type="file"
+            type="text"
             onChange={(e) => handleChange(e, setNewRecipe, newRecipe)}
           />
         </div>
