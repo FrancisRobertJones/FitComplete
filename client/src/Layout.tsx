@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef } from 'react'
+import React, { useEffect, useReducer, useRef, useState } from 'react'
 import { AuthActionType, AuthReducer } from './reducers/authReducer'
 import { AuthState } from './models/classes/Auth'
 import axios from 'axios'
@@ -14,10 +14,12 @@ import { IOrderResponse } from './models/interfaces/order'
 import CancellationBanner from './components/cancellationBanner'
 import { DateTime } from 'luxon';
 import { Outlet } from 'react-router-dom'
+import IsLoadingScreen from './components/IsLoadingScreen'
 
 
 const Layout = () => {
     const [authedUser, dispatchAuth] = useReducer(AuthReducer, new AuthState(false, null))
+    const [isLoading, setIsLoading] = useState(true)
 
 
     const logOut = async () => {
@@ -101,6 +103,8 @@ const Layout = () => {
             }
         } catch (err) {
             console.log(err)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -122,12 +126,17 @@ const Layout = () => {
 
     return (
         <>
-            <AuthContext.Provider value={{ dispatchAuth, logOut, authedUser, checkAuth }}>
+            <AuthContext.Provider value={{ dispatchAuth, logOut, authedUser, checkAuth, isLoading }}>
                 <Navbar2 />
                 {authedUser.isCancelling && <CancellationBanner />}
-                <main className='max-w-screen-xl w-full p-16 my-0 mx-auto'>
-                    <Outlet />
-                </main>
+                {isLoading ?
+                    <IsLoadingScreen />
+                    :
+
+                    <main className='max-w-screen-xl w-full p-16 my-0 mx-auto'>
+                        <Outlet />
+                    </main>
+                }
                 <Toaster />
 
                 <footer>
