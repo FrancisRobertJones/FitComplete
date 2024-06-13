@@ -75,7 +75,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/admin/users",
-        element: <Users />,
+        element: <ProtectedRoute Component={Users} />,
       },
     ],
   },
