@@ -10,8 +10,15 @@ import {
 } from "@/components/ui/card"
 import { AuthContext } from '@/context/authContext'
 import PaymentFailureAlert from './PaymentFailureAlert'
+import HPDIsUserWithCardLevel from './homepagedashboard/isUserWithLevel'
+import HPDIsUserNoLevel from './homepagedashboard/isUserNoLevel'
+import HPDIsInactive from './homepagedashboard/isInactive'
 
-const HomepageDashboard = () => {
+interface IHomepageDashboardProps {
+    scrollToTarget: () => void
+}
+
+const HomepageDashboard = ({ scrollToTarget }: IHomepageDashboardProps) => {
     const [dashboardSubscription, setDashboardSubscription] = useState<string>()
     const { authedUser } = useContext(AuthContext)
 
@@ -32,92 +39,40 @@ const HomepageDashboard = () => {
         <div className='flex justify-center'>
 
 
-            {authedUser.level !== undefined && authedUser.isPaymentSuccess &&
+            {authedUser.isPaymentSuccess &&
                 <Card className="w-[400px]">
                     <CardHeader>
                         <CardTitle>Welcome back {authedUser.User?.firstName}</CardTitle>
                         <CardDescription>
                             Lets take a quick look at your account details.
                         </CardDescription>
-
-
-
                     </CardHeader>
 
-                    <CardContent className="space-y-2">
-                        <h1 className='text-2xl'>Current tier:</h1>
-                        <h4 className='text-6xl'>{dashboardSubscription}</h4>
-                    </CardContent>
-                    {!authedUser.isActive && <CardContent className="space-y-2">
-                        <h1 className='text-2xl'>Your account is inactive, please renew if you want to access our content</h1>
-                    </CardContent>}
-                    {authedUser.isCancelling &&
-                        <CardContent className="space-y-2">
-                            <h1 className='text-2xl'>We're sad to see you go</h1>
-                        </CardContent>
+                    {
+                        authedUser.isActive &&
+                        authedUser.level === undefined &&
+                        <HPDIsUserNoLevel
+                            authedUser={authedUser}
+                            scrollToTarget={scrollToTarget} />
                     }
-
-                    <CardContent className="space-y-2 flex">
-                        <div className='flex mt-6 justify-center'>
-                            <div className='flex flex-col items-center text-center'>
-                                <h4>Membership days</h4>
-                                <h2 className='text-6xl'>24</h2>
-                            </div>
-                            <div className='flex flex-col items-center text-center'>
-                                <h4>Workouts completed</h4>
-                                <h2 className='text-6xl'>12</h2>
-                            </div>
-                            <div className='flex flex-col items-center text-center'>
-                                <h4>Videos watched</h4>
-                                <h2 className='text-6xl'>12</h2>
-                            </div>
-                            <div className='flex flex-col items-center text-center'>
-                                <h4>Recipies made</h4>
-                                <h2 className='text-6xl'>12</h2>
-                            </div>
-                        </div>
-                    </CardContent>
-                    <CardContent className="space-y-2">
-                        <h1>Your next payment is due in 13 days</h1>
-                        <h1>Your membership expires in 13 days</h1>
-                    </CardContent>
-                    <CardContent className="space-y-2">
-                        <div className='flex justify-between'>
-                            <Button>Upgrade plan</Button>
-                            <Button variant={"destructive"}>Cancel plan</Button>
-                        </div>
-                    </CardContent>
+                    {
+                        authedUser.isActive &&
+                        authedUser.level && dashboardSubscription &&
+                        <HPDIsUserWithCardLevel
+                            dashboardSubscription={dashboardSubscription}
+                            authedUser={authedUser}
+                            scrollToTarget={scrollToTarget}
+                        />
+                    }
+                    {
+                        !authedUser.isActive &&
+                        <HPDIsInactive
+                            scrollToTarget={scrollToTarget}
+                        />
+                    }
                 </Card>
             }
-            {authedUser.level === undefined &&
-                <Card className="w-[400px]">
-                    <CardHeader>
-                        <CardTitle>Welcome back {authedUser.User?.firstName}</CardTitle>
-                        <CardDescription>
-                            Lets take a quick look at your account details.
-                        </CardDescription>
 
-                    </CardHeader>
-                    <CardContent className="space-y-2 mb-12">
-                        <h1 className='text-xl'>Current tier: <span className='font-bold'>None</span></h1>
-                    </CardContent>
-
-                    <CardContent className="space-y-6">
-                        <h1 className='text-2xl mb-4'>
-                            Susbcribe to access our awesome features! Including:
-                        </h1>
-                        <ul className='leading-relaxed space-y-4'>
-                            <li>🥉 Free Workouts</li>
-                            <li >🥈 Video Access: Upgrade to unlock video workout tutorials.</li>
-                            <li>🥇 Premium Recipes: Elevate your nutrition with healthy recipes.</li>
-                        </ul>
-                    </CardContent>
-                    <CardContent className="space-y-2">
-                        <div className='flex justify-between mt-12'>
-                            <Button>Subscribe now</Button>
-                        </div>
-                    </CardContent>
-                </Card>}
             {authedUser.isPaymentSuccess === false &&
                 <div className="w-[400px] flex items-center justify-center">
 
@@ -126,6 +81,10 @@ const HomepageDashboard = () => {
                     />
                 </div>
             }
+
+
+
+
 
 
         </div>

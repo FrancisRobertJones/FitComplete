@@ -7,7 +7,11 @@ export class AuthState {
         public level?: number,
         public isPaymentSuccess?: boolean,
         public isActive?: boolean,
-        public isCancelling?: boolean
+        public isCancelling?: boolean,
+        public orderDate?: string,
+        public activeUntil?: string,
+        public daysUntilPayment?: number
+        
     ){}
 }
 

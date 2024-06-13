@@ -12,9 +12,11 @@ import { Separator } from "@radix-ui/react-separator";
 import { Link } from "react-router-dom";
 import { CheckIcon } from "./svg/checkicon";
 import { XIcon } from "./svg/xicon";
-import { useContext, useEffect, useState } from "react";
+import { forwardRef, useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/authContext";
 import { UnsubscribeDialog } from "./UnsubscribeDialog";
+import ReactivateSubscription from "@/custom-hooks/reactivateSubscription";
+import { CardFooterContent } from "./PlanCardFooterContent";
 
 interface IHomepageCardProps {
   title: string,
@@ -23,14 +25,16 @@ interface IHomepageCardProps {
   price: string
 }
 
-export function Homepagecard({
+export const HomepageCard = forwardRef<HTMLDivElement, IHomepageCardProps>(({
   title,
   description,
   linkUrl,
   price,
-}: IHomepageCardProps) {
+}, ref) => {
   const [cardLevel, setCardLevel] = useState<number>();
   const { authedUser } = useContext(AuthContext);
+
+
 
 
   useEffect(() => {
@@ -83,7 +87,7 @@ export function Homepagecard({
       </CardHeader>
 
       <CardContent>
-        <div className="flex flex-col gap-5">
+        <div ref={ref} className="flex flex-col gap-5">
           <form>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
@@ -119,20 +123,15 @@ export function Homepagecard({
           </p>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        {authedUser.level === cardLevel ? (
-          <UnsubscribeDialog title={title} />
-        ) : (
-          <Link to={linkUrl}>
-            <Button>
-              {authedUser.loggedIn
-                ? `Change to ${title}`
-                : `Subscribe ${title} plan`}{" "}
-            </Button>
-          </Link>
-        )}
-      </CardFooter>
+
+      <CardFooterContent
+        authedUser={authedUser}
+        cardLevel={cardLevel}
+        title={title}
+        linkUrl={linkUrl}
+      />
+
       <Separator className="my-4" />
     </Card>
   );
-}
+})

@@ -2,6 +2,8 @@ import { toast } from "@/components/ui/use-toast";
 import axios, { AxiosError } from "axios";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { useNavigate } from 'react-router-dom';
+
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -69,11 +71,26 @@ export const handleSubmit = async (
   } catch (error) {
     if (axios.isAxiosError(error)) {
       toast({
-        variant: "destructive",
         title: `There was a problem saving your ${contentType}!`,
         description: `${error.message}`,
       })
     }
     console.log(error);
+  }
+};
+
+export const unsubscribe = async (email: string) => {
+  try {
+      const response = await axios.post(
+        "http://localhost:3000/orders/unsubscribe",
+        { email }
+      );
+
+      if (response.status === 200) {
+        window.location.href = '/';
+
+      }
+    } catch (error: any) {
+    console.error(error);
   }
 };

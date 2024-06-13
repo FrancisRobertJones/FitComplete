@@ -94,6 +94,20 @@ class OrderController {
       response.status(500).json({ error: "Failed to cancel order" });
     }
   }
+
+  async reactivateOrder(request: Request, response: Response) {
+    try {
+      const { email } = request.body;
+      const result = await orderService.reactivateOrder(email);
+      if (typeof result === "object") {
+        response.status(200).json({ message: "success", order: result });
+      } else {
+        response.status(400).json({ message: result });
+      }
+    } catch (error) {
+      response.status(500).json({ error: "Failed to reactivate order" });
+    }
+  }
 }
 
 export default new OrderController();

@@ -127,6 +127,10 @@ class StripeController {
           console.log(newRenewalDate);
 
           try {
+            await stripe.paymentMethods.attach(order.paymentMethod, {
+              customer: order.stripeCustomerId,
+            });
+
             const paymentIntent = await stripe.paymentIntents.create({
               amount: order.amount,
               currency: order.currency,
@@ -143,6 +147,11 @@ class StripeController {
               orderId,
               newRenewalDate
             );
+            await orderRepository.updateSubscriptionStatus(orderId, {
+              isPaymentSuccess: true,
+              isActive: true,
+              isCancelling: false,
+            });
             results.push({ orderId, status: 'renewed', newRenewalDate });
 
           } catch (error) {
@@ -150,7 +159,7 @@ class StripeController {
 
             await orderRepository.updateSubscriptionStatus(
               orderId, {
-              isPaymentSuccess: false
+              isPaymentSuccess: false,
             }
             )
             if (error instanceof Error) {

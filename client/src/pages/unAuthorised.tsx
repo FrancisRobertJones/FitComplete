@@ -1,8 +1,9 @@
 import { TriangleAlertIcon } from "lucide-react";
-import { Homepagecard } from "@/components/PlanCard";
+import { HomepageCard } from "@/components/PlanCard";
 
 export default function Component() {
   return (
+    <div className="mt-28">
     <div className="flex flex-col justify-center items-center h-[80vh] gap-24 my-20">
       <div className="flex items-center justify-center bg-white dark:bg-gray-800">
         <div className="mx-auto max-w-md space-y-4 text-center">
@@ -16,17 +17,17 @@ export default function Component() {
         </div>
       </div>
       <div className="flex justify-between items-center w-full gap-4 pl-16">
-        <Homepagecard
+        <HomepageCard
           title={"Lite"}
           description={"Ideal for getting started"}
           linkUrl={"/payment/lite"} 
           price={"30"}        />
-        <Homepagecard
+        <HomepageCard
           title={"Basic"}
           description={"For people looking for more"}
           linkUrl={"/payment/basic"} 
           price={"60"}        />
-        <Homepagecard
+        <HomepageCard
           title={"Premium"}
           description={"The full package"}
           linkUrl={"/payment/premium"} 
@@ -46,6 +47,7 @@ export default function Component() {
           wide variety of workouts for free.
         </li>
       </ul>
+    </div>
     </div>
   );
 }
