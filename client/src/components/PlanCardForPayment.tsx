@@ -76,7 +76,7 @@ export default function PlanCard({ level }: IPlayCardProps) {
           </div>
         </div>
         <div className="flex items-center justify-between pt-10">
-          <span className="text-gray-500 dark:text-gray-400">Monthly</span>
+          <span className="text-gray-500 dark:text-gray-400">Weekly</span>
           <span className="text-3xl font-bold">
             {subscription?.subscription.price && subscription?.subscription.price / 100} SEK
           </span>
