@@ -51,7 +51,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/payment/:level",
-        element: <ProtectedRoute Component={Payment} />,
+        element: <AuthCheck Component={Payment} />,
       },
       {
         path: "/payment-successful",

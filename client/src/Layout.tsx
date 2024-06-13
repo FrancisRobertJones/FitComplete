@@ -8,13 +8,13 @@ import { Toaster } from './components/ui/toaster'
 import { ILevelCheckRes } from './models/interfaces/level'
 import { User } from './models/classes/User'
 import { AuthResponse } from './models/interfaces/auth'
-import Navbar2 from './components/navbar2'
 import { IPaymentStatusRes } from './models/interfaces/paymentStatus'
 import { IOrderResponse } from './models/interfaces/order'
 import CancellationBanner from './components/cancellationBanner'
 import { DateTime } from 'luxon';
 import { Outlet } from 'react-router-dom'
 import IsLoadingScreen from './components/IsLoadingScreen'
+import Navbar from './components/navbar'
 
 
 const Layout = () => {
@@ -127,7 +127,7 @@ const Layout = () => {
     return (
         <>
             <AuthContext.Provider value={{ dispatchAuth, logOut, authedUser, checkAuth, isLoading }}>
-                <Navbar2 />
+                <Navbar />
                 {authedUser.isCancelling && <CancellationBanner />}
                 {isLoading ?
                     <IsLoadingScreen />

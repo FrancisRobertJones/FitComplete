@@ -1,105 +1,117 @@
-import * as React from "react"
-import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button";
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
-import { AuthContext } from "@/context/authContext"
-import { Button } from "./ui/button"
-import { Link } from "react-router-dom"
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { LogOutIcon, MenuIcon } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ChevronDownIcon } from "./svg/chevrondownicon";
+import { AuthContext } from "@/context/authContext";
+import { useContext } from "react";
 
-export function Navbar() {
-  const { checkAuth, logOut, authedUser } = React.useContext(AuthContext)
+export default function Navbar() {
+  const { checkAuth, logOut, authedUser } = useContext(AuthContext);
+  console.log(authedUser);
 
   return (
-    <>
-      <NavigationMenu className="h-[60px] flex w-full items-center justify-between px-4">
-        <NavigationMenuList className="flex">
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                <li className="row-span-3">
-                  <NavigationMenuLink asChild>
-                    <a
-                      className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                      href="/"
-                    >
-                      <div className="mb-2 mt-4 text-lg font-medium">
-                        Home
-                      </div>
-                      <p className="text-sm leading-tight text-muted-foreground">
-                        Beautifully description about our subscription application.
-                      </p>
-                    </a>
-                  </NavigationMenuLink>
-                </li>
-                <ListItem href="/docs" title="Our Products">
-                  Re-usable components built using Radix UI and Tailwind CSS.
-                </ListItem>
-                <ListItem href="/docs/installation" title="Profile/admin">
-                  How to install dependencies and structure your app.
-                </ListItem>
-                <ListItem href="/docs/primitives/typography" title="Login/logout">
-                  Styles for headings, paragraphs, lists...etc
-                </ListItem>
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-          {authedUser.loggedIn && <Button onClick={() => logOut()}>Logout</Button>}
-        </NavigationMenuList>
-
-        <div className="flex space-x-2">
-          <Link to={"/subscriptions/lite"}><Button>Workouts</Button></Link>
-          {authedUser.level && authedUser.level >= 2 ? (
-            <Link to="/subscriptions/basic">
-              <Button>Tutorials</Button>
-            </Link>
-          ) : (
-            <Button disabled>Tutorials</Button>
-          )}
-          {authedUser.level && authedUser.level >= 3 ? (
-            <Link to="/subscriptions/premium">
-              <Button>Recipies</Button>
-            </Link>
-          ) : (
-            <Button disabled>Recipies</Button>
-          )}
-          <Link to="/contentadmin">
-            <Button>Admin</Button>
+    <div className="flex flex-col">
+      <header className="flex h-16 w-full items-center justify-between px-4 md:px-6">
+        <div className="flex items-center">
+          <Button variant="outline" size="icon" className="lg:hidden">
+            <MenuIcon className="h-6 w-6" />
+            <span className="sr-only">Toggle navigation menu</span>
+          </Button>
+          <Link to={"/"} className="font-bold mr-4">
+            Fitness App
           </Link>
-        </div>
-      </NavigationMenu>
-    </>
-  )
-}
-
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
+          {authedUser.User?.role === "admin" && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="hidden lg:inline-flex items-center gap-1"
+                >
+                  Admin
+                  <ChevronDownIcon className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start">
+                <DropdownMenuItem>
+                  <Link to={"/admin/users"}>Users</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to={"/"}>Settings</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  )
-})
-ListItem.displayName = "ListItem"
+          {(authedUser.User?.role === "admin" ||
+            authedUser.User?.role === "creator") && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="hidden lg:inline-flex items-center gap-1"
+                >
+                  Creator
+                  <ChevronDownIcon className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start">
+                <DropdownMenuItem>
+                  <Link to={"/contentadmin"}>Dashboard</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </div>
+        <nav className="hidden items-center gap-4 lg:flex">
+          <Link
+            to={"/"}
+            className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+          >
+            Home
+          </Link>
+          <Link
+            to={"/subscriptions/lite"}
+            className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+          >
+            Workouts
+          </Link>
+          <Link
+            to={"/subscriptions/premium"}
+            className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+          >
+            Recipes
+          </Link>
+          <Link
+            to={"/profile"}
+            className="inline-flex h-9 items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50"
+          >
+            Profile
+          </Link>
+        </nav>
+        <div className="flex items-center gap-4">
+          {authedUser.loggedIn ? (
+            <Button
+              onClick={logOut}
+              variant="ghost"
+              size="icon"
+              className="hidden lg:inline-flex"
+            >
+              <LogOutIcon className="h-6 w-6" />
+              <span className="sr-only">Logout</span>
+            </Button>
+          ) : (
+            <Link to={"/login"}>
+              <Button>Login</Button>
+            </Link>
+          )}
+        </div>
+      </header>
+      <div className="border-t border-gray-200 dark:border-gray-800" />
+    </div>
+  );
+}

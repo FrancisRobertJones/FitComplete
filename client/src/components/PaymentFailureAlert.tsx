@@ -3,7 +3,7 @@ import { CircleAlertIcon } from "./svg/alertCircle"
 import { Link } from "react-router-dom"
 
 interface IPaymentFailureAlert {
-  level?: string
+  level: string
 }
 
 export default function PaymentFailureAlert({ level }: IPaymentFailureAlert) {

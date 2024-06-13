@@ -27,14 +27,7 @@ const Homepage = () => {
             <h4 className="text-5xl mb-12 leading-relaxed">
               Unlock Your Best Self with FitComplete
             </h4>
-            {/* <p className="text-xl mb-12">
-              At FitComplete, we believe that fitness and wellness should be
-              accessible to everyone. Our app provides a comprehensive platform
-              where you can view, track, and complete workouts, all designed to
-              help you achieve your fitness goals. Whether you’re a beginner or
-              a seasoned athlete, FitComplete offers tailored solutions to fit
-              your needs.
-            </p> */}
+
             <div className="flex flex-col gap-4">
               <p className="text-xl">
                 <strong>Why Choose FitComplete?</strong>
@@ -58,8 +51,6 @@ const Homepage = () => {
           {authedUser.loggedIn ? <HomepageDashboard scrollToTarget={scrollToTarget} /> : <AuthComponent />}
         </div>
 
-        {/* {authedUser.isPaymentSuccess === true && authedUser.isActive && !authedUser.isCancelling ||
-          authedUser.isPaymentSuccess === undefined && !authedUser.isCancelling && authedUser.isActive ? ( */}
 
         {authedUser.isPaymentSuccess === true ||
           authedUser.isPaymentSuccess === undefined ? (
