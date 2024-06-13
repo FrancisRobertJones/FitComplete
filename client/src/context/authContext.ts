@@ -8,12 +8,14 @@ export interface IAuthContext {
     authedUser: AuthState,
     dispatchAuth: Dispatch<IAuthAction>,
     logOut: () => void,
-    checkAuth: () => void
+    checkAuth: () => void,
+    isLoading: boolean;
 }
 
 export const AuthContext = createContext<IAuthContext>({
     authedUser: new AuthState(false, null),
     logOut: () => { },
     dispatchAuth: () => { },
-    checkAuth: () => { }
+    checkAuth: () => { },
+    isLoading: true
 })
