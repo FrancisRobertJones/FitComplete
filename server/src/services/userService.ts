@@ -51,6 +51,11 @@ class UserService {
       throw new Error('Problem logging in')
     }
   }
+
+  async switchRole(email: string, role: string) {
+      const updatedUser = await userRepository.switchRole(email, role);
+      return updatedUser;
+  }
 }
 
 
