@@ -12,6 +12,7 @@ import { Input } from "./ui/input";
 import { NewExercise } from "@/models/classes/Exercises";
 import { useState } from "react";
 import { handleChange, handleSelect, handleSubmit } from "@/lib/utils";
+import { Textarea } from "./ui/textarea";
 
 interface ICreateExerciseProps {
   newExercise: NewExercise
@@ -94,7 +95,7 @@ const CreateExercise = ({ newExercise, setNewExercise }: ICreateExerciseProps) =
         </div>
         <div className="space-y-2">
           <Label htmlFor="exercise-description">Description</Label>
-          <Input
+          <Textarea
             onChange={(e) => handleChange(e, setNewExercise, newExercise)}
             name="description"
             id="exercise-description"

@@ -4,7 +4,7 @@ import { HomepageCard } from "@/components/PlanCard";
 export default function Component() {
   return (
     <div className="mt-28">
-    <div className="flex flex-col justify-center items-center h-[80vh] gap-24 my-20">
+    <div className="flex flex-col justify-center items-center gap-24 my-20">
       <div className="flex items-center justify-center bg-white dark:bg-gray-800">
         <div className="mx-auto max-w-md space-y-4 text-center">
           <TriangleAlertIcon className="mx-auto h-12 w-12 text-red-500" />

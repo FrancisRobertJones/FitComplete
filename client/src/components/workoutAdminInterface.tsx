@@ -57,16 +57,9 @@ export default function WorkoutAdminInterface({
   const [sets, setSets] = useState<string>("0");
   const [duration, setDuration] = useState("0");
   const [showModal, setShowModal] = useState(false);
-  const [selectedExercises, setSelectedExercises] = useState<WorkoutExercise[]>(
-    []
-  );
+  const [selectedExercises, setSelectedExercises] = useState<WorkoutExercise[]>([]);
   const [exercisesFromDb, setExercisesFromDb] = useState<ExerciseFromDB[]>([]);
   const [newWorkout, setNewWorkout] = useState<NewWorkout>();
-  const [titleToggle, setTitleToggle] = useState(false);
-  const [thumbnailToggle, setThumbnailToggle] = useState(false);
-
-  console.log("newworkout<<<<<<<<<",newWorkout);
-  
 
   const getAllExercises = async () => {
     try {
@@ -74,7 +67,6 @@ export default function WorkoutAdminInterface({
         "http://localhost:3000/content?type=exercise"
       );
       const exercisesFromDb = res.data;
-      console.log(exercisesFromDb);
       return exercisesFromDb;
     } catch (error) {
       console.log(error);
@@ -355,23 +347,23 @@ export default function WorkoutAdminInterface({
       </div>
       <div className="flex flex-col gap-8 items-center *:w-full bg-gray-100 dark:bg-gray-800 p-8 w-[300px] border-l border-gray-200 dark:border-gray-700 max-h-screen overflow-y-auto">
         <h2 className="text-2xl font-bold">Your workout</h2>
-        <div className="flex flex-col gap-3">
-          <label htmlFor="">Title:</label>
-          <Input
-            // disabled={titleToggle}
-            placeholder="workout title"
-            name="title"
-            onChange={(e) => handleChange(e, setNewWorkout, newWorkout)}
-          ></Input>
-          {/* {!titleToggle ? <Button onClick={() => setTitleToggle((prev) => !prev)}>Save title</Button> : <Button onClick={() => setTitleToggle((prev) => !prev)}>Edit title</Button>} */}
-          <label htmlFor="">Thumbnail:</label>
-          <Input
-            // disabled={thumbnailToggle}
-            placeholder="workout thumbnail"
-            name="thumbnail"
-            onChange={(e) => handleChange(e, setNewWorkout, newWorkout)}
-          ></Input>
-          {/* {!thumbnailToggle ? <Button onClick={() => setThumbnailToggle((prev) => !prev)}>Save thumbnail</Button> : <Button onClick={() => setThumbnailToggle((prev) => !prev)}>Edit thumbnail</Button>} */}
+        <div className="flex flex-col gap-4">
+          <div>
+            <Label htmlFor="">Workout title:</Label>
+            <Input
+              placeholder="title here..."
+              name="title"
+              onChange={(e) => handleChange(e, setNewWorkout, newWorkout)}
+            ></Input>
+          </div>
+          <div>
+            <Label htmlFor="">Thumbnail URL:</Label>
+            <Input
+              placeholder="URL for thumbnail here..."
+              name="thumbnail"
+              onChange={(e) => handleChange(e, setNewWorkout, newWorkout)}
+            ></Input>
+          </div>
         </div>
         {selectedExercises.length === 0 ? (
           <p className="text-gray-500 dark:text-gray-400 mt-6">

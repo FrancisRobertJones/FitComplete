@@ -28,11 +28,11 @@ export const Users = () => {
   }, []);
 
   return (
-    <>
-      <h1>Users</h1>
+    <div className="mx-auto py-12 px-4 md:px-6">
+      <h1 className="text-3xl font-bold">Users</h1>
       <div className="container mx-auto py-10">
         <DataTable columns={columns} data={users} />
       </div>
-    </>
+    </div>
   );
 };
