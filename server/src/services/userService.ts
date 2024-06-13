@@ -1,6 +1,6 @@
 import { IUser } from "../models/user"
 import userRepository from "../repositories/userRepository"
-import { sendWelcomeEmail } from "../utils/emailfunctions";
+import { sendContentCreatorRequest, sendWelcomeEmail } from "../utils/emailfunctions";
 import bcrypt from "bcrypt";
 import { Request } from "express";
 import { IUserCredentials } from "../types/interfaces/auth";
@@ -53,8 +53,23 @@ class UserService {
   }
 
   async switchRole(email: string, role: string) {
-      const updatedUser = await userRepository.switchRole(email, role);
-      return updatedUser;
+    const updatedUser = await userRepository.switchRole(email, role);
+    return updatedUser;
+  }
+
+
+  async requestCreator(email: string, name: string) {
+    try {
+      console.log('requesting user to be content creator:', email);
+      const success = await sendContentCreatorRequest(email, name)
+      if (success) {
+        return { success: true, message: 'Request to become a content creator sent successfully.' };
+      } else if (!success) {
+        return { success: false, message: 'Failed to send the request. Please try again later.' };
+      }
+    } catch (error) {
+      console.log('error requesting user to be content creator:', email, error);
+    }
   }
 }
 

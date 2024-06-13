@@ -43,6 +43,23 @@ class UserController {
       response.status(500).json({ error: "failed to switch user role." });
     }
   }
+
+  async requestCreator(request: Request, response: Response) {
+    const { email, name } = request.body;
+    try {
+      const result = await userService.requestCreator(email, name);
+      if (result) {
+        if (result.success) {
+          return response.status(200).json({ message: result.message });
+        } else {
+          return response.status(400).json({ message: result.message });
+        }
+      }
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      return response.status(500).json({ message: 'Internal server error' });
+    }
+  }
 }
 
 export default new UserController();

@@ -8,5 +8,6 @@ router.post("/create", UserController.createUser)
 router.post("/login", UserController.login)
 router.get("/get-all-users", userController.getAllUsers)
 router.post("/switch-role", userController.switchRole)
+router.post("/request-creator", userController.requestCreator)
 
 export default router;
